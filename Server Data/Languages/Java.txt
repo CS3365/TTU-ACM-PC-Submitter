@@ -1,0 +1,2 @@
+compile: javac src/<problem>/Main.java
+run: java -cp src <problem>.Main
