@@ -30,12 +30,20 @@ import java.util.ArrayList;
  *
  * @author Mike Kent
  */
-public class Problem {
+public class Problem implements Comparable<Problem> {
 	private ArrayList<Attempt> attempts;
 	private String problemTitle;
 
 	public Problem(String name) {
 		problemTitle = name;
 		attempts = new ArrayList<Attempt>();
+	}
+
+	public int getProblemOrder() {
+		return 0;
+	}
+
+	public int compareTo(Problem p) {
+		return getProblemOrder() - p.getProblemOrder();
 	}
 }

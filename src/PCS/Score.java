@@ -31,10 +31,29 @@ import java.util.ArrayList;
  * @author Mike Kent
  */
 public class Score {
-	private Problem problem;
 	private ArrayList<Attempt> attempts;
+	private int score, time;
 
+	public Score() {
+		score = 0;
+		time = 0;
+		attempts = new ArrayList<Attempt>();
+	}
+
+	public Score(Score score) {
+		this.score = score.score;
+		this.time = score.time;
+	}
+
+	/**
+	 * Gets the score based on all attempts.
+	 * @return Returns 0 if
+	 */
 	public int getScore() {
-		return 0;
+		return score;
+	}
+
+	public int getTime() {
+		return time;
 	}
 }

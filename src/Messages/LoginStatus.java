@@ -27,6 +27,10 @@ package Messages;
 import NetworkIO.Message;
 
 /**
+ * This class is a response from the server after receiving a LoginAttempt.
+ * It should tell the client the status of the LoginAttempt.
+ *
+ * @see LoginAttempt
  *
  * @author Mike Kent
  */
@@ -43,6 +47,7 @@ public class LoginStatus implements Message {
 
 	/**
 	 * Create a new LoginStatus message.
+	 *
 	 * @param status The status of the login attempt.
 	 */
 	public LoginStatus(LoginStatus status) {
@@ -51,6 +56,7 @@ public class LoginStatus implements Message {
 
 	/**
 	 * Create a new LoginStatus response with a specific message.
+	 *
 	 * @param status The status of the login attempt.
 	 * @param message The message to send to clients.
 	 */
@@ -61,6 +67,7 @@ public class LoginStatus implements Message {
 
 	/**
 	 * Get the status of the login attempt.
+	 *
 	 * @return The status of the login attempt.
 	 */
 	public LoginStatus getStatus() {
@@ -69,6 +76,7 @@ public class LoginStatus implements Message {
 
 	/**
 	 * Get the message.
+	 *
 	 * @return The message (if one was sent).
 	 */
 	public String message() {

@@ -28,6 +28,11 @@ import NetworkIO.Message;
 import PCS.Problem;
 
 /**
+ * This class is a request from a team to withdraw a pending or running
+ * submission. The typical response from the server should be a
+ * LeaderboardUpdate
+ *
+ * @see LeaderboardUpdate
  *
  * @author Mike Kent
  */
@@ -36,6 +41,7 @@ public class WithdrawSubmission implements Message {
 
 	/**
 	 * Create a new WithdrawSubmission message
+	 *
 	 * @param problem The problem containing a pending or running attempt to
 	 * withdraw.
 	 */
@@ -45,6 +51,7 @@ public class WithdrawSubmission implements Message {
 
 	/**
 	 * Get the problem to withdraw from.
+	 *
 	 * @return The problem from which to make a withdrawal.
 	 */
 	public Problem getProblem() {

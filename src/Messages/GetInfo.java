@@ -37,6 +37,7 @@ public class GetInfo implements Message {
 
 	/**
 	 * Create a new GetInfo message to request information from the server
+	 *
 	 * @param request The information to request.
 	 */
 	public GetInfo(String request) {
@@ -45,6 +46,7 @@ public class GetInfo implements Message {
 
 	/**
 	 * Get the request.
+	 *
 	 * @return The request.
 	 */
 	public String getRequestedInfo() {

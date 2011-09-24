@@ -37,6 +37,7 @@ public class InfoMessage {
 
 	/**
 	 * Create a new InfoMessage to send to clients.
+	 *
 	 * @param info A key-value map of information.
 	 */
 	public InfoMessage(Map<String,String> info) {
@@ -45,6 +46,7 @@ public class InfoMessage {
 
 	/**
 	 * Get the information sent from the server.
+	 *
 	 * @return The information.
 	 */
 	public Map<String,String> getInfo() {

@@ -28,6 +28,8 @@ import Messages.LoginAttempt.LoginType;
 import NetworkIO.Message;
 
 /**
+ * This class is intended to ask the server to alter a login credential in some
+ * way.
  *
  * @author Mike Kent
  */
@@ -68,6 +70,7 @@ public class AlterLogin implements Message {
 
 	/**
 	 * Get the type of login.
+	 *
 	 * @return The type of login.
 	 */
 	public LoginType getType() {
@@ -76,6 +79,7 @@ public class AlterLogin implements Message {
 
 	/**
 	 * Get the type of action.
+	 *
 	 * @return The type of action.
 	 */
 	public AlterAction getAction() {
@@ -84,6 +88,7 @@ public class AlterLogin implements Message {
 
 	/**
 	 * Get the name of the team or admin to change.
+	 *
 	 * @return The username to alter.
 	 */
 	public String getName() {
@@ -92,6 +97,7 @@ public class AlterLogin implements Message {
 
 	/**
 	 * Get the password.
+	 *
 	 * @return The password specified.
 	 */
 	public String getPassword() {

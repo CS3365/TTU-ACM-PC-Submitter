@@ -27,6 +27,10 @@ package Messages;
 import NetworkIO.Message;
 
 /**
+ * This class facilitates login attempts by both admin users and teams. It
+ * should be responded by the server with a LoginStatus.
+ *
+ * @see LoginStatus
  *
  * @author Mike Kent
  */
@@ -38,6 +42,7 @@ public class LoginAttempt implements Message {
 
 	/**
 	 * Create a new login attempt for an admin.
+	 *
 	 * @param name The username of the admin.
 	 * @param pass The password of the admin.
 	 */
@@ -47,6 +52,7 @@ public class LoginAttempt implements Message {
 
 	/**
 	 * Create a new login attempt for a team.
+	 *
 	 * @param name The name of the team.
 	 * @param pass The team's password.
 	 * @param mac The MAC address of the computer being logged in from.
@@ -65,6 +71,7 @@ public class LoginAttempt implements Message {
 
 	/**
 	 * Get the login type.
+	 *
 	 * @return The type of login attempt.
 	 */
 	public LoginType getType() {
@@ -73,6 +80,7 @@ public class LoginAttempt implements Message {
 
 	/**
 	 * Get the name of the account attempting login.
+	 *
 	 * @return The name of the account attempting login.
 	 */
 	public String getName() {
@@ -81,6 +89,7 @@ public class LoginAttempt implements Message {
 
 	/**
 	 * Get the password of the account attempting login.
+	 *
 	 * @return The password of the account attempting login.
 	 */
 	public String getPassword() {
@@ -90,6 +99,7 @@ public class LoginAttempt implements Message {
 	/**
 	 * Get the MAC address of the computer attempting login. This only returns
 	 * a meaningful MAC address if a team is attempting to log in.
+	 *
 	 * @return The MAC address of the computer attempting login if this is a
 	 * team login. Returns null otherwise.
 	 */

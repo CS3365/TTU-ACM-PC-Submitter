@@ -27,6 +27,12 @@ package Messages;
 import NetworkIO.Message;
 
 /**
+ * This class is intended to ask the server to alter the current phase. This
+ * could either be to start, stop, or change a phase. The standard process
+ * should be that the server begins paused on the first phase at a time of
+ * 00:00:00.00. This class would then be used to start the phase when
+ * appropriate. Each phase should be started, and then stopped before continuing
+ * to the next phase.
  *
  * @author Mike Kent
  */
@@ -41,6 +47,7 @@ public class AlterPhase implements Message {
 
 	/**
 	 * Create a new AlterPhase message.
+	 *
 	 * @param change The method in which to manipulate the current phase of the
 	 * competition.
 	 */

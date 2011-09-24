@@ -25,6 +25,7 @@
 package PCS;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -32,4 +33,46 @@ import java.util.Map;
  */
 public class Leaderboard {
 	public Map<Team,Map<Problem,Score>> scores;
+
+	public Leaderboard() {
+		scores = new TreeMap<Team,Map<Problem,Score>>();
+	}
+
+	private Leaderboard(Map<Team,Map<Problem,Score>> prevScores) {
+		scores = prevScores;
+	}
+
+	/**
+	 * Get a version of the leaderboard with only the specific attempt information
+	 * for one team, but the score amounts for the rest of the teams.
+	 * @param team The team to include all attempt information for.
+	 * @return The abbreviated leaderboard.
+	 */
+	public Leaderboard cloneForTeam(Team team) {
+		TreeMap<Team,Map<Problem,Score>> newLeaderboard =
+				new TreeMap<Team,Map<Problem,Score>>();
+		TreeMap<Problem,Score> newScores;
+		for(Team t : scores.keySet()) {
+			if(t == team) {
+				newScores = (TreeMap)scores.get(t);
+			} else {
+				newScores = new TreeMap<Problem,Score>();
+				Map<Problem,Score> origScores = scores.get(t);
+				for(Problem p : origScores.keySet()) {
+					newScores.put(p, new Score(origScores.get(p)));
+				}
+			}
+			newLeaderboard.put(t, newScores);
+		}
+		return new Leaderboard(newLeaderboard);
+	}
+
+	/**
+	 * Get the scores for a team.
+	 * @param team The team to obtain scores for.
+	 * @return The scores for that team.
+	 */
+	public Map<Problem,Score> getTeamScores(Team team) {
+		return scores.get(team);
+	}
 }

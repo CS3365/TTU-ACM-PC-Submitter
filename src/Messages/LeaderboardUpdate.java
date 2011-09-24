@@ -40,6 +40,7 @@ public class LeaderboardUpdate implements Message {
 
 	/**
 	 * Create a new LeaderboardUpdate message to send to clients.
+	 *
 	 * @param leaderboard The updated Leaderboard.
 	 */
 	public LeaderboardUpdate(Leaderboard leaderboard) {
@@ -48,6 +49,7 @@ public class LeaderboardUpdate implements Message {
 
 	/**
 	 * Get the leaderboard.
+	 *
 	 * @return The leaderboard.
 	 */
 	public Leaderboard getLeaderboard() {
