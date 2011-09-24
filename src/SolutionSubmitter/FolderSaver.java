@@ -33,16 +33,33 @@ import java.io.RandomAccessFile;
 import java.net.Socket;
 
 /**
+ * This class is designed to save files sent from either the server or client
+ * into a specified folder. The files are saved in the same relative path as
+ * they were sent from the other machine.
  *
  * @author Mike Kent
  */
 public class FolderSaver implements NetworkListener {
 	private File folder;
 
+	/**
+	 * Create a new FolderSaver. Each machine only needs one FileSaver per
+	 * connection to save files. If the folder to save the files to needs to be
+	 * changed, then changeFolder() can be used.
+	 *
+	 * @see FolderSaver#changeFolder(java.io.File)
+	 * @param folder
+	 */
 	public FolderSaver(File folder) {
 		this.folder = folder;
 	}
 
+	/**
+	 * Saves the FileParts sent from other machines.
+	 *
+	 * @param message The message sent from the other computer.
+	 * @param sok The socket associated with the connection.
+	 */
 	public void processInput(Message message, Socket sok) {
 		if(message instanceof FilePart) {
 			FilePart part = (FilePart)message;
@@ -68,6 +85,12 @@ public class FolderSaver implements NetworkListener {
 		}
 	}
 
+	/**
+	 * Changes the folder where the files are to be saved.
+	 *
+	 * @param folder The new folder to save files to.
+	 * @return True if the folder was successfully changed. False otherwise.
+	 */
 	public boolean changeFolder(File folder) {
 		if(folder.isDirectory()) {
 			this.folder = folder;

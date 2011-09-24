@@ -27,30 +27,47 @@ package SolutionSubmitter;
 import NetworkIO.Message;
 
 /**
+ * This class represents a file. It transmits the file path relative to some
+ * specified folder. This allows the transmission of single files and full
+ * directories without compressing them into a single file and then extracting
+ * it on the server.
  *
  * @author Mike Kent
  */
-public class FileInfo implements Message, Cloneable {
+public class FileInfo implements Message {
 	private String fileName;
 	private String relativePath;
 	// The path to the file on the originating computer
 	private String sourcePath;
 
+	/**
+	 * Create a new FileInfo with the specified information.
+	 *
+	 * @param name The name of the file.
+	 * @param rel The relative path of a file.
+	 * @param real The full path of the file on the client machine.
+	 */
 	public FileInfo(String name, String rel, String real) {
 		fileName = name;
 		relativePath = rel;
 		sourcePath = real;
 	}
 
+	/**
+	 * Get the path of a file relative to some folder.
+	 *
+	 * @return The relative path.
+	 */
 	public String getRelativePath() {
 		return relativePath;
 	}
 
+	/**
+	 * Get the original full path of the file on the client machine.
+	 *
+	 * @return The full path of the file.
+	 */
 	public String getSourcePath() {
 		return sourcePath;
-	}
-
-	public FileInfo clone() {
-		return new FileInfo(fileName, relativePath, sourcePath);
 	}
 }

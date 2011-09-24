@@ -30,6 +30,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
+ * This class will split a file into FileParts which can be sent to the server
+ * like packets.
+ *
+ * @see FilePart
  *
  * @author Mike Kent
  */
@@ -63,7 +67,7 @@ public class FileSplitter {
 		if(!hasNext()) {
 			return null;
 		}
-		FilePart part = new FilePart(info.clone(), curLocation, curPart++, numParts);
+		FilePart part = new FilePart(info, curLocation, curPart++, numParts);
 		//set data length and read data into part.data
 		int len = in.read(part.getData());
 		part.setDataLength(len);
@@ -71,6 +75,13 @@ public class FileSplitter {
 		return part;
 	}
 
+	/**
+	 * Gets the status of the FileSplitter as to whether all of the file has been
+	 * split yet of if there are still parts left.
+	 *
+	 * @return True if there are still more parts to split the file into. False
+	 * otherwise.
+	 */
 	public boolean hasNext() {
 		return curLocation <= file.length();
 	}

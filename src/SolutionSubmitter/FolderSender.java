@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * This class sends a folder to another computer.
  *
  * @author Mike Kent
  */
@@ -39,6 +40,14 @@ public class FolderSender extends Thread {
 	private File folder;
 	private ArrayList<File> files;
 
+	/**
+	 * Creates a new FolderSender which will not run until start() is called.
+	 *
+	 * @see FolderSender#start()
+	 *
+	 * @param client The client to send to.
+	 * @param folder The folder to send.
+	 */
 	public FolderSender(ClientBase client, File folder) {
 		this.client = client;
 		this.folder = folder;
@@ -57,6 +66,9 @@ public class FolderSender extends Thread {
 		}
 	}
 
+	/**
+	 * Sends the folder.
+	 */
 	@Override
 	public void run() {
 		for(File file : files) {
