@@ -26,6 +26,8 @@ package SolutionSubmitter;
 import NetworkIO.Message;
 
 /**
+ * This class contains a part of a file and can be transmitted through the
+ * network.
  *
  * @author Mike Kent
  */
@@ -37,6 +39,14 @@ public class FilePart implements Message {
 	private int dataLength, partNumber, totalParts;
 	private long dataLocation;
 
+	/**
+	 * Creates a new FilePart for a file with no initial data.
+	 *
+	 * @param info The information of the file.
+	 * @param location The location of data relative to the beginning of the file.
+	 * @param index The order of the FilePart.
+	 * @param total The total number of parts for this file.
+	 */
 	public FilePart(FileInfo info, long location, int index, int total) {
 		dataLocation = location;
 		fileInfo = info;
@@ -46,10 +56,20 @@ public class FilePart implements Message {
 		totalParts = total;
 	}
 
+	/**
+	 * Gets the data for the file.
+	 *
+	 * @return The data for the file.
+	 */
 	public byte[] getData() {
 		return data;
 	}
 
+	/**
+	 * Gets the info of the file.
+	 *
+	 * @return The info of the file.
+	 */
 	public FileInfo getInfo() {
 		return fileInfo;
 	}
@@ -62,6 +82,12 @@ public class FilePart implements Message {
 		return dataLength;
 	}
 
+	/**
+	 * Sets the number of bytes of actual data to write.
+	 *
+	 * @param length The number of bytes in data that are actually part of the
+	 * file.
+	 */
 	public void setDataLength(int length) {
 		dataLength = length;
 		if(dataLength < PART_SIZE) {
@@ -77,14 +103,27 @@ public class FilePart implements Message {
 		}
 	}
 
+	/**
+	 * Gets the order of the this part.
+	 * @return The order of this part.
+	 */
 	public int getPartNumber() {
 		return partNumber;
 	}
 
+	/**
+	 * Get the total number of parts for this file.
+	 * @return The total number of parts for this file.
+	 */
 	public int getTotalParts() {
 		return totalParts;
 	}
 
+	/**
+	 * Get the location where the data starts relative to the beginning of the
+	 * file.
+	 * @return The location of the beginning of the file.
+	 */
 	public long getLocation() {
 		return dataLocation;
 	}
