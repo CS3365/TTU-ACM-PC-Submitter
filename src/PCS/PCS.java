@@ -35,6 +35,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,13 +45,13 @@ import java.util.regex.Pattern;
  */
 public class PCS {
   public static final String serverDirectory = "Server Data";
-  public static final String settingsFile = "settings.txt";
+  public static final String settingsFile = serverDirectory+"/settings.txt";
 	private ServerBase server;
 	private int serverPort = 1023;
   private String dbFileName = "ProgrammingCompetition.db";
   private String saveDirectory = "Solutions";
   private PCSDatabase db;
-  protected HashMap<String, LanguageImplementation> langs;
+  public HashMap<String, LanguageImplementation> langs;
 
 	public PCS() {
 		parseSettings();
@@ -116,7 +117,7 @@ public class PCS {
           }
         }
         in.close();
-        langs.put(lang.getName(), impl);
+        langs.put(lang.getName().substring(0,lang.getName().length()-4), impl);
       } catch(IOException ex) {
         System.out.println("An IOException occured while attempting to "+
             "load the language file: "+lang.getName());
@@ -125,36 +126,40 @@ public class PCS {
     }
   }
 
-    /**
-     * Attempt a login to the server
-     *
-     * @param attempt The attempt to login.
-     * @return The result of attempting to login.
-     */
-    protected LoginStatus attemptLogin(LoginAttempt attempt) {
-      if(db.canLogIn(attempt)) {
-        return new LoginStatus(LoginStatus.LoginResponse.LOGIN_SUCCESS);
-      } else {
-        return new LoginStatus(LoginStatus.LoginResponse.LOGIN_FAILURE,
-            "You are not authorized to log in.");
-      }
-    }
-
-    protected File getProblemAttemptSaveDirectory(Problem problem, Team team) {
-      return new File(
-          saveDirectory+"/"+
-          team.getTeamName()+
-          "/Problem"+problem.getProblemOrder());
-    }
-
-    /**
-     * Sends a message via the server.
-     *
-     * @param m The message to send.
-     * @param s The socket to send it through.
-     * @throws IOException
-     */
-    public void send(Message m, Socket s) throws IOException {
-      server.send(m,s);
+  /**
+   * Attempt a login to the server
+   *
+   * @param attempt The attempt to login.
+   * @return The result of attempting to login.
+   */
+  protected LoginStatus attemptLogin(LoginAttempt attempt) {
+    if(db.canLogIn(attempt)) {
+      return new LoginStatus(LoginStatus.LoginResponse.LOGIN_SUCCESS);
+    } else {
+      return new LoginStatus(LoginStatus.LoginResponse.LOGIN_FAILURE,
+          "You are not authorized to log in.");
     }
   }
+
+  protected File getProblemAttemptSaveDirectory(Problem problem, Team team) {
+    return new File(
+        saveDirectory+"/"+
+        team.getTeamName()+
+        "/Problem"+problem.getProblemOrder());
+  }
+
+  /**
+   * Sends a message via the server.
+   *
+   * @param m The message to send.
+   * @param s The socket to send it through.
+   * @throws IOException
+   */
+  public void send(Message m, Socket s) throws IOException {
+    server.send(m,s);
+  }
+
+  public Set<String> getLanguages() {
+    return langs.keySet();
+  }
+}

@@ -32,8 +32,7 @@ import java.util.regex.Pattern;
  * @author Mike Kent
  */
 public class LanguageImplementation {
-  private String compile;
-  private String run;
+  public String compile, run;
   Pattern problem, problemDir;
 
   public LanguageImplementation() {
