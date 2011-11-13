@@ -7,10 +7,8 @@ package networking;
 
 import NetworkIO.ClientBase;
 import NetworkIO.ServerBase;
-import SolutionSubmitter.FileInfo;
-import SolutionSubmitter.FolderSaver;
-import SolutionSubmitter.FolderSender;
-import java.io.File;
+import PCS.LanguageImplementation;
+import PCS.PCS;
 
 /**
  *
@@ -25,7 +23,20 @@ public class Main {
 		//testServerClient();
 		//testFileSplitter();
 		//testFolderSenderSaver();
+    manualProblemTest();
 	}
+
+  public static void manualProblemTest() throws Exception{
+    PCS pcs = new PCS();
+    System.out.println("Created PCS. Languages are: ");
+    for(String lang : pcs.getLanguages()) {
+      System.out.println("\t"+lang);
+    }
+    LanguageImplementation javaDef = pcs.langs.get("Java");
+    System.out.println("Java is "+
+        "\n\tcompile: "+javaDef.compile+
+        "\n\trun: "+javaDef.run);
+  }
 
 	/*public static void testFolderSenderSaver() throws Exception {
 		File clientdir = new File("Test Data/Client Test Data");
