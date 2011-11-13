@@ -40,7 +40,7 @@ public class ClientBase extends Thread {
 	 * @param port The port of the computer to connect to.
 	 * @throws Exception Any exception that occurs while creating a socket and registering a connection.
 	 */
-	public ClientBase(String host, int port) throws Exception {
+	public ClientBase(String host, int port) throws IOException {
 		connection = connect(host,port);
 		getStreams();
 		setPriority(Thread.MIN_PRIORITY);
@@ -51,9 +51,9 @@ public class ClientBase extends Thread {
 	 * Creates a new instance of ClientBase using a pre-defined Socket
 	 * to create a connection.
 	 * @param socket The connected socket to another computer.
-	 * @throws Exception Any exception occuring while registering a connection.
+	 * @throws Exception Any exception occurring while registering a connection.
 	 */
-	public ClientBase(Socket socket) throws Exception {
+	public ClientBase(Socket socket) throws IOException {
 		connection = socket;
 		getStreams();
 		setPriority(Thread.MIN_PRIORITY);
@@ -61,22 +61,22 @@ public class ClientBase extends Thread {
 	}
 	
 	/**
-	 * Creates and returns a socket created from the recieved host and port.
+	 * Creates and returns a socket created from the received host and port.
 	 * @return Returns the created Socket.
 	 * @param host The host name of the computer running a valid server.
 	 * @param port The port of the computer to connect to.
-	 * @throws Exception Any exception that occured while trying to establish a connection to the serving
+	 * @throws Exception Any exception that occurred while trying to establish a connection to the serving
 	 * computer.
 	 */
-	protected Socket connect(String host, int port) throws Exception {
+	protected Socket connect(String host, int port) throws IOException {
 		return new Socket(InetAddress.getByName(host),port);
 	}
 	
 	/**
 	 * Registers the input and output streams to establish a communication connection.
-	 * @throws Exception Any exception occured while registering input and output streams.
+	 * @throws Exception Any exception occurred while registering input and output streams.
 	 */
-	protected void getStreams() throws Exception {
+	protected void getStreams() throws IOException {
 		output = new ObjectOutputStream(connection.getOutputStream());
 		output.flush();
 		input = new ObjectInputStream(connection.getInputStream());
@@ -84,7 +84,7 @@ public class ClientBase extends Thread {
 	}
 	
 	/**
-	 * Starts the client's process of recieving Messages and telling NetworkListeners
+	 * Starts the client's process of receiving Messages and telling NetworkListeners
 	 * to process them.
 	 */
 	public void run() {

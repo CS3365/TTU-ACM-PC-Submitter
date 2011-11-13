@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.Socket;
+import java.util.HashMap;
 
 /**
  * This class is designed to save files sent from either the server or client
@@ -41,6 +42,12 @@ import java.net.Socket;
  */
 public class FolderSaver implements NetworkListener {
 	private File folder;
+  private HashMap<FileInfo,boolean[]> partsReceived;
+  private FolderDigest digest;
+  private int transmissionID;
+  private SaverHandler callback;
+
+  private enum VerifyStatus{NO_DIGEST, NOT_FINISHED, SUCCESS, FAILURE};
 
 	/**
 	 * Create a new FolderSaver. Each machine only needs one FileSaver per
@@ -50,8 +57,11 @@ public class FolderSaver implements NetworkListener {
 	 * @see FolderSaver#changeFolder(java.io.File)
 	 * @param folder
 	 */
-	public FolderSaver(File folder) {
+	public FolderSaver(File folder, int transmissionID, SaverHandler callback) {
 		this.folder = folder;
+    this.transmissionID = transmissionID;
+    this.callback = callback;
+    partsReceived = new HashMap<FileInfo,boolean[]>();
 	}
 
 	/**
@@ -64,6 +74,11 @@ public class FolderSaver implements NetworkListener {
 		if(message instanceof FilePart) {
 			FilePart part = (FilePart)message;
 			FileInfo info = part.getInfo();
+      // only process FileParts that match the transmissionID
+      if(info.getTransmissionID() != this.transmissionID) {
+        return;
+      }
+      accountForPart(part);
 			File file = new File(folder.getAbsolutePath()+"/"+
 					part.getInfo().getRelativePath());
 			try {
@@ -83,19 +98,92 @@ public class FolderSaver implements NetworkListener {
 				ex.printStackTrace();
 			}
 		}
+
+    // Attempt to verify the file after every FilePart has been received, this
+    // is done order is indeterminate.
+    try {
+      // tell the callback the folder is finished.
+      VerifyStatus status = verifyTransfer();
+      if(status == VerifyStatus.SUCCESS) {
+        callback.transmissionSuccess(transmissionID);
+      } else if(status == VerifyStatus.FAILURE) {
+        callback.transmissionFailed(transmissionID);
+      }
+    } catch(FileNotFoundException ex) {
+      System.out.println("There was a FileNotFoundException that occurred "+
+          "while attempting to verify the submission transmission.");
+      ex.printStackTrace();
+    } catch(IOException ex) {
+      System.out.println("There was an IOException while attempting to verify"+
+          "the submission transmission.");
+      ex.printStackTrace();
+    }
 	}
 
-	/**
-	 * Changes the folder where the files are to be saved.
-	 *
-	 * @param folder The new folder to save files to.
-	 * @return True if the folder was successfully changed. False otherwise.
-	 */
-	public boolean changeFolder(File folder) {
-		if(folder.isDirectory()) {
-			this.folder = folder;
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Accounts for reception of a FilePart.
+   *
+   * This function will create an entry in partsReceived if none previously
+   * existed.
+   *
+   * @param part The FilePart to account for.
+   */
+  private void accountForPart(FilePart part) {
+    FileInfo info = part.getInfo();
+    if(!partsReceived.containsKey(info)) {
+      partsReceived.put(info, new boolean[part.getTotalParts()]);
+    }
+    partsReceived.get(info)[part.getPartNumber()] = true;
+  }
+
+  /**
+   * Verifies the transmitted folder for completeness and accuracy.
+   *
+   * @return True if the FolderDigest has been transmitted, all FileParts have
+   * been received for all known files, and the digest matches the local files.
+   * @throws FileNotFoundException
+   * @throws IOException
+   */
+  private VerifyStatus verifyTransfer() throws FileNotFoundException, IOException {
+    // Cannot verify transfer without a digest
+    if(digest == null) {
+      return VerifyStatus.NO_DIGEST;
+    }
+    // Transfer is incomplete until all the FileParts have been received for
+    // all known files.
+    boolean[] parts;
+    for(FileInfo info : partsReceived.keySet()) {
+      parts = partsReceived.get(info);
+      for(int i=0; i<parts.length; i++) {
+        if(!parts[i]) {
+          return VerifyStatus.NOT_FINISHED;
+        }
+      }
+    }
+    // All information needed is available, verify transmission
+    if(FolderVerifier.compareDigests(digest.getDigest(),
+        FolderVerifier.getDigest(folder))) {
+      return VerifyStatus.SUCCESS;
+    }
+    return VerifyStatus.FAILURE;
+  }
+
+  /**
+   * This method resets the saver so that it can be ready to receive files
+   * again. This is generally only needed in the event of a transmission
+   * failed tranmission.
+   */
+  public void resetSaver() {
+    this.digest = null;
+    this.partsReceived = new HashMap<FileInfo,boolean[]>();
+  }
+
+  /**
+   * Get the directory to which files are saved.
+   *
+   * @return The directory where the files are saved.
+   */
+  public File getSaveDirectory() {
+    return folder;
+  }
 }

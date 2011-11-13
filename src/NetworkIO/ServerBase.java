@@ -6,6 +6,7 @@
 
 package NetworkIO;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- * A ServerBase will recieved, and can make, connections to other servers, or
+ * A ServerBase will received, and can make, connections to other servers, or
  * clients that use this NetworkIO package.
  * @author Michael Kent
  */
@@ -41,7 +42,7 @@ public class ServerBase extends Thread {
 	}
 	
 	/**
-	 * Recieves and processes all incoming connections.
+	 * Receives and processes all incoming connections.
 	 */
 	public void run() {
 		try {
@@ -90,7 +91,7 @@ public class ServerBase extends Thread {
 	 * @param socket The Socket connection to send the Message to.
 	 * @throws Exception Any exception that occurs while sending the message.
 	 */
-	public void send(Message message, Socket socket) throws Exception {
+	public void send(Message message, Socket socket) throws IOException {
 		((ClientBase)connections.get(socket)).send(message);
 	}
 	
@@ -108,7 +109,7 @@ public class ServerBase extends Thread {
 	 * @param message The Message to send.
 	 * @throws Exception Any exception that occurs while trying to send the Message.
 	 */
-	public void sendToAll(Message message) throws Exception {
+	public void sendToAll(Message message) throws IOException {
 		for(Iterator itr = connections.keySet().iterator();itr.hasNext();) {
 			send(message,(Socket)itr.next());
 		}

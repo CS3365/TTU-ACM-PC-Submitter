@@ -28,7 +28,8 @@ import NetworkIO.ClientBase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * This class sends a folder to another computer.
@@ -38,7 +39,8 @@ import java.util.ArrayList;
 public class FolderSender extends Thread {
 	private ClientBase client;
 	private File folder;
-	private ArrayList<File> files;
+	private Collection<File> files;
+  private int transmissionID;
 
 	/**
 	 * Creates a new FolderSender which will not run until start() is called.
@@ -48,10 +50,11 @@ public class FolderSender extends Thread {
 	 * @param client The client to send to.
 	 * @param folder The folder to send.
 	 */
-	public FolderSender(ClientBase client, File folder) {
+	public FolderSender(ClientBase client, File folder, int transmissionID) {
 		this.client = client;
 		this.folder = folder;
-		files = new ArrayList<File>();
+    this.transmissionID = transmissionID;
+		files = new TreeSet<File>();
 		gatherFileList(folder);
 	}
 
@@ -76,10 +79,12 @@ public class FolderSender extends Thread {
 				FileSplitter splitter = new FileSplitter(
 						new FileInfo(file.getName(),
 							getRelativePath(file),
-							file.getAbsolutePath()));
+							file.getAbsolutePath(),
+              transmissionID));
 				while(splitter.hasNext()) {
 					client.send(splitter.next());
 				}
+        client.send(FolderVerifier.getFolderDigest(this.folder));
 			} catch(FileNotFoundException ex) {
 				System.out.println("Could not find file: "+file.getAbsolutePath());
 			} catch(IOException ex) {
@@ -87,7 +92,6 @@ public class FolderSender extends Thread {
 						file.getAbsolutePath());
 			}
 		}
-
 	}
 
 	private String getRelativePath(File file) {

@@ -29,4 +29,18 @@ package PCS;
  * @author Mike Kent
  */
 public class Team {
+  private String teamName;
+
+  public Team(String teamName) {
+    this.teamName = teamName;
+  }
+
+  /**
+   * Gets the name of the team.
+   *
+   * @return The team name.
+   */
+  public String getTeamName() {
+    return teamName;
+  }
 }

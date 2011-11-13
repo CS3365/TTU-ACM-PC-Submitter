@@ -108,4 +108,21 @@ public class LoginAttempt implements Message {
 			return macAddress;
 		return null;
 	}
+
+  /**
+   * Compare LoginAttempts to each other
+   *
+   * @param attempt The other attempt.
+   * @return Returns true if the name, password, and mac addresses all match.
+   */
+  @Override
+  public boolean equals(Object attempt) {
+    if(attempt instanceof LoginAttempt) {
+      LoginAttempt other = (LoginAttempt)attempt;
+      return other.name == this.name &&
+          other.password == this.password &&
+          other.macAddress == this.macAddress;
+    }
+    return false;
+  }
 }

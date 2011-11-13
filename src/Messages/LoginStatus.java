@@ -40,18 +40,18 @@ public class LoginStatus implements Message {
 	 */
 	public enum LoginResponse {
 		LOGIN_SUCCESS, ALREADY_LOGGED_IN, LOGIN_FAILURE
-	}
+	};
 
-	private LoginStatus status;
 	private String message;
+	private LoginResponse response;
 
 	/**
 	 * Create a new LoginStatus message.
 	 *
 	 * @param status The status of the login attempt.
 	 */
-	public LoginStatus(LoginStatus status) {
-		this(status,"");
+	public LoginStatus(LoginResponse response) {
+		this(response,"");
 	}
 
 	/**
@@ -60,18 +60,9 @@ public class LoginStatus implements Message {
 	 * @param status The status of the login attempt.
 	 * @param message The message to send to clients.
 	 */
-	public LoginStatus(LoginStatus status, String message) {
-		this.status = status;
+	public LoginStatus(LoginResponse response, String message) {
 		this.message = message;
-	}
-
-	/**
-	 * Get the status of the login attempt.
-	 *
-	 * @return The status of the login attempt.
-	 */
-	public LoginStatus getStatus() {
-		return status;
+		this.response = response;
 	}
 
 	/**
@@ -81,5 +72,14 @@ public class LoginStatus implements Message {
 	 */
 	public String message() {
 		return message;
+	}
+
+	/**
+	 * Gets the response type.
+	 *
+	 * @return The response.
+	 */
+	public LoginResponse getResponse() {
+		return response;
 	}
 }

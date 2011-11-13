@@ -39,10 +39,30 @@ public class Problem implements Comparable<Problem> {
 		attempts = new ArrayList<Attempt>();
 	}
 
+  /**
+   * Gets the title of the problem.
+   *
+   * @return The problem title.
+   */
+  public String getProblemTitle() {
+    return problemTitle;
+  }
+
+  /**
+   * Gets the order in which this problem should be displayed.
+   *
+   * @return The order of the problem;
+   */
 	public int getProblemOrder() {
 		return 0;
 	}
 
+  /**
+   * Compares the order of two problems to each other.
+   *
+   * @param p The other problem.
+   * @return The order of this problem minus that of the other problem.
+   */
 	public int compareTo(Problem p) {
 		return getProblemOrder() - p.getProblemOrder();
 	}

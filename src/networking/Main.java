@@ -24,10 +24,10 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		//testServerClient();
 		//testFileSplitter();
-		testFolderSenderSaver();
+		//testFolderSenderSaver();
 	}
 
-	public static void testFolderSenderSaver() throws Exception {
+	/*public static void testFolderSenderSaver() throws Exception {
 		File clientdir = new File("Test Data/Client Test Data");
 		File serverdir = new File("Test Data/Server Test Data");
 		ServerBase server = new ServerBase(1029);
@@ -36,9 +36,9 @@ public class Main {
 		server.addNetworkListener(saver);
 		FolderSender sender = new FolderSender(client,clientdir);
 		sender.start();
-	}
+	}*/
 
-	public static void testFileSplitter() throws Exception {
+	/*public static void testFileSplitter() throws Exception {
 		File dir = new File(".");
 		System.out.println(dir.getAbsolutePath());
 		File f = new File("Test Data/Client Test Data");
@@ -55,7 +55,7 @@ public class Main {
 		ClientBase client = new ClientBase("localhost",1029);
 		FolderSender sender = new FolderSender(client,f);
 		sender.start();
-	}
+	}*/
 
 	public static void testServerClient() throws Exception {
 		pl("Creating Server...");

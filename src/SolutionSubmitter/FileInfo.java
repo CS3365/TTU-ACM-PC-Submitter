@@ -39,6 +39,7 @@ public class FileInfo implements Message {
 	private String relativePath;
 	// The path to the file on the originating computer
 	private String sourcePath;
+  private int transmissionID;
 
 	/**
 	 * Create a new FileInfo with the specified information.
@@ -47,10 +48,11 @@ public class FileInfo implements Message {
 	 * @param rel The relative path of a file.
 	 * @param real The full path of the file on the client machine.
 	 */
-	public FileInfo(String name, String rel, String real) {
+	public FileInfo(String name, String rel, String real, int transmissionID) {
 		fileName = name;
 		relativePath = rel;
 		sourcePath = real;
+    this.transmissionID = transmissionID;
 	}
 
 	/**
@@ -70,4 +72,13 @@ public class FileInfo implements Message {
 	public String getSourcePath() {
 		return sourcePath;
 	}
+
+  /**
+   * Get the transmission ID for this FilePart.
+   *
+   * @return The transmission ID.
+   */
+  public int getTransmissionID() {
+    return transmissionID;
+  }
 }
