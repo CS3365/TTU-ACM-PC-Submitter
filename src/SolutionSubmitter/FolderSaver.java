@@ -70,7 +70,7 @@ public class FolderSaver implements NetworkListener {
 	 * @param message The message sent from the other computer.
 	 * @param sok The socket associated with the connection.
 	 */
-	public synchronized void processInput(Message message, Socket sok) {
+	public void processInput(Message message, Socket sok) {
 		if(message instanceof FilePart) {
 			FilePart part = (FilePart)message;
 			FileInfo info = part.getInfo();
@@ -131,7 +131,7 @@ public class FolderSaver implements NetworkListener {
    *
    * @param part The FilePart to account for.
    */
-  private synchronized void accountForPart(FilePart part) {
+  private void accountForPart(FilePart part) {
     FileInfo info = part.getInfo();
     if(!partsReceived.containsKey(info)) {
       partsReceived.put(info, new boolean[part.getTotalParts()]);
@@ -147,7 +147,7 @@ public class FolderSaver implements NetworkListener {
    * @throws FileNotFoundException
    * @throws IOException
    */
-  private synchronized VerifyStatus verifyTransfer() throws FileNotFoundException, IOException {
+  private VerifyStatus verifyTransfer() throws FileNotFoundException, IOException {
     // Cannot verify transfer without a digest
     if(digest == null) {
       return VerifyStatus.NO_DIGEST;
