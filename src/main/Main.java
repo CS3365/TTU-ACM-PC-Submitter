@@ -9,6 +9,10 @@ import NetworkIO.ClientBase;
 import NetworkIO.ServerBase;
 import PCS.LanguageImplementation;
 import PCS.PCS;
+import PCS.PCSGrader;
+import PCS.Problem;
+import PCS.ProblemSubmission;
+import java.io.File;
 
 /**
  *
@@ -28,14 +32,16 @@ public class Main {
 
   public static void manualProblemTest() throws Exception{
     PCS pcs = new PCS();
-    System.out.println("Created PCS. Languages are: ");
-    for(String lang : pcs.getLanguages()) {
-      System.out.println("\t"+lang);
-    }
     LanguageImplementation javaDef = pcs.langs.get("Java");
-    System.out.println("Java is "+
-        "\n\tcompile: "+javaDef.compile+
-        "\n\trun: "+javaDef.run);
+    Problem prob = new Problem("Problem0");
+    File submissionDir = new File("Submissions/team0/Problem0/0/Problem0");
+    ProblemSubmission submission = new ProblemSubmission(0,prob,submissionDir,
+        "Java");
+    PCSGrader grader = new PCSGrader(pcs,null,submission);
+    System.out.println("compile code is: "+javaDef.getCompileString(submission));
+    System.out.println("compile run is: "+javaDef.getRunString(submission));
+    pcs.stopServer();
+    System.out.println("done");
   }
 
 	/*public static void testFolderSenderSaver() throws Exception {

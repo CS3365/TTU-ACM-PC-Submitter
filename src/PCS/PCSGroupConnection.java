@@ -76,6 +76,8 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     transfers = new HashMap<Integer,SubmissionStats>();
     this.pcs = pcs;
     this.team = team;
+    this.client = cb;
+    this.client.addNetworkListener(this);
   }
 
   public void processInput(Message m, Socket sok) {

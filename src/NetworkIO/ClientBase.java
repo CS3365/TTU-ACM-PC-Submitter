@@ -71,7 +71,7 @@ public class ClientBase extends Thread {
 	protected Socket connect(String host, int port) throws IOException {
 		return new Socket(InetAddress.getByName(host),port);
 	}
-	
+
 	/**
 	 * Registers the input and output streams to establish a communication connection.
 	 * @throws Exception Any exception occurred while registering input and output streams.
@@ -146,6 +146,12 @@ public class ClientBase extends Thread {
 	 */
 	public void disconnect() {
 		connected = false;
+    try {
+      connection.close();
+    } catch(IOException ex) {
+      logger.log("IOException while closing the connection");
+      ex.printStackTrace();
+    }
 	}
 	
 	/**

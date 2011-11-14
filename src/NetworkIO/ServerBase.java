@@ -24,8 +24,9 @@ public class ServerBase extends Thread {
 	protected NetworkLogger logger = new NetworkLogger("ServerBase"+number);
 	private HashSet connectionListeners, networkListeners;
 	protected ServerSocket serverSocket;
-	protected HashMap connections;
+	protected HashMap<Socket,ClientBase> connections;
 	protected int port;
+  private boolean running;
 	
 	/**
 	 * Creates a new instance of ServerBase
@@ -36,7 +37,7 @@ public class ServerBase extends Thread {
 		this.port = port;
 		connectionListeners = new HashSet();
 		networkListeners = new HashSet();
-		connections = new HashMap();
+		connections = new HashMap<Socket,ClientBase>();
 		setPriority(Thread.MIN_PRIORITY);
 		start();
 	}
@@ -45,9 +46,10 @@ public class ServerBase extends Thread {
 	 * Receives and processes all incoming connections.
 	 */
 	public void run() {
+    running = true;
 		try {
 			serverSocket = new ServerSocket(port);
-			while(true) {
+			while(running) {
 				Socket s = serverSocket.accept();
 				addConnection(new ClientBase(s));
 			}
@@ -55,6 +57,16 @@ public class ServerBase extends Thread {
 			logger.log("There was an error while accepting a connection - "+e.getMessage());
 		}
 	}
+
+  /**
+   * Stops the server and disconnects all connections.
+   */
+  public void stopServer() {
+    running = false;
+    for(ClientBase cb : connections.values()) {
+      cb.disconnect();
+    }
+  }
 	
 	private synchronized void addConnection(ClientBase cb) {
 		connections.put(cb.getSocket(),cb);

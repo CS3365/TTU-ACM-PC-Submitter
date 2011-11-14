@@ -44,12 +44,12 @@ import java.util.regex.Pattern;
  * @author Mike Kent
  */
 public class PCS {
-  public static final String serverDirectory = "Server Data";
-  public static final String settingsFile = serverDirectory+"/settings.txt";
+  public final String serverDirectory = "Server Data";
+  public final String settingsFile = serverDirectory+"/settings.txt";
 	private ServerBase server;
-	private int serverPort = 1023;
+	private int serverPort = 1923;
   private String dbFileName = "ProgrammingCompetition.db";
-  private String saveDirectory = "Solutions";
+  private String saveDirectory = "Submissions";
   private PCSDatabase db;
   public HashMap<String, LanguageImplementation> langs;
 
@@ -161,5 +161,9 @@ public class PCS {
 
   public Set<String> getLanguages() {
     return langs.keySet();
+  }
+
+  public void stopServer() {
+    server.stopServer();
   }
 }

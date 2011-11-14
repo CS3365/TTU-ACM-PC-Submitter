@@ -24,10 +24,26 @@
 
 package PCS.Exceptions;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Mike Kent
  */
 public class CompilationFailureException extends Exception {
+  private ArrayList<String> output;
+  private int errorCode;
 
+  public CompilationFailureException(ArrayList<String> output, int errorCode) {
+    this.output = output;
+    this.errorCode = errorCode;
+  }
+
+  public ArrayList<String> getOutput() {
+    return output;
+  }
+
+  public int getErrorCode() {
+    return errorCode;
+  }
 }
