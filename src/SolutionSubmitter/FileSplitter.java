@@ -51,7 +51,7 @@ public class FileSplitter {
 		if(!file.exists()) {
 			throw new FileNotFoundException();
 		}
-		numParts = (int)file.length()/FilePart.PART_SIZE;
+		numParts = (int)Math.ceil(((double)file.length())/FilePart.PART_SIZE);
 		curPart = 0;
 		curLocation = 0l;
 		in = new FileInputStream(file);
@@ -83,6 +83,15 @@ public class FileSplitter {
 	 * otherwise.
 	 */
 	public boolean hasNext() {
-		return curLocation <= file.length();
+    if(curLocation >= file.length()) {
+      try {
+        in.close();
+      } catch(IOException ex) {
+        System.out.println("IOException while attempting to close a file "+
+            "in FileSplitter");
+        ex.printStackTrace();
+      }
+    }
+		return curLocation < file.length();
 	}
 }

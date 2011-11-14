@@ -26,8 +26,8 @@ public class ClientBase extends Thread {
 	
 	protected NetworkLogger logger = new NetworkLogger("ClientBase");
 	protected Socket connection;
-	protected HashSet networkListeners = new HashSet();
-	protected HashSet connectionListeners = new HashSet();
+	protected HashSet<NetworkListener> networkListeners = new HashSet<NetworkListener>();
+	protected HashSet<ConnectionListener> connectionListeners = new HashSet<ConnectionListener>();
 	protected ObjectInputStream input;
 	protected ObjectOutputStream output;
 	protected boolean connected;
@@ -104,7 +104,7 @@ public class ClientBase extends Thread {
 			logger.log("There was an End Of File Exception.");
 		} catch(Exception e) {
 			logger.log("There was an error while reading an object - "+e.getMessage());
-			//e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			connected = false;
 			closeConnection();
@@ -155,7 +155,7 @@ public class ClientBase extends Thread {
 	}
 	
 	/**
-	 * Adds a NetworkListener to ClientBase so that any incomming connection will be
+	 * Adds a NetworkListener to ClientBase so that any incoming connection will be
 	 * sent to it.
 	 * @param listener The NetworkListener to add.
 	 */
@@ -163,6 +163,16 @@ public class ClientBase extends Thread {
 		if(connected)
 			networkListeners.add(listener);
 	}
+
+  /**
+   * Removes the NetworkListener if possible.
+   * @param listener The NetworkListener to remove.
+   */
+  public void removeNetworkListener(final NetworkListener listener) {
+    if(networkListeners.contains(listener)) {
+      networkListeners.remove(listener);
+    }
+  }
 	
 	/**
 	 *Adds a ConnectionListener to Client base in case of a lost connection.
@@ -174,4 +184,14 @@ public class ClientBase extends Thread {
 		else
 			listener.lostConnection(connection);
 	}
+
+  /**
+   * Removes the ConnectionListeners if possible.
+   * @param listener The connectionListener to remove.
+   */
+  public void removeConnectionListener(ConnectionListener listener) {
+    if(connectionListeners.contains(listener)) {
+      connectionListeners.remove(listener);
+    }
+  }
 }

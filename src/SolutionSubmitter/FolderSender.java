@@ -84,7 +84,6 @@ public class FolderSender extends Thread {
 				while(splitter.hasNext()) {
 					client.send(splitter.next());
 				}
-        client.send(FolderVerifier.getFolderDigest(this.folder));
 			} catch(FileNotFoundException ex) {
 				System.out.println("Could not find file: "+file.getAbsolutePath());
 			} catch(IOException ex) {
@@ -92,6 +91,14 @@ public class FolderSender extends Thread {
 						file.getAbsolutePath());
 			}
 		}
+    // finally send folder digest
+    try {
+      client.send(FolderVerifier.getFolderDigest(this.folder));
+    } catch(IOException ex) {
+      System.out.println("IOException occurred while attempting to send the "+
+          "folder digest");
+      ex.printStackTrace();
+    }
 	}
 
 	private String getRelativePath(File file) {

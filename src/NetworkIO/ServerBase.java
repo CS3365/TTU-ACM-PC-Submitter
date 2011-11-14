@@ -22,7 +22,8 @@ public class ServerBase extends Thread {
 	
 	private static int number = 0;
 	protected NetworkLogger logger = new NetworkLogger("ServerBase"+number);
-	private HashSet connectionListeners, networkListeners;
+	private HashSet<ConnectionListener> connectionListeners;
+  private HashSet<NetworkListener> networkListeners;
 	protected ServerSocket serverSocket;
 	protected HashMap<Socket,ClientBase> connections;
 	protected int port;
@@ -35,8 +36,8 @@ public class ServerBase extends Thread {
 	public ServerBase(int port) {
 		number++;
 		this.port = port;
-		connectionListeners = new HashSet();
-		networkListeners = new HashSet();
+		connectionListeners = new HashSet<ConnectionListener>();
+		networkListeners = new HashSet<NetworkListener>();
 		connections = new HashMap<Socket,ClientBase>();
 		setPriority(Thread.MIN_PRIORITY);
 		start();
@@ -137,6 +138,16 @@ public class ServerBase extends Thread {
 			((ClientBase)connections.get(itr.next())).addNetworkListener(listener);
 		}
 	}
+
+  /**
+   * Removes the NetworkListener if possible.
+   * @param listener The NetworkListener to remove.
+   */
+  public void removeNetworkListener(final NetworkListener listener) {
+    if(networkListeners.contains(listener)) {
+      networkListeners.remove(listener);
+    }
+  }
 	
 	/**
 	 * Adds a ConnectionListener to listen to any new connections or lost connections.
@@ -145,4 +156,14 @@ public class ServerBase extends Thread {
 	public void addConnectionListener(ConnectionListener listener) {
 		connectionListeners.add(listener);
 	}
+
+  /**
+   * Removes the ConnectionListeners if possible.
+   * @param listener The connectionListener to remove.
+   */
+  public void removeConnectionListener(ConnectionListener listener) {
+    if(connectionListeners.contains(listener)) {
+      connectionListeners.remove(listener);
+    }
+  }
 }

@@ -26,6 +26,7 @@ package PCS;
 
 import Messages.LoginAttempt;
 import Messages.LoginStatus;
+import NetworkIO.ConnectionListener;
 import NetworkIO.Message;
 import NetworkIO.ServerBase;
 import java.io.BufferedReader;
@@ -43,11 +44,11 @@ import java.util.regex.Pattern;
  *
  * @author Mike Kent
  */
-public class PCS {
+public class PCS implements ConnectionListener {
   public final String serverDirectory = "Server Data";
   public final String settingsFile = serverDirectory+"/settings.txt";
 	private ServerBase server;
-	private int serverPort = 1923;
+	public final int serverPort = 1923;
   private String dbFileName = "ProgrammingCompetition.db";
   private String saveDirectory = "Submissions";
   private PCSDatabase db;
@@ -57,6 +58,7 @@ public class PCS {
 		parseSettings();
     parseLanguages();
     server = new ServerBase(serverPort);
+    server.addConnectionListener(this);
     db = new PCSDatabase(dbFileName);
 	}
 
@@ -145,7 +147,12 @@ public class PCS {
     return new File(
         saveDirectory+"/"+
         team.getTeamName()+
-        "/Problem"+problem.getProblemOrder());
+        "/Problem"+problem.getProblemOrder()+
+        "/"+db.getProblemAttemptNumber(team, problem));
+  }
+
+  protected void registerGradeResult(Team team, Problem problem,
+      boolean success) {
   }
 
   /**
@@ -165,5 +172,14 @@ public class PCS {
 
   public void stopServer() {
     server.stopServer();
+  }
+
+  public void gotConnection(Socket s) {
+    System.out.println("got connection, adding login listener");
+    new PCSLoginListener(this, server.getClientBase(s));
+  }
+
+  public void lostConnection(Socket s) {
+    // do nothing
   }
 }

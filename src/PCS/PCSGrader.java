@@ -59,7 +59,8 @@ public class PCSGrader extends Thread {
       compile();
       this.start();
     } catch(CompilationFailureException ex) {
-      // TODO: report this back to the groupConnection
+      groupConnection.sendCompilationFailure(submission, ex.getOutput(),
+          ex.getErrorCode());
       ArrayList<String> output = ex.getOutput();
       System.out.println("\nCompile finished with: "+ex.getErrorCode());
       for(String s : output) {
@@ -88,6 +89,7 @@ public class PCSGrader extends Thread {
       if(resultCode != 0) {
         throw new CompilationFailureException(output,resultCode);
       }
+      System.out.println("compiled!");
     } catch(IOException ex) {
       System.out.println("There was an IOException while attempting to "+
           "compile the submission at: "+
@@ -114,7 +116,7 @@ public class PCSGrader extends Thread {
       int resultCode = run.waitFor();
       boolean passed = diffOutputFiles();
       System.out.println("Graded code: "+passed);
-      // TODO: return the result to the groupConnection
+      groupConnection.gradingCompleted(submission, passed);
     } catch(IOException ex) {
       System.out.println("There was an IOException while running the "+
           "submission at: "+submission.getDirectory().getAbsolutePath());

@@ -1,3 +1,0 @@
-ServerPort: 1023
-DBFileName: ProgrammingCompetition.db
-SaveDirectory: Solutions

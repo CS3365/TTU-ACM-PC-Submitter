@@ -30,10 +30,15 @@ import NetworkIO.NetworkListener;
 import SolutionSubmitter.FolderSaver;
 import SolutionSubmitter.SaverHandler;
 import Messages.SubmissionAck;
+import Messages.SubmissionCompilationFailure;
 import Messages.SubmissionInit;
+import Messages.SubmissionOvertimeFailure;
+import Messages.SubmissionResult;
+import Messages.SubmissionRuntimeFailure;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -71,12 +76,14 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
   }
   private HashMap<Integer,SubmissionStats> transfers;
 
-  public PCSGroupConnection(ClientBase cb, PCS pcs, Team team) {
+  public PCSGroupConnection(PCS pcs, ClientBase cb, Team team) {
     submissions = new LinkedList<ProblemSubmission>();
     transfers = new HashMap<Integer,SubmissionStats>();
     this.pcs = pcs;
     this.team = team;
     this.client = cb;
+    System.out.println("PCSGroupConnection created, adding to network "+
+        "listeners");
     this.client.addNetworkListener(this);
   }
 
@@ -85,6 +92,7 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
       ProblemSubmission submission = (ProblemSubmission)m;
     }
     else if(m instanceof SubmissionInit) {
+      System.out.println("Got SubmissionInit");
       processSubmissionInit((SubmissionInit)m, sok);
     }
   }
@@ -126,8 +134,61 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     }
   }
 
+  public void sendCompilationFailure(ProblemSubmission submission,
+      ArrayList<String> message, int errorCode) {
+    try {
+      client.send(new SubmissionCompilationFailure(message,errorCode,
+          submission.getTransmissionID()));
+      pcs.registerGradeResult(team, submission.getProblem(), false);
+    } catch(IOException ex) {
+      System.out.println("There was an error while sending a compilation "+
+          "failure message to "+team.getTeamName()+ " for problem: "+
+          submission.getProblem().getProblemTitle());
+      ex.printStackTrace();
+    }
+  }
+
+  public void sendRuntimeFailure(ProblemSubmission submission,
+      ArrayList<String> message, int errorCode) {
+    try {
+      client.send(new SubmissionRuntimeFailure(message,errorCode,
+          submission.getTransmissionID()));
+      pcs.registerGradeResult(team, submission.getProblem(), false);
+    } catch(IOException ex) {
+      System.out.println("There was an error while sending a runtime "+
+          "failure message to "+team.getTeamName()+ " for problem: "+
+          submission.getProblem().getProblemTitle());
+      ex.printStackTrace();
+    }
+  }
+
+  public void sendOvertimeFailure(ProblemSubmission submission) {
+    try {
+      client.send(new SubmissionOvertimeFailure(submission.getTransmissionID()));
+      pcs.registerGradeResult(team, submission.getProblem(), false);
+    } catch(IOException ex) {
+      System.out.println("There was an error while sending a overtime "+
+          "failure message to "+team.getTeamName()+ " for problem: "+
+          submission.getProblem().getProblemTitle());
+      ex.printStackTrace();
+    }
+  }
+
+  public void gradingCompleted(ProblemSubmission submission, boolean success) {
+    try {
+      client.send(new SubmissionResult(submission.getTransmissionID(),success));
+      pcs.registerGradeResult(team, submission.getProblem(), true);
+    } catch(IOException ex) {
+      System.out.println("There was an error while sending a submission "+
+          "result message to "+team.getTeamName()+ " for problem: "+
+          submission.getProblem().getProblemTitle());
+      ex.printStackTrace();
+    }
+  }
+
   public void transmissionSuccess(int transmissionID) {
     // enqueue the submission to be graded
+    System.out.println("transmission success");
     SubmissionStats stats = transfers.get(transmissionID);
     FolderSaver saver = stats.saver;
     File dir = saver.getSaveDirectory();
@@ -136,11 +197,13 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
           stats.problem,
           dir,
           stats.language));
+    client.removeNetworkListener(saver);
   }
 
   public void transmissionFailed(int transmissionID) {
     // increment the attempt count for this tranmission, then try again if
     // number of attempts is less than 3.
+    System.out.println("transmission failed in PCSGroupConnection");
     SubmissionStats stats = transfers.get(transmissionID);
     if(stats.transferAttempts++ < 3) {
       stats.saver.resetSaver();

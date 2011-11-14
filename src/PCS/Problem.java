@@ -24,13 +24,14 @@
 
 package PCS;
 
+import NetworkIO.Message;
 import java.util.ArrayList;
 
 /**
  *
  * @author Mike Kent
  */
-public class Problem implements Comparable<Problem> {
+public class Problem implements Comparable<Problem>, Message {
 	private ArrayList<Attempt> attempts;
 	private String problemTitle;
 

@@ -43,9 +43,14 @@ public class PCSDatabase {
 	private void initDatabase() {
 	}
 
-  private int getProblemAttemptNumber(Team team, Problem problem) {
+  protected int getProblemAttemptNumber(Team team, Problem problem) {
     // TODO: use the database and remove this the problemAcc variable.
     return problemAcc++;
+  }
+
+  protected void registerGradeResult(Team team, Problem problem,
+      boolean success) {
+    // TODO: fill in database code
   }
 
 	public boolean canLogIn(LoginAttempt attempt) {

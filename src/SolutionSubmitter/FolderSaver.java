@@ -70,7 +70,7 @@ public class FolderSaver implements NetworkListener {
 	 * @param message The message sent from the other computer.
 	 * @param sok The socket associated with the connection.
 	 */
-	public void processInput(Message message, Socket sok) {
+	public synchronized void processInput(Message message, Socket sok) {
 		if(message instanceof FilePart) {
 			FilePart part = (FilePart)message;
 			FileInfo info = part.getInfo();
@@ -78,7 +78,6 @@ public class FolderSaver implements NetworkListener {
       if(info.getTransmissionID() != this.transmissionID) {
         return;
       }
-      accountForPart(part);
 			File file = new File(folder.getAbsolutePath()+"/"+
 					part.getInfo().getRelativePath());
 			try {
@@ -90,6 +89,7 @@ public class FolderSaver implements NetworkListener {
 				out.seek(part.getLocation());
 				out.write(part.getData());
 				out.close();
+        accountForPart(part);
 			} catch(FileNotFoundException ex) {
 				System.out.println("Could not find file: "+file.getAbsolutePath());
 				ex.printStackTrace();
@@ -98,6 +98,9 @@ public class FolderSaver implements NetworkListener {
 				ex.printStackTrace();
 			}
 		}
+    else if(message instanceof FolderDigest) {
+      digest = (FolderDigest)message;
+    }
 
     // Attempt to verify the file after every FilePart has been received, this
     // is done order is indeterminate.
@@ -128,7 +131,7 @@ public class FolderSaver implements NetworkListener {
    *
    * @param part The FilePart to account for.
    */
-  private void accountForPart(FilePart part) {
+  private synchronized void accountForPart(FilePart part) {
     FileInfo info = part.getInfo();
     if(!partsReceived.containsKey(info)) {
       partsReceived.put(info, new boolean[part.getTotalParts()]);
@@ -144,16 +147,14 @@ public class FolderSaver implements NetworkListener {
    * @throws FileNotFoundException
    * @throws IOException
    */
-  private VerifyStatus verifyTransfer() throws FileNotFoundException, IOException {
+  private synchronized VerifyStatus verifyTransfer() throws FileNotFoundException, IOException {
     // Cannot verify transfer without a digest
     if(digest == null) {
       return VerifyStatus.NO_DIGEST;
     }
     // Transfer is incomplete until all the FileParts have been received for
     // all known files.
-    boolean[] parts;
-    for(FileInfo info : partsReceived.keySet()) {
-      parts = partsReceived.get(info);
+    for(boolean[] parts : partsReceived.values()) {
       for(int i=0; i<parts.length; i++) {
         if(!parts[i]) {
           return VerifyStatus.NOT_FINISHED;

@@ -27,8 +27,19 @@ public class Main {
 		//testServerClient();
 		//testFileSplitter();
 		//testFolderSenderSaver();
-    manualProblemTest();
+    //manualProblemTest();
+    deleteFolder(new File("Submissions"));
+    manualConnectionTest();
 	}
+
+  public static void manualConnectionTest() throws Exception {
+    PCS pcs = new PCS();
+    System.out.println("created PCS");
+    TestPCC pcc = new TestPCC(pcs);
+    System.out.println("created PCC");
+    pcc.loginToServer();
+    System.out.println("Sent login to server");
+  }
 
   public static void manualProblemTest() throws Exception{
     PCS pcs = new PCS();
@@ -42,6 +53,15 @@ public class Main {
     System.out.println("compile run is: "+javaDef.getRunString(submission));
     pcs.stopServer();
     System.out.println("done");
+  }
+
+  public static void deleteFolder(File f) {
+    if(f.isDirectory()) {
+      for(File file : f.listFiles()) {
+        deleteFolder(file);
+      }
+    } else
+      f.delete();
   }
 
 	/*public static void testFolderSenderSaver() throws Exception {
