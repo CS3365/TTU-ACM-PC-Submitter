@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -53,9 +54,13 @@ public class PCS implements ConnectionListener {
   private String saveDirectory = "Submissions";
   private PCSDatabase db;
   public HashMap<String, LanguageImplementation> langs;
+  private enum Phase { PRE_PRACTICE, PRACTICE, PRACTICE_STOPPED, PRE_TOURNIMENT,
+    TOURNIMENT, TOURNIMENT_STOPPED };
+  private Phase phase;
 
 	public PCS() {
 		parseSettings();
+    parseProblems();
     parseLanguages();
     server = new ServerBase(serverPort);
     server.addConnectionListener(this);
@@ -96,7 +101,32 @@ public class PCS implements ConnectionListener {
           "\" to parse the server settings.");
       ex.printStackTrace();
     }
+    
+    // Check if there is a Problem 0
+    File problem0 = new File(serverDirectory+"/Problems/0");
+    if(problem0.exists()) {
+      phase = Phase.PRE_PRACTICE;
+    } else {
+      phase = Phase.PRE_TOURNIMENT;
+    }
 	}
+
+  private void parseProblems() {
+    File problemsDir = new File(serverDirectory+"/Problems");
+    // TODO: parse the problemsDir. Make sure that the order does not matter
+    // also make sure that even if numbers are skipped that all are still parsed
+    for(File problem : problemsDir.listFiles()) {
+      try {
+        int problemOrder = Integer.parseInt(problem.getName());
+        // TODO: check with team how exactly to implement problem settings.
+        // Should we use XML???
+      } catch(NumberFormatException ex) {
+        System.out.println("There was a NumberFormatException that occurred "+
+            "while attempting to parse the problems in "+problem.getPath());
+        ex.printStackTrace();
+      }
+    }
+  }
 
   private void parseLanguages() {
     langs = new HashMap<String, LanguageImplementation>();
@@ -172,6 +202,56 @@ public class PCS implements ConnectionListener {
 
   public void stopServer() {
     server.stopServer();
+  }
+
+  private void nextPhase() {
+    switch(phase) {
+      case PRE_PRACTICE:
+        // TODO: Send all information to teams: Leaderboard and problem list
+        phase = Phase.PRACTICE;
+        break;
+      case PRACTICE:
+        // TODO: send stop signal to all teams
+        phase = Phase.PRACTICE_STOPPED;
+        break;
+      case PRACTICE_STOPPED:
+      case PRE_TOURNIMENT:
+        // TODO: Send all information to teams: Leaderboard and problem list
+        phase = Phase.TOURNIMENT;
+        break;
+      case TOURNIMENT:
+        // TODO: Send stop signal to all teams
+        phase = Phase.TOURNIMENT_STOPPED;
+        break;
+      // TODO: is the last case needed?
+      //case TOURNIMENT_STOPPED:
+    }
+  }
+
+  private void leaderboardUpdated() {
+    Leaderboard lb = db.getLeaderboard();
+    try {
+      server.sendToAll(lb);
+    } catch(IOException ex) {
+      System.out.println("IOException while attempting to send the updated "+
+          "leaderboard to all teams");
+      ex.printStackTrace();
+    }
+  }
+
+  private ArrayList<Problem> getAllProblems() {
+    ArrayList<Problem> problems = null;
+    if(phase == Phase.PRACTICE) {
+      problems = new ArrayList<Problem>();
+      problems.add(db.getPracticeProblem());
+    } else if(phase == Phase.TOURNIMENT) {
+      problems = db.getAllProblems();
+      // Remove problem 0, if there is one
+      if(problems.get(0).getProblemOrder() == 0) {
+        problems.remove(0);
+      }
+    }
+    return problems;
   }
 
   public void gotConnection(Socket s) {

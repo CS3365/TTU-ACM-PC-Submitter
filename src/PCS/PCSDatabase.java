@@ -25,6 +25,7 @@
 package PCS;
 
 import Messages.LoginAttempt;
+import java.util.ArrayList;
 
 /**
  *
@@ -51,6 +52,20 @@ public class PCSDatabase {
   protected void registerGradeResult(Team team, Problem problem,
       boolean success) {
     // TODO: fill in database code
+  }
+
+  protected Leaderboard getLeaderboard() {
+    return null;
+  }
+
+  protected Problem getPracticeProblem() {
+    // TODO: get practice problem
+    return null;
+  }
+
+  protected ArrayList<Problem> getAllProblems() {
+    // TODO: get all problems
+    return new ArrayList<Problem>();
   }
 
 	public boolean canLogIn(LoginAttempt attempt) {

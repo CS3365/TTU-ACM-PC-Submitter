@@ -24,6 +24,7 @@
 
 package PCS;
 
+import NetworkIO.Message;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -31,7 +32,7 @@ import java.util.TreeMap;
  *
  * @author Mike Kent
  */
-public class Leaderboard {
+public class Leaderboard implements Message {
 	public Map<Team,Map<Problem,Score>> scores;
 
 	public Leaderboard() {

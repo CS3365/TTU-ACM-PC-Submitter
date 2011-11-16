@@ -32,12 +32,10 @@ import java.util.ArrayList;
  * @author Mike Kent
  */
 public class Problem implements Comparable<Problem>, Message {
-	private ArrayList<Attempt> attempts;
 	private String problemTitle;
 
 	public Problem(String name) {
 		problemTitle = name;
-		attempts = new ArrayList<Attempt>();
 	}
 
   /**
