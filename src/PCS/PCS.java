@@ -67,6 +67,11 @@ public class PCS implements ConnectionListener {
     db = new PCSDatabase(dbFileName);
 	}
 
+  /**
+   * TODO: Will be replaced with Database implementation wherein there will be
+   * a new UI created to manage the problems/administrators/etc that will
+   * populate the database rather than everything be directory based.
+   */
 	private void parseSettings() {
 		//TODO: parse settings
 		try {
@@ -111,6 +116,11 @@ public class PCS implements ConnectionListener {
     }
 	}
 
+  /**
+   * TODO: Will be replaced with Database implementation wherein there will be
+   * a new UI created to manage the problems/administrators/etc that will
+   * populate the database rather than everything be directory based.
+   */
   private void parseProblems() {
     File problemsDir = new File(serverDirectory+"/Problems");
     // TODO: parse the problemsDir. Make sure that the order does not matter
@@ -214,6 +224,10 @@ public class PCS implements ConnectionListener {
         // TODO: send stop signal to all teams
         phase = Phase.PRACTICE_STOPPED;
         break;
+      // both PRACTICE_STOPPED and PRE_TOURNIMENT are the same thing as far as
+      // changing the phase is concerned. The difference is entirely semantic
+      // in that PRACTICE_STOPPED occurs only when there was a practice round
+      // and PRE_TOURNIMENT occurs only when there is no practice round.
       case PRACTICE_STOPPED:
       case PRE_TOURNIMENT:
         // TODO: Send all information to teams: Leaderboard and problem list

@@ -5,10 +5,10 @@ This project is designed by members of the Texas Tech University ACM
 organization and is released under the standard MIT license. The original
 authors are:
 
-Mike Kent
-Austin Ray
-Louis Alridge
-Kevin Thomas
+Mike Kent<br>
+Austin Ray<br>
+Louis Alridge<br>
+Kevin Thomas<br>
 Rafael Jurado
 
 Usage
@@ -40,7 +40,8 @@ That being said, the full directory structure is thus:
     |  |  |- statement.txt
     |  |  |- sampleInput.txt
     |  |  \- sampleOutput.txt
-    |  \- 1
+    |  |- 1
+    |  \- 2
     |- Languages
     |  |- Java.txt
     |  \- Python.txt
