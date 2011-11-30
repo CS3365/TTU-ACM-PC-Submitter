@@ -24,6 +24,7 @@
 
 package PCS;
 
+import Messages.ProblemsList;
 import NetworkIO.ClientBase;
 import NetworkIO.Message;
 import NetworkIO.NetworkListener;
@@ -82,6 +83,8 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     this.pcs = pcs;
     this.team = team;
     this.client = cb;
+    // Now that this connection is known to be a valid group, send the list
+    // of problems
     System.out.println("PCSGroupConnection created, adding to network "+
         "listeners");
     this.client.addNetworkListener(this);
@@ -170,6 +173,16 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
       System.out.println("There was an error while sending a overtime "+
           "failure message to "+team.getTeamName()+ " for problem: "+
           submission.getProblem().getProblemTitle());
+      ex.printStackTrace();
+    }
+  }
+
+  private void sendProblems() {
+    try {
+      client.send(new ProblemsList(pcs.getAllProblems()));
+    } catch(IOException ex) {
+      System.out.println("There was an IOException while atttempting to send "+
+          "the list of problems to the group");
       ex.printStackTrace();
     }
   }

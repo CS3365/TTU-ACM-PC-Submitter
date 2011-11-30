@@ -253,8 +253,8 @@ public class PCS implements ConnectionListener {
     }
   }
 
-  private ArrayList<Problem> getAllProblems() {
-    ArrayList<Problem> problems = null;
+  protected ArrayList<Problem> getAllProblems() {
+    /*ArrayList<Problem> problems = null;
     if(phase == Phase.PRACTICE) {
       problems = new ArrayList<Problem>();
       problems.add(db.getPracticeProblem());
@@ -266,6 +266,9 @@ public class PCS implements ConnectionListener {
       }
     }
     return problems;
+    */
+    // The database will contain everything!!!
+    return db.getAllProblems();
   }
 
   public void gotConnection(Socket s) {
