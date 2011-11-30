@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2011 Mike Kent.
+ * Copyright 2011 Kevin.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,15 +25,15 @@ package PCC;
 
 /**
  *
- * @author Mike Kent
+ * @author Kevin
  */
-public class PCCConductor {
-  private LoginWindow login;
+public class PCCMain {
+    private LoginWindow login;
   private MainWindow main;
   private SubmissionWindow submission;
   private WelcomeWindow welcome;
 
-  public PCCConductor() {
+  public PCCMain() {
     this.login = new LoginWindow();
     this.main = new MainWindow();
     main.setVisible(false);
