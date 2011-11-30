@@ -69,6 +69,10 @@ public class PCSDatabase {
   }
 
 	public boolean canLogIn(LoginAttempt attempt) {
-		return true;
+    if(attempt.getName() == "user" && attempt.getPassword() == "user") {
+      return true;
+    }
+    // otherwise return false
+    return false;
 	}
 }
