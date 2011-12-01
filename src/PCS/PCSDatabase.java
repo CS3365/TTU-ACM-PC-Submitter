@@ -25,6 +25,11 @@
 package PCS;
 
 import Messages.LoginAttempt;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -32,9 +37,10 @@ import java.util.ArrayList;
  * @author Mike Kent
  */
 public class PCSDatabase {
-	private String dbFileName = "ProgrammingCompetition";
+	private String dbFileName = "database.db";//"ProgrammingCompetition";
   // TODO: remove problemAcc for actual implementation, also in getProblemAttemptNumber
   private int problemAcc;
+  Connection db;
 
 	public PCSDatabase(String fileName) {
 		dbFileName = fileName;
@@ -42,6 +48,13 @@ public class PCSDatabase {
 	}
 
 	private void initDatabase() {
+    try {
+      db = DriverManager.getConnection("jdbc:sqlite:"+dbFileName);
+    } catch(SQLException ex) {
+      System.out.println("There was an SQLException while attempt to connect "+
+          "to the database.");
+      ex.printStackTrace();
+    }
 	}
 
   protected int getProblemAttemptNumber(Team team, Problem problem) {
@@ -55,6 +68,13 @@ public class PCSDatabase {
   }
 
   protected Leaderboard getLeaderboard() {
+    try {
+      PreparedStatement stmt = db.prepareStatement("");
+    } catch(SQLException ex) {
+      System.out.println("There was an SQLException while attempting to "+
+          "create a leaderboard.");
+      ex.printStackTrace();
+    }
     return null;
   }
 
@@ -65,7 +85,24 @@ public class PCSDatabase {
 
   protected ArrayList<Problem> getAllProblems() {
     // TODO: get all problems
-    return new ArrayList<Problem>();
+    ArrayList<Problem> problems = new ArrayList<Problem>();
+    try {
+      PreparedStatement stmt = db.prepareStatement("");
+      ResultSet results = stmt.executeQuery();
+      while(results.next()) {
+        problems.add(new Problem(
+            results.getString("title"),
+            results.getString("description"),
+            results.getInt("order"),
+            results.getInt("pointVal"),
+            results.getInt("phase")));
+      }
+    } catch(SQLException ex) {
+      System.out.println("There was an SQLException while attempt to get "+
+          "a list of all the problems in the competition");
+      ex.printStackTrace();
+    }
+    return problems;
   }
 
 	public boolean canLogIn(LoginAttempt attempt) {
