@@ -1,32 +1,19 @@
 /*
- * The MIT License
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * SubmissionWindow.java
  *
- * Copyright 2011 Kevin.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * Created on Oct 26, 2011, 1:43:38 PM
  */
 
 package PCC;
 
 /**
  *
- * @author Kevin
+ * @author TTU ACM
  */
 public class SubmissionWindow extends javax.swing.JFrame {
 
@@ -67,11 +54,6 @@ public class SubmissionWindow extends javax.swing.JFrame {
         LanguageComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C++", "Java", "Python" }));
 
         BrowseButton.setText("Browse...");
-        BrowseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BrowseButtonActionPerformed(evt);
-            }
-        });
 
         OKButton.setText("OK");
 
@@ -131,13 +113,16 @@ public class SubmissionWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-  private void BrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseButtonActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_BrowseButtonActionPerformed
-
     /**
     * @param args the command line arguments
     */
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new SubmissionWindow().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BrowseButton;
