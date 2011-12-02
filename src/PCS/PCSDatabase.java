@@ -125,7 +125,7 @@ public class PCSDatabase {
             result.getInt("score"),
             result.getInt("implTime")));
       }
-      leaderboard = new Leaderboard(scores);
+      leaderboard = new Leaderboard(scores,pcs.getPhaseStartTime());
     } catch(SQLException ex) {
       System.out.println("There was an SQLException while attempting to "+
           "create a leaderboard.");

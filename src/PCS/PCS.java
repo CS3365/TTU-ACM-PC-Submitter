@@ -63,6 +63,7 @@ public class PCS implements ConnectionListener {
   private Phase phase;
   private PCSSettings settingsWindow;
   private PCSLeaderboard leaderboardGUI;
+  private long phaseStartTime;
 
 	public PCS() {
 		parseSettings();
@@ -236,6 +237,10 @@ public class PCS implements ConnectionListener {
     server.stopServer();
   }
 
+  public long getPhaseStartTime() {
+    return phaseStartTime;
+  }
+
   private void nextPhase() {
     switch(phase) {
       case PRE_PRACTICE:
@@ -254,6 +259,7 @@ public class PCS implements ConnectionListener {
       case PRE_TOURNIMENT:
         // TODO: Send all information to teams: Leaderboard and problem list
         phase = Phase.TOURNIMENT;
+        phaseStartTime = System.currentTimeMillis();
         break;
       case TOURNIMENT:
         // TODO: Send stop signal to all teams
