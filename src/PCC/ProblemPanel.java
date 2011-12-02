@@ -29,22 +29,27 @@
  */
 package PCC;
 
-//<editor-fold defaultstate="collapsed" desc="comment">
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
+import javax.swing.Timer;
+//<editor-fold defaultstate="collapsed" desc="comment">
 //</editor-fold>
 
 /**
  *
  * @author Kevin
  */
-public class ProblemPanel extends javax.swing.JPanel {
-
+public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
+  Timer timer;
+  long startTime;
+  // GRADING state has been removed for demo simplicity
   private enum SubmissionState { READY, PENDING };
   private SubmissionState state;
-  
   /** Creates new form ProblemPanel */
   public ProblemPanel() {
     this.state = SubmissionState.READY;
+    timer = new Timer(100,this);
     initComponents();
   }
 
@@ -99,18 +104,36 @@ public class ProblemPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+  @Override
+  public void actionPerformed(ActionEvent evt) {
+    int diff = (int)(System.currentTimeMillis() - startTime);
+    //System.out.println("diff: "+diff);
+    ProbProgressBar.setValue(diff);
+    if (diff > 30000) {
+      ProbProgressBar.setString("Done!");
+      ProbProgressBar.setForeground(Color.green);
+      ProbSubmitButton.setEnabled(false);
+    }
+    // force a repaint to reduce jerkeyness
+    ProbProgressBar.repaint();
+  }
+  
   private void ProbSubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProbSubmitButtonActionPerformed
     if (state == SubmissionState.READY) {
       ProbSubmitButton.setText("Withdraw");
       state = SubmissionState.PENDING;
       ProbProgressBar.setString("Pending...");
       ProbProgressBar.setForeground(Color.blue);
+      startTime = System.currentTimeMillis();
+      timer.start();
     }
     else if (state == SubmissionState.PENDING) {
       ProbSubmitButton.setText("Submit");
       state = SubmissionState.READY;
       ProbProgressBar.setString("Ready");
       ProbProgressBar.setForeground(null);
+      ProbProgressBar.setValue(0);
+      timer.stop();
     }
   }//GEN-LAST:event_ProbSubmitButtonActionPerformed
 
