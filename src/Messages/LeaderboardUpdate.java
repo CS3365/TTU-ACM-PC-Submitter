@@ -24,8 +24,8 @@
 
 package Messages;
 
+import Leaderboard.Leaderboard;
 import NetworkIO.Message;
-import PCS.Leaderboard;
 
 /**
  * This class is used to update the clients as to the status of the leaderboard.

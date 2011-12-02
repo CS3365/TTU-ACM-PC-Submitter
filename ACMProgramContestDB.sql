@@ -19,7 +19,7 @@ CREATE TABLE PROBLEM
      "order"	    INT			NOT NULL,
      PRIMARY KEY (probID));
 CREATE TABLE SUBMISSION
-    (time           DATETIME             NOT NULL,
+    (time           INTEGER             NOT NULL,
      uID            INTEGER,
      probID         INTEGER             NOT NULL,
        -- status values should be one of {success,failure}
@@ -51,12 +51,12 @@ INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
 
 -- now time for some fake data!!!
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "failure", datetime("2011-11-30 08:30:00"));
+  ("", 1, 0, "failure", 60*60*5);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "failure", datetime("2011-11-30 08:31:00"));
+  ("", 1, 0, "failure", 60*60*12);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "success", datetime("2011-11-30 08:32:00"));
+  ("", 1, 0, "success", 60*60*20);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 1, "failure", datetime("2011-11-30 08:31:00"));
+  ("", 2, 0, "failure", 60*60*2);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 2, "success", datetime("2011-11-30 08:32:00"));
+  ("", 2, 1, "success", 60*60*11);

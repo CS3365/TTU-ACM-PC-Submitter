@@ -58,7 +58,7 @@ public class LeaderboardPanel extends javax.swing.JPanel
   public void repaint() {
     Graphics2D g = (Graphics2D)this.getGraphics();
     if(g == null) {
-      System.out.println("g is null yo!!!");
+      //System.out.println("g is null yo!!!");
       return;
     }
     Rectangle bounds = this.getBounds();
