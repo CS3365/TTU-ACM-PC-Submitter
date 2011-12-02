@@ -24,10 +24,22 @@
 
 package Leaderboard;
 
+import NetworkIO.Message;
+import java.util.ArrayList;
+
 /**
  *
  * @author Mike Kent
  */
-public class Leaderboard {
+public class Leaderboard implements Message {
+  private ArrayList<LeaderboardEntry> scores;
+  // TODO: find the other things to add
 
+  public Leaderboard(ArrayList<LeaderboardEntry> scores) {
+    this.scores = scores;
+  }
+
+  public ArrayList<LeaderboardEntry> getScores() {
+    return scores;
+  }
 }

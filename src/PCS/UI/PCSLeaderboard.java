@@ -22,61 +22,26 @@
  * THE SOFTWARE.
  */
 
-package Leaderboard;
-
 /*
- * LeaderboardPanel.java
+ * PCSLeaderboard.java
  *
- * Created on Nov 30, 2011, 4:24:21 PM
+ * Created on Dec 1, 2011, 6:43:31 PM
  */
+package PCS.UI;
 
-
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import PCS.PCS;
 
 /**
  *
  * @author Mike Kent
  */
-public class LeaderboardPanel extends javax.swing.JPanel
-    implements MouseMotionListener
-{
+public class PCSLeaderboard extends javax.swing.JFrame {
+  private PCS pcs;
 
-  private int mx, my;  // mouse coordinates
-
-  /** Creates new form LeaderboardPanel */
-  public LeaderboardPanel() {
+  /** Creates new form PCSLeaderboard */
+  public PCSLeaderboard(PCS pcs) {
+    this.pcs = pcs;
     initComponents();
-    this.addMouseMotionListener(this);
-  }
-
-  @Override
-  public void repaint() {
-    Graphics2D g = (Graphics2D)this.getGraphics();
-    if(g == null) {
-      //System.out.println("g is null yo!!!");
-      return;
-    }
-    Rectangle bounds = this.getBounds();
-    g.fillRect(0, 0, bounds.width, bounds.height);
-    //g.clearRect(0, 0, bounds.width, bounds.height);
-    g.setPaint(new GradientPaint(mx-50, my-50, new Color(70, 143, 240),
-        mx+50, my+50, new Color(175, 203, 240)));
-    g.fillOval(mx-50, my-50, 100, 100);
-  }
-
-  public void mouseMoved(MouseEvent e) {
-    mx = e.getX();
-    my = e.getY();
-    this.repaint();
-  }
-
-  public void mouseDragged(MouseEvent e) {
-    // do nothing
   }
 
   /** This method is called from within the constructor to
@@ -88,17 +53,36 @@ public class LeaderboardPanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
+        leaderboardPanel1 = new Leaderboard.LeaderboardPanel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        org.jdesktop.layout.GroupLayout leaderboardPanel1Layout = new org.jdesktop.layout.GroupLayout(leaderboardPanel1);
+        leaderboardPanel1.setLayout(leaderboardPanel1Layout);
+        leaderboardPanel1Layout.setHorizontalGroup(
+            leaderboardPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 481, Short.MAX_VALUE)
+        );
+        leaderboardPanel1Layout.setVerticalGroup(
+            leaderboardPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 557, Short.MAX_VALUE)
+        );
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 481, Short.MAX_VALUE)
+            .add(leaderboardPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 300, Short.MAX_VALUE)
+            .add(leaderboardPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Leaderboard.LeaderboardPanel leaderboardPanel1;
     // End of variables declaration//GEN-END:variables
 }

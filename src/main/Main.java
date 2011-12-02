@@ -28,8 +28,9 @@ public class Main {
 		//testFileSplitter();
 		//testFolderSenderSaver();
     //manualProblemTest();
-    deleteFolder(new File("Submissions"));
-    manualConnectionTest();
+    //deleteFolder(new File("Submissions"));
+    //manualConnectionTest();
+    new PCS();
 	}
 
   public static void manualConnectionTest() throws Exception {
