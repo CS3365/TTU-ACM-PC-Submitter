@@ -202,7 +202,9 @@ public class PCSDatabase {
   }
 
 	public boolean canLogIn(LoginAttempt attempt) {
-    if(attempt.getName() == "user" && attempt.getPassword() == "user") {
+    System.out.println("login attempt: " + attempt.getName() + " - "+
+        attempt.getPassword());
+    if(attempt.getName().equals("user") && attempt.getPassword().equals("user")) {
       return true;
     }
     // otherwise return false

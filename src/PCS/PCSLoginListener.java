@@ -64,7 +64,8 @@ public class PCSLoginListener implements NetworkListener {
           if(successfulAttempt.equals(attempt)) {
             try {
 					    pcs.send(
-									new LoginStatus(LoginStatus.LoginResponse.ALREADY_LOGGED_IN),
+									new LoginStatus(LoginStatus.LoginResponse.ALREADY_LOGGED_IN,
+                      pcs.langs.keySet()),
 									s);
             } catch(IOException e) {
               System.out.println("IOException while attempting to send "+
@@ -91,7 +92,12 @@ public class PCSLoginListener implements NetworkListener {
               new PCSGroupConnection(pcs, client, new Team(attempt.getName()));
             }
           }
+          else {
+            System.out.println("Login was not a success, it was: "+
+                response.getResponse().toString());
+          }
           try {
+            System.out.println("Sending LoginResponse.");
             client.send(response);
           } catch(IOException ex) {
             System.out.println("There was an IOException while attempting to "+
