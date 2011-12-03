@@ -30,6 +30,7 @@ import NetworkIO.NetworkListener;
 import PCS.PCS;
 import java.io.IOException;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -41,6 +42,7 @@ public class PCCMain implements NetworkListener {
   private MainWindow mainWindow;
   private SubmissionWindow submissionWindow;
   private WelcomeWindow welcomeWindow;
+  private String defaultLanguage;
 
   public PCCMain() {
     loginWindow = new LoginWindow(this);
@@ -72,14 +74,36 @@ public class PCCMain implements NetworkListener {
       LoginStatus status = (LoginStatus)m;
       System.out.println("Got LoginStatus: "+status.getResponse().toString());
       switch(status.getResponse()) {
+        // both ALREADY_LOGGED_IN and LOGIN_SUCCESS should continue to the next
+        // window.
         case ALREADY_LOGGED_IN:
-          break;
         case LOGIN_SUCCESS:
+          loginWindow.setVisible(false);
+          welcomeWindow.setLanguages(status.getLangauges());
+          welcomeWindow.setVisible(true);
           break;
         case LOGIN_FAILURE:
+          JOptionPane.showMessageDialog(mainWindow,
+              "Your credentials did not match any on record.",
+              "Login Failure",
+              JOptionPane.ERROR_MESSAGE);
           break;
       }
     }
+  }
+
+  public void setDefaultLanguage(String lang) {
+    System.out.println("Default Language set to: "+lang);
+    defaultLanguage = lang;
+  }
+
+  public String getDefaultLanguage() {
+    return defaultLanguage;
+  }
+
+  public void switchFromWelcomeToMainWindow() {
+    welcomeWindow.setVisible(false);
+    mainWindow.setVisible(true);
   }
 
   // TODO: remove this main method
