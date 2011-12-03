@@ -52,6 +52,7 @@ public class PCSDatabase {
 		initDatabase();
 	}
 
+
 	private void initDatabase() {
     try {
       Class.forName("org.sqlite.JDBC");
