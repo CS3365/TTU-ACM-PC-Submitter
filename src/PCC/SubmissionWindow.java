@@ -34,7 +34,6 @@ public class SubmissionWindow extends javax.swing.JFrame {
   public SubmissionWindow(PCCMain main) {
     this.main = main;
     initComponents();
-    this.setLocationRelativeTo(null);
   }
 
   /** This method is called from within the constructor to

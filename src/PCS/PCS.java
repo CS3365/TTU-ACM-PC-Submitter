@@ -199,11 +199,9 @@ public class PCS implements ConnectionListener {
    */
   protected LoginStatus attemptLogin(LoginAttempt attempt) {
     if(db.canLogIn(attempt)) {
-      return new LoginStatus(LoginStatus.LoginResponse.LOGIN_SUCCESS,
-          langs.keySet());
+      return new LoginStatus(LoginStatus.LoginResponse.LOGIN_SUCCESS);
     } else {
       return new LoginStatus(LoginStatus.LoginResponse.LOGIN_FAILURE,
-          langs.keySet(),
           "You are not authorized to log in.");
     }
   }
