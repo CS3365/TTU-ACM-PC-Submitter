@@ -64,8 +64,7 @@ public class PCSLoginListener implements NetworkListener {
           if(successfulAttempt.equals(attempt)) {
             try {
 					    pcs.send(
-									new LoginStatus(LoginStatus.LoginResponse.ALREADY_LOGGED_IN,
-                      pcs.langs.keySet()),
+									new LoginStatus(LoginStatus.LoginResponse.ALREADY_LOGGED_IN),
 									s);
             } catch(IOException e) {
               System.out.println("IOException while attempting to send "+

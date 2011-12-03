@@ -100,27 +100,33 @@
     </Component>
     <Component class="javax.swing.JTextField" name="TeamNameField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="user"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="TeamPassField"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TeamNameFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="TeamPassField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="user"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="LoginButton"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TeamPassFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="ServerIPField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="localhost"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="TeamNameField"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ServerIPFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="ServerIPLabel">
       <Properties>
