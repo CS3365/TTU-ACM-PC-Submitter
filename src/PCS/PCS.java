@@ -52,7 +52,7 @@ public class PCS implements ConnectionListener {
   public final String serverDirectory = "Server Data";
   public final String settingsFile = serverDirectory+"/settings.txt";
 	private ServerBase server;
-	public final int serverPort = 1923;
+	public static int serverPort = 1923;
   protected final int incorrectPenality = 5; // in minutes
   private String dbFileName = "database.db";
   private String saveDirectory = "Submissions";

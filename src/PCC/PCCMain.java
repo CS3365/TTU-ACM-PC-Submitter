@@ -23,42 +23,45 @@
  */
 package PCC;
 
+import NetworkIO.ClientBase;
+import PCS.PCS;
+import java.io.IOException;
+
 /**
  *
  * @author Mike Kent
  */
-public class PCCConductor {
-  private LoginWindow login;
-  private MainWindow main;
-  private SubmissionWindow submission;
-  private WelcomeWindow welcome;
+public class PCCMain {
+  private ClientBase client;
+  private LoginWindow loginWindow;
+  private MainWindow mainWindow;
+  private SubmissionWindow submissionWindow;
+  private WelcomeWindow welcomeWindow;
 
-  public PCCConductor() {
-    this.login = new LoginWindow();
-    this.main = new MainWindow();
-    main.setVisible(false);
-    this.submission = new SubmissionWindow();
-    submission.setVisible(false);
-    this.welcome = new WelcomeWindow();
-    welcome.setVisible(false);
+  public PCCMain() {
+    loginWindow = new LoginWindow(this);
+    mainWindow = new MainWindow(this);
+    submissionWindow = new SubmissionWindow(this);
+    welcomeWindow = new WelcomeWindow(this);
+
+    // start client
+    loginWindow.setVisible(true);
   }
 
-  protected void showWelcome() {
-    login.setVisible(false);
-    welcome.setVisible(true);
+  public void attemptServerConnection(String ipAddress) {
+    try {
+      client = new ClientBase(ipAddress, PCS.serverPort);
+      client.send(loginWindow.getLoginAttempt());
+    } catch(IOException ex) {
+      System.out.println("There was an IOException while attempt to connect "+
+          "to the server at "+ipAddress+":"+PCS.serverPort);
+      ex.printStackTrace();
+      loginWindow.connectionFailure();
+    }
   }
 
-  protected void showMain() {
-    welcome.setVisible(false);
-    main.setVisible(true);
+  // TODO: remove this main method
+  public static void main(String[] args) {
+    new PCCMain();
   }
-
-  protected void showSubmission() {
-    submission.setVisible(true);
-  }
-
-  protected void hideSubmission() {
-    submission.setVisible(false);
-  }
-  
 }
