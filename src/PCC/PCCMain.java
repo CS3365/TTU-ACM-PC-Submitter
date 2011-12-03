@@ -47,7 +47,7 @@ public class PCCMain implements NetworkListener {
   public PCCMain() {
     loginWindow = new LoginWindow(this);
     mainWindow = new MainWindow(this);
-    submissionWindow = new SubmissionWindow(this);
+    //submissionWindow = new SubmissionWindow(this);
     welcomeWindow = new WelcomeWindow(this);
 
     // start client

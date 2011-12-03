@@ -45,11 +45,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="SubmitProblemLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="VersionLabel" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="SubmitProblemLabel" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -59,10 +55,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="SubmitProblemLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="VersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="SubmitProblemLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="LanguageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -88,11 +81,6 @@
     <Component class="javax.swing.JLabel" name="SubmitProblemLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Submit Problem"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="VersionLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="N.V"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="LanguageLabel">
@@ -130,11 +118,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="OK"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OKButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="CancelButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CancelButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -42,16 +42,39 @@ import javax.swing.Timer;
  */
 public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
   Timer timer;
-  long startTime;
-  // GRADING state has been removed for demo simplicity
-  private enum SubmissionState { READY, PENDING };
-  private SubmissionState state;
-  /** Creates new form ProblemPanel */
-  public ProblemPanel() {
-    this.state = SubmissionState.READY;
-    timer = new Timer(100,this);
-    initComponents();
-  }
+    long startTime;
+    // GRADING state has been removed for demo simplicity
+
+    protected enum SubmissionState {READY, PENDING};
+    protected SubmissionState state;
+    private SubmissionWindow submissionWindow;
+
+    /** Creates new form ProblemPanel */
+    public ProblemPanel() {
+        submissionWindow = new SubmissionWindow(this);
+        this.state = SubmissionState.READY;
+        timer = new Timer(100, this);
+        initComponents();
+    }
+    
+    public void startPending() {
+        ProbSubmitButton.setText("Withdraw");
+        state = SubmissionState.PENDING;
+        timer.start();
+        startTime = System.currentTimeMillis();
+        ProbProgressBar.setString("Pending...");
+        ProbProgressBar.setForeground(Color.blue);
+        //start progress bar
+    }
+    
+    public void cancel() {
+        ProbSubmitButton.setText("Submit");
+        state = SubmissionState.READY;
+        ProbProgressBar.setString("Ready");
+        ProbProgressBar.setForeground(null);
+        ProbProgressBar.setValue(0);
+        timer.stop();
+    }
 
   /** This method is called from within the constructor to
    * initialize the form.
@@ -119,21 +142,13 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
   }
   
   private void ProbSubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProbSubmitButtonActionPerformed
-    if (state == SubmissionState.READY) {
-      ProbSubmitButton.setText("Withdraw");
-      state = SubmissionState.PENDING;
-      ProbProgressBar.setString("Pending...");
-      ProbProgressBar.setForeground(Color.blue);
-      startTime = System.currentTimeMillis();
-      timer.start();
-    }
-    else if (state == SubmissionState.PENDING) {
-      ProbSubmitButton.setText("Submit");
-      state = SubmissionState.READY;
-      ProbProgressBar.setString("Ready");
-      ProbProgressBar.setForeground(null);
-      ProbProgressBar.setValue(0);
-      timer.stop();
+    switch(state) {
+      case READY:
+        submissionWindow.setVisible(true);
+        break;
+      case PENDING:
+        cancel();
+        break;
     }
   }//GEN-LAST:event_ProbSubmitButtonActionPerformed
 

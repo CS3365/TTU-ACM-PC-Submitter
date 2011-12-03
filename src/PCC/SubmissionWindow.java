@@ -23,19 +23,19 @@
  */
 package PCC;
 
+import javax.swing.JFileChooser;
 /**
  *
  * @author Kevin
  */
 public class SubmissionWindow extends javax.swing.JFrame {
-  private PCCMain main;
+  ProblemPanel probPanel;
 
-  /** Creates new form SubmissionWindow */
-  public SubmissionWindow(PCCMain main) {
-    this.main = main;
-    initComponents();
-    this.setLocationRelativeTo(null);
-  }
+    /** Creates new form SubmissionWindow */
+    public SubmissionWindow(ProblemPanel problemPanel) {
+        this.probPanel = problemPanel;
+        initComponents();
+    }
 
   /** This method is called from within the constructor to
    * initialize the form.
@@ -47,7 +47,6 @@ public class SubmissionWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         SubmitProblemLabel = new javax.swing.JLabel();
-        VersionLabel = new javax.swing.JLabel();
         LanguageLabel = new javax.swing.JLabel();
         FolderLabel = new javax.swing.JLabel();
         LanguageComboBox = new javax.swing.JComboBox();
@@ -59,8 +58,6 @@ public class SubmissionWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         SubmitProblemLabel.setText("Submit Problem");
-
-        VersionLabel.setText("N.V");
 
         LanguageLabel.setText("Language:");
 
@@ -76,8 +73,18 @@ public class SubmissionWindow extends javax.swing.JFrame {
         });
 
         OKButton.setText("OK");
+        OKButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKButtonActionPerformed(evt);
+            }
+        });
 
         CancelButton.setText("Cancel");
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,19 +108,14 @@ public class SubmissionWindow extends javax.swing.JFrame {
                                 .addComponent(OKButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CancelButton))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(SubmitProblemLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(VersionLabel)))
+                    .addComponent(SubmitProblemLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SubmitProblemLabel)
-                    .addComponent(VersionLabel))
+                .addComponent(SubmitProblemLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LanguageLabel)
@@ -134,8 +136,31 @@ public class SubmissionWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
   private void BrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseButtonActionPerformed
-    // TODO add your handling code here:
+    JFileChooser fileChooser = new JFileChooser();
+
+        // For Directory
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        // For File
+       // fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        fileChooser.setAcceptAllFileFilterUsed(false);
+
+        int rVal = fileChooser.showOpenDialog(null);
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+          FolderLocationTextField.setText(fileChooser.getSelectedFile().toString());
+        }
   }//GEN-LAST:event_BrowseButtonActionPerformed
+
+  private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
+    probPanel.startPending();
+    setVisible(false);
+  }//GEN-LAST:event_OKButtonActionPerformed
+
+  private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+    probPanel.cancel();
+    setVisible(false);
+  }//GEN-LAST:event_CancelButtonActionPerformed
   /**
    * @param args the command line arguments
    */
@@ -148,6 +173,5 @@ public class SubmissionWindow extends javax.swing.JFrame {
     private javax.swing.JLabel LanguageLabel;
     private javax.swing.JButton OKButton;
     private javax.swing.JLabel SubmitProblemLabel;
-    private javax.swing.JLabel VersionLabel;
     // End of variables declaration//GEN-END:variables
 }
