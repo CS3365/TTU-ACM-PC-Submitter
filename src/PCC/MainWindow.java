@@ -27,10 +27,7 @@ package PCC;
  *
  * @author Austin
  */
-import java.awt.Color;
-import PCS.PCSDatabase;
-import PCS.Problem;
-import java.util.ArrayList;
+
 
 
 
@@ -215,6 +212,7 @@ public class MainWindow extends javax.swing.JFrame {
       // TODO add your handling code here:
       if(problemList.getSelectedIndex() == 1){
         problemDescription.setText("This is a description of Problem 1");
+        problemDescription.setText(main.problemlist);
         pointValue.setText("5");
       }
       else if (problemList.getSelectedIndex() == 2){
