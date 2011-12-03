@@ -47,6 +47,9 @@ public class LoginWindow extends javax.swing.JFrame {
   }
 
   protected LoginAttempt getLoginAttempt() {
+    System.out.println("login attempt to send to server: "+
+        TeamNameField.getText()+" - "+
+        new String(TeamPassField.getPassword()));
     return new LoginAttempt(
         TeamNameField.getText(),
         new String(TeamPassField.getPassword()));
@@ -84,18 +87,21 @@ public class LoginWindow extends javax.swing.JFrame {
 
         TeamPassLabel.setText("Password");
 
+        TeamNameField.setNextFocusableComponent(TeamPassField);
         TeamNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TeamNameFieldActionPerformed(evt);
             }
         });
 
+        TeamPassField.setNextFocusableComponent(LoginButton);
         TeamPassField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TeamPassFieldActionPerformed(evt);
             }
         });
 
+        ServerIPField.setNextFocusableComponent(TeamNameField);
         ServerIPField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ServerIPFieldActionPerformed(evt);
@@ -153,7 +159,7 @@ public class LoginWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-      getLoginAttempt();
+      main.attemptServerConnection(ServerIPField.getText());
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void TeamPassFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TeamPassFieldActionPerformed
