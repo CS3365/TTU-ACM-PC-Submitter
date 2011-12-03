@@ -1,19 +1,32 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * MainWindow.java
+ * The MIT License
  *
- * Created on Oct 26, 2011, 12:06:45 PM
+ * Copyright 2011 Kevin.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 package PCC;
 
 /**
  *
- * @author TTU ACM
+ * @author Kevin
  */
 import java.awt.Color;
 
@@ -35,156 +48,19 @@ public class MainWindow extends javax.swing.JFrame {
 
         MainTabbedPane = new javax.swing.JTabbedPane();
         SubmissionsPanel = new javax.swing.JPanel();
-        Prob1Panel = new javax.swing.JPanel();
-        Prob1ProgressBar = new javax.swing.JProgressBar();
-        Prob1SubmitButton = new javax.swing.JButton();
-        Prob1Label = new javax.swing.JLabel();
-        Prob2Panel = new javax.swing.JPanel();
-        Prob2Label = new javax.swing.JLabel();
-        Prob2ProgressBar = new javax.swing.JProgressBar();
-        Prob2SubmitButton = new javax.swing.JButton();
-        Prob3Panel = new javax.swing.JPanel();
-        Prob3Label = new javax.swing.JLabel();
-        Prob3ProgressBar = new javax.swing.JProgressBar();
-        Prob3SubmitButton = new javax.swing.JButton();
         LeaderboardPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        Prob1ProgressBar.setForeground(new java.awt.Color(0, 0, 204));
-        Prob1ProgressBar.setString("Ready");
-        Prob1ProgressBar.setStringPainted(true);
-
-        Prob1SubmitButton.setText("Submit");
-        Prob1SubmitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Prob1SubmitButtonActionPerformed(evt);
-            }
-        });
-
-        Prob1Label.setText("Problem 1");
-
-        javax.swing.GroupLayout Prob1PanelLayout = new javax.swing.GroupLayout(Prob1Panel);
-        Prob1Panel.setLayout(Prob1PanelLayout);
-        Prob1PanelLayout.setHorizontalGroup(
-            Prob1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Prob1PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Prob1Label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Prob1ProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(Prob1SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        Prob1PanelLayout.setVerticalGroup(
-            Prob1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Prob1PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Prob1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(Prob1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Prob1ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Prob1SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Prob1Label, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        Prob2Label.setText("Problem 2");
-
-        Prob2ProgressBar.setString("Ready");
-        Prob2ProgressBar.setStringPainted(true);
-
-        Prob2SubmitButton.setText("Submit");
-        Prob2SubmitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Prob2SubmitButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout Prob2PanelLayout = new javax.swing.GroupLayout(Prob2Panel);
-        Prob2Panel.setLayout(Prob2PanelLayout);
-        Prob2PanelLayout.setHorizontalGroup(
-            Prob2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Prob2PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Prob2Label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Prob2ProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(Prob2SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        Prob2PanelLayout.setVerticalGroup(
-            Prob2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Prob2PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Prob2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Prob2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Prob2ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Prob2SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Prob2Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        Prob3Label.setText("Problem 3");
-
-        Prob3ProgressBar.setString("Ready");
-        Prob3ProgressBar.setStringPainted(true);
-
-        Prob3SubmitButton.setText("Submit");
-        Prob3SubmitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Prob3SubmitButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout Prob3PanelLayout = new javax.swing.GroupLayout(Prob3Panel);
-        Prob3Panel.setLayout(Prob3PanelLayout);
-        Prob3PanelLayout.setHorizontalGroup(
-            Prob3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Prob3PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Prob3Label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Prob3ProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(Prob3SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        Prob3PanelLayout.setVerticalGroup(
-            Prob3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Prob3PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Prob3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Prob3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Prob3ProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
-                        .addComponent(Prob3SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Prob3Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
-                .addContainerGap())
-        );
 
         javax.swing.GroupLayout SubmissionsPanelLayout = new javax.swing.GroupLayout(SubmissionsPanel);
         SubmissionsPanel.setLayout(SubmissionsPanelLayout);
         SubmissionsPanelLayout.setHorizontalGroup(
             SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SubmissionsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Prob2Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Prob3Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Prob1Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGap(0, 559, Short.MAX_VALUE)
         );
         SubmissionsPanelLayout.setVerticalGroup(
             SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SubmissionsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Prob1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Prob2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Prob3Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+            .addGap(0, 380, Short.MAX_VALUE)
         );
 
         MainTabbedPane.addTab("Submissions", SubmissionsPanel);
@@ -218,71 +94,13 @@ public class MainWindow extends javax.swing.JFrame {
 
 
 
-private void Prob3SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Prob3SubmitButtonActionPerformed
-    if (Prob3SubmitButton.getText() == "Submit") {
-        Prob3SubmitButton.setText("Withdraw");
-        Prob3ProgressBar.setString("Pending...");
-        Prob3ProgressBar.setBackground(Color.blue);
-    }
-    else {
-        Prob3SubmitButton.setText("Submit");
-        Prob3ProgressBar.setString("Ready");
-        Prob3ProgressBar.setBackground(null);
-    }
-}//GEN-LAST:event_Prob3SubmitButtonActionPerformed
-
-private void Prob1SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Prob1SubmitButtonActionPerformed
-    if (Prob1SubmitButton.getText() == "Submit") {
-        Prob1SubmitButton.setText("Withdraw");
-        Prob1ProgressBar.setString("Pending...");
-        Prob1ProgressBar.setBackground(Color.blue);
-    }
-    else {
-        Prob1SubmitButton.setText("Submit");
-        Prob1ProgressBar.setString("Ready");
-        Prob1ProgressBar.setBackground(null);
-    }
-}//GEN-LAST:event_Prob1SubmitButtonActionPerformed
-
-private void Prob2SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Prob2SubmitButtonActionPerformed
-    if (Prob2SubmitButton.getText() == "Submit") {
-        Prob2SubmitButton.setText("Withdraw");
-        Prob2ProgressBar.setString("Pending...");
-        Prob2ProgressBar.setBackground(Color.blue);
-    }
-    else {
-        Prob2SubmitButton.setText("Submit");
-        Prob2ProgressBar.setString("Ready");
-        Prob2ProgressBar.setBackground(null);
-    }
-}//GEN-LAST:event_Prob2SubmitButtonActionPerformed
-
     /**
     * @param args the command line arguments
     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LeaderboardPanel;
     private javax.swing.JTabbedPane MainTabbedPane;
-    private javax.swing.JLabel Prob1Label;
-    private javax.swing.JPanel Prob1Panel;
-    private javax.swing.JProgressBar Prob1ProgressBar;
-    private javax.swing.JButton Prob1SubmitButton;
-    private javax.swing.JLabel Prob2Label;
-    private javax.swing.JPanel Prob2Panel;
-    private javax.swing.JProgressBar Prob2ProgressBar;
-    private javax.swing.JButton Prob2SubmitButton;
-    private javax.swing.JLabel Prob3Label;
-    private javax.swing.JPanel Prob3Panel;
-    private javax.swing.JProgressBar Prob3ProgressBar;
-    private javax.swing.JButton Prob3SubmitButton;
     private javax.swing.JPanel SubmissionsPanel;
     // End of variables declaration//GEN-END:variables
 

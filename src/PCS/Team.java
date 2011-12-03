@@ -30,9 +30,15 @@ package PCS;
  */
 public class Team {
   private String teamName;
+  private int uid;
 
   public Team(String teamName) {
+    this(teamName, 0);
+  }
+
+  public Team(String teamName, int uid) {
     this.teamName = teamName;
+    this.uid = uid;
   }
 
   /**

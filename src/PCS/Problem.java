@@ -32,10 +32,23 @@ import java.util.ArrayList;
  * @author Mike Kent
  */
 public class Problem implements Comparable<Problem>, Message {
-	private String problemTitle;
+	private String problemTitle, description;
+  private int order;
+  private int pointValue;
+  private int phase;
 
-	public Problem(String name) {
+  public Problem(String name) {
+    this(name, "", 0, 0, 0);
+  }
+
+	public Problem(String name, String description, int order, int value,
+      int phase) 
+  {
 		problemTitle = name;
+    this.description = description;
+    this.order = order;
+    pointValue = value;
+    this.phase = phase;
 	}
 
   /**
@@ -53,8 +66,20 @@ public class Problem implements Comparable<Problem>, Message {
    * @return The order of the problem;
    */
 	public int getProblemOrder() {
-		return 0;
+		return order;
 	}
+
+  public int getPointValue() {
+    return pointValue;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public int getPhase() {
+    return phase;
+  }
 
   /**
    * Compares the order of two problems to each other.

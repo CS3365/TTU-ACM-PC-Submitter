@@ -58,7 +58,7 @@ public class LeaderboardPanel extends javax.swing.JPanel
   public void repaint() {
     Graphics2D g = (Graphics2D)this.getGraphics();
     if(g == null) {
-      System.out.println("g is null yo!!!");
+      //System.out.println("g is null yo!!!");
       return;
     }
     //(float x1, float y1, Color color1, float x2, float y2, Color color2) 

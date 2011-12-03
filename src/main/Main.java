@@ -28,8 +28,9 @@ public class Main {
 		//testFileSplitter();
 		//testFolderSenderSaver();
     //manualProblemTest();
-    deleteFolder(new File("Submissions"));
-    manualConnectionTest();
+    //deleteFolder(new File("Submissions"));
+    //manualConnectionTest();
+    new PCS();
 	}
 
   public static void manualConnectionTest() throws Exception {
@@ -41,7 +42,7 @@ public class Main {
     System.out.println("Sent login to server");
   }
 
-  public static void manualProblemTest() throws Exception{
+  /*public static void manualProblemTest() throws Exception{
     PCS pcs = new PCS();
     LanguageImplementation javaDef = pcs.langs.get("Java");
     Problem prob = new Problem("Problem0");
@@ -53,7 +54,7 @@ public class Main {
     System.out.println("compile run is: "+javaDef.getRunString(submission));
     pcs.stopServer();
     System.out.println("done");
-  }
+  }*/
 
   public static void deleteFolder(File f) {
     if(f.isDirectory()) {

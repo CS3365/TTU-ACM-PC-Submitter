@@ -24,11 +24,14 @@
 
 package PCS;
 
+import Leaderboard.Leaderboard;
 import Messages.LoginAttempt;
 import Messages.LoginStatus;
 import NetworkIO.ConnectionListener;
 import NetworkIO.Message;
 import NetworkIO.ServerBase;
+import PCS.UI.PCSLeaderboard;
+import PCS.UI.PCSSettings;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,22 +53,42 @@ public class PCS implements ConnectionListener {
   public final String settingsFile = serverDirectory+"/settings.txt";
 	private ServerBase server;
 	public final int serverPort = 1923;
-  private String dbFileName = "ProgrammingCompetition.db";
+  protected final int incorrectPenality = 5; // in minutes
+  private String dbFileName = "database.db";
   private String saveDirectory = "Submissions";
   private PCSDatabase db;
   public HashMap<String, LanguageImplementation> langs;
   private enum Phase { PRE_PRACTICE, PRACTICE, PRACTICE_STOPPED, PRE_TOURNIMENT,
     TOURNIMENT, TOURNIMENT_STOPPED };
   private Phase phase;
+  private PCSSettings settingsWindow;
+  private PCSLeaderboard leaderboardGUI;
+  private long phaseStartTime;
 
 	public PCS() {
 		parseSettings();
-    parseProblems();
+    //parseProblems();
     parseLanguages();
+    db = new PCSDatabase(this,dbFileName);
+    settingsWindow = new PCSSettings(this);
+    leaderboardGUI = new PCSLeaderboard(this);
+    settingsWindow.setVisible(true);
+	}
+
+  public void startServer() {
     server = new ServerBase(serverPort);
     server.addConnectionListener(this);
-    db = new PCSDatabase(dbFileName);
-	}
+    settingsWindow.setVisible(false);
+    leaderboardGUI.setVisible(true);
+  }
+
+  public ArrayList<String> getUsers() {
+    return db.getUsers();
+  }
+
+  public void setUsers(ArrayList<String> users) {
+    db.setUsers(users);
+  }
 
   /**
    * TODO: Will be replaced with Database implementation wherein there will be
@@ -214,6 +237,10 @@ public class PCS implements ConnectionListener {
     server.stopServer();
   }
 
+  public long getPhaseStartTime() {
+    return phaseStartTime;
+  }
+
   private void nextPhase() {
     switch(phase) {
       case PRE_PRACTICE:
@@ -232,6 +259,7 @@ public class PCS implements ConnectionListener {
       case PRE_TOURNIMENT:
         // TODO: Send all information to teams: Leaderboard and problem list
         phase = Phase.TOURNIMENT;
+        phaseStartTime = System.currentTimeMillis();
         break;
       case TOURNIMENT:
         // TODO: Send stop signal to all teams
