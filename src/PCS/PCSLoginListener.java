@@ -91,6 +91,10 @@ public class PCSLoginListener implements NetworkListener {
               new PCSGroupConnection(pcs, client, new Team(attempt.getName()));
             }
           }
+          else {
+            System.out.println("Login was not a success, it was: "+
+                response.getResponse().toString());
+          }
           try {
             client.send(response);
           } catch(IOException ex) {

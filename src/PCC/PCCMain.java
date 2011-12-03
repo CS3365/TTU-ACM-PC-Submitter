@@ -23,15 +23,19 @@
  */
 package PCC;
 
+import Messages.LoginStatus;
 import NetworkIO.ClientBase;
+import NetworkIO.Message;
+import NetworkIO.NetworkListener;
 import PCS.PCS;
 import java.io.IOException;
+import java.net.Socket;
 
 /**
  *
  * @author Mike Kent
  */
-public class PCCMain {
+public class PCCMain implements NetworkListener {
   private ClientBase client;
   private LoginWindow loginWindow;
   private MainWindow mainWindow;
@@ -51,6 +55,7 @@ public class PCCMain {
   public void attemptServerConnection(String ipAddress) {
     try {
       client = new ClientBase(ipAddress, PCS.serverPort);
+      System.out.println("sending login attempt");
       client.send(loginWindow.getLoginAttempt());
     } catch(IOException ex) {
       System.out.println("There was an IOException while attempt to connect "+
@@ -60,8 +65,25 @@ public class PCCMain {
     }
   }
 
+  public void processInput(Message m, Socket sok) {
+    System.out.println("got message response!");
+    if(m instanceof LoginStatus) {
+      LoginStatus status = (LoginStatus)m;
+      System.out.println("Got LoginStatus: "+status.getResponse().toString());
+      switch(status.getResponse()) {
+        case ALREADY_LOGGED_IN:
+          break;
+        case LOGIN_SUCCESS:
+          break;
+        case LOGIN_FAILURE:
+          break;
+      }
+    }
+  }
+
   // TODO: remove this main method
   public static void main(String[] args) {
+    new PCS();
     new PCCMain();
   }
 }
