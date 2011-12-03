@@ -23,6 +23,9 @@
  */
 package PCC;
 
+import java.util.Collection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Kevin
@@ -34,6 +37,12 @@ public class WelcomeWindow extends javax.swing.JFrame {
   public WelcomeWindow(PCCMain main) {
     this.main = main;
     initComponents();
+    this.setLocationRelativeTo(null);
+  }
+
+  public void setLanguages(Collection<String> langs) {
+    DefaultLangComboBox.setModel(
+        new javax.swing.DefaultComboBoxModel(langs.toArray()));
   }
 
   /** This method is called from within the constructor to
@@ -59,8 +68,18 @@ public class WelcomeWindow extends javax.swing.JFrame {
         DefaultLangComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C++", "Java", "Python" }));
 
         OKButton.setText("OK");
+        OKButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKButtonActionPerformed(evt);
+            }
+        });
 
         CancelButton.setText("Cancel");
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +117,23 @@ public class WelcomeWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+  private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
+    // TODO add your handling code here:
+    main.setDefaultLanguage(DefaultLangComboBox.getSelectedItem().toString());
+    main.switchFromWelcomeToMainWindow();
+  }//GEN-LAST:event_OKButtonActionPerformed
+
+  private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+    // TODO add your handling code here:
+    int choice = JOptionPane.showConfirmDialog(this,
+        "Are you sure you wish to cancel and quit this program?",
+        "Quit Program?",
+        JOptionPane.OK_CANCEL_OPTION);
+    if(choice == JOptionPane.OK_OPTION) {
+      // TODO: close program
+    }
+  }//GEN-LAST:event_CancelButtonActionPerformed
   /**
    * @param args the command line arguments
    */
