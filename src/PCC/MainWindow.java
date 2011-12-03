@@ -107,6 +107,7 @@ public class MainWindow extends javax.swing.JFrame {
         problemDescription.setColumns(20);
         problemDescription.setEditable(false);
         problemDescription.setRows(5);
+        problemDescription.setText("     Please select a problem from the\nproblem list to see it's description.");
         jScrollPane2.setViewportView(problemDescription);
 
         jLabel2.setText("Problem Description");
@@ -120,7 +121,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        problemList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Problem 1", "Problem 2" }));
+        problemList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Please Select a Problem...", "Problem 1", "Problem 2" }));
         problemList.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 problemListItemStateChanged(evt);
@@ -137,16 +138,18 @@ public class MainWindow extends javax.swing.JFrame {
         SubmissionsPanelLayout.setHorizontalGroup(
             SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SubmissionsPanelLayout.createSequentialGroup()
-                .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                        .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
-                        .addGap(109, 109, 109)
-                        .addComponent(jLabel2))
-                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
-                        .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(77, 77, 77)))
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -154,22 +157,21 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(80, 80, 80))
+                .addContainerGap())
         );
         SubmissionsPanelLayout.setVerticalGroup(
             SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane2)
-                        .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(277, Short.MAX_VALUE))
+                    .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         MainTabbedPane.addTab("Submissions", SubmissionsPanel);
@@ -178,7 +180,7 @@ public class MainWindow extends javax.swing.JFrame {
         LeaderboardPanel.setLayout(LeaderboardPanelLayout);
         LeaderboardPanelLayout.setHorizontalGroup(
             LeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
         LeaderboardPanelLayout.setVerticalGroup(
             LeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +193,7 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+            .addComponent(MainTabbedPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +222,8 @@ public class MainWindow extends javax.swing.JFrame {
         pointValue.setText("10");
         }
       else{
-        problemDescription.setText("Please select a problem from the Problem list");
+        problemDescription.setText("Please select a problem from the \nproblem list to see it's description.");
+        pointValue.setText("");
       }
     }//GEN-LAST:event_problemListItemStateChanged
 
