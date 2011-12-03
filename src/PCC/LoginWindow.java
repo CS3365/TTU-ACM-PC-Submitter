@@ -24,13 +24,15 @@
 package PCC;
 
 import Messages.LoginAttempt;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Kevin
  */
-public class LoginWindow extends javax.swing.JFrame {
+public class LoginWindow extends javax.swing.JFrame implements ActionListener {
   private PCCMain main;
 
   /** Creates new form LoginWindow */
@@ -38,6 +40,9 @@ public class LoginWindow extends javax.swing.JFrame {
     this.main = main;
     initComponents();
     this.setLocationRelativeTo(null);
+    ServerIPField.addActionListener(this);
+    TeamNameField.addActionListener(this);
+    TeamPassField.addActionListener(this);
   }
 
   protected void connectionFailure() {
@@ -54,6 +59,15 @@ public class LoginWindow extends javax.swing.JFrame {
         TeamNameField.getText(),
         new String(TeamPassField.getPassword()),
         "mac");
+  }
+
+  /**
+   * Should generally only be used when the user types the enter key in any
+   * one of the text fields.
+   * @param e The ActionEvent to process.
+   */
+  public void actionPerformed(ActionEvent e) {
+    main.attemptServerConnection(ServerIPField.getText());
   }
 
   /** This method is called from within the constructor to
@@ -88,26 +102,14 @@ public class LoginWindow extends javax.swing.JFrame {
 
         TeamPassLabel.setText("Password");
 
+        TeamNameField.setText("user");
         TeamNameField.setNextFocusableComponent(TeamPassField);
-        TeamNameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TeamNameFieldActionPerformed(evt);
-            }
-        });
 
+        TeamPassField.setText("user");
         TeamPassField.setNextFocusableComponent(LoginButton);
-        TeamPassField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TeamPassFieldActionPerformed(evt);
-            }
-        });
 
+        ServerIPField.setText("localhost");
         ServerIPField.setNextFocusableComponent(TeamNameField);
-        ServerIPField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ServerIPFieldActionPerformed(evt);
-            }
-        });
 
         ServerIPLabel.setText("Server IP");
 
@@ -162,18 +164,6 @@ public class LoginWindow extends javax.swing.JFrame {
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
       main.attemptServerConnection(ServerIPField.getText());
     }//GEN-LAST:event_LoginButtonActionPerformed
-
-    private void TeamPassFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TeamPassFieldActionPerformed
-      // TODO add your handling code here:
-    }//GEN-LAST:event_TeamPassFieldActionPerformed
-
-    private void TeamNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TeamNameFieldActionPerformed
-      // TODO add your handling code here:
-    }//GEN-LAST:event_TeamNameFieldActionPerformed
-
-  private void ServerIPFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServerIPFieldActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_ServerIPFieldActionPerformed
   /**
    * @param args the command line arguments
    */

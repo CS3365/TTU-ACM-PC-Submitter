@@ -41,6 +41,7 @@ public class MainWindow extends javax.swing.JFrame {
   public MainWindow(PCCMain main) {
     this.main = main;
     initComponents();
+    this.setLocationRelativeTo(null);
   }
 
   /** This method is called from within the constructor to
@@ -229,11 +230,14 @@ public class MainWindow extends javax.swing.JFrame {
     * @param args the command line arguments
     */
 
+<<<<<<< HEAD
 
   /**
    * @param args the command line arguments
    */
 
+=======
+>>>>>>> 9f36cdf133a2a46a222863a692d889fd5becb016
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LeaderboardPanel;
     private javax.swing.JTabbedPane MainTabbedPane;

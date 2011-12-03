@@ -25,6 +25,8 @@
 package Messages;
 
 import NetworkIO.Message;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This class is a response from the server after receiving a LoginAttempt.
@@ -44,14 +46,15 @@ public class LoginStatus implements Message {
 
 	private String message;
 	private LoginResponse response;
+  private Collection<String> languages;
 
 	/**
 	 * Create a new LoginStatus message.
 	 *
 	 * @param status The status of the login attempt.
 	 */
-	public LoginStatus(LoginResponse response) {
-		this(response,"");
+	public LoginStatus(LoginResponse response, Collection<String> languages) {
+		this(response,languages,"");
 	}
 
 	/**
@@ -60,8 +63,12 @@ public class LoginStatus implements Message {
 	 * @param status The status of the login attempt.
 	 * @param message The message to send to clients.
 	 */
-	public LoginStatus(LoginResponse response, String message) {
+	public LoginStatus(LoginResponse response, Collection<String> languages,
+      String message)
+  {
 		this.message = message;
+    // ArrayList is serializable
+    this.languages = new ArrayList(languages);
 		this.response = response;
 	}
 
@@ -82,4 +89,12 @@ public class LoginStatus implements Message {
 	public LoginResponse getResponse() {
 		return response;
 	}
+
+  /**
+   * Get the languages allowed by the server.
+   * @return The list of allowed languages.
+   */
+  public Collection<String> getLangauges() {
+    return languages;
+  }
 }

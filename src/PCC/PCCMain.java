@@ -24,23 +24,28 @@
 package PCC;
 
 import Messages.LoginStatus;
+import Messages.ProblemsList;
 import NetworkIO.ClientBase;
 import NetworkIO.Message;
 import NetworkIO.NetworkListener;
 import PCS.PCS;
+import PCS.Problem;
 import java.io.IOException;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Mike Kent
  */
 public class PCCMain implements NetworkListener {
+
   private ClientBase client;
   private LoginWindow loginWindow;
   private MainWindow mainWindow;
   private SubmissionWindow submissionWindow;
   private WelcomeWindow welcomeWindow;
+  private String defaultLanguage;
 
   public PCCMain() {
     loginWindow = new LoginWindow(this);
@@ -58,9 +63,9 @@ public class PCCMain implements NetworkListener {
       client.addNetworkListener(this);
       System.out.println("sending login attempt");
       client.send(loginWindow.getLoginAttempt());
-    } catch(IOException ex) {
-      System.out.println("There was an IOException while attempt to connect "+
-          "to the server at "+ipAddress+":"+PCS.serverPort);
+    } catch (IOException ex) {
+      System.out.println("There was an IOException while attempt to connect "
+          + "to the server at " + ipAddress + ":" + PCS.serverPort);
       ex.printStackTrace();
       loginWindow.connectionFailure();
     }
@@ -68,18 +73,52 @@ public class PCCMain implements NetworkListener {
 
   public void processInput(Message m, Socket sok) {
     System.out.println("got message response!");
-    if(m instanceof LoginStatus) {
-      LoginStatus status = (LoginStatus)m;
-      System.out.println("Got LoginStatus: "+status.getResponse().toString());
-      switch(status.getResponse()) {
-        case ALREADY_LOGGED_IN:
-          break;
-        case LOGIN_SUCCESS:
-          break;
-        case LOGIN_FAILURE:
-          break;
-      }
+    if (m instanceof LoginStatus) {
+      processLoginStatus((LoginStatus)m);
+    } else if(m instanceof ProblemsList) {
+      processProblemsList((ProblemsList)m);
     }
+  }
+
+  private void processLoginStatus(LoginStatus status) {
+    switch (status.getResponse()) {
+      // both ALREADY_LOGGED_IN and LOGIN_SUCCESS should continue to the next
+      // window.
+      case ALREADY_LOGGED_IN:
+      case LOGIN_SUCCESS:
+        loginWindow.setVisible(false);
+        welcomeWindow.setLanguages(status.getLangauges());
+        welcomeWindow.setVisible(true);
+        break;
+      case LOGIN_FAILURE:
+        JOptionPane.showMessageDialog(mainWindow,
+            "Your credentials did not match any on record.",
+            "Login Failure",
+            JOptionPane.ERROR_MESSAGE);
+        break;
+    }
+  }
+
+  private void processProblemsList(ProblemsList problems) {
+    // TODO: remove the following code and replace it with code to send the
+    // list of problems to MainWindow.
+    for(Problem p : problems.getProblems()) {
+      System.out.println("\tProblem: "+p.getProblemTitle());
+    }
+  }
+
+  public void setDefaultLanguage(String lang) {
+    System.out.println("Default Language set to: " + lang);
+    defaultLanguage = lang;
+  }
+
+  public String getDefaultLanguage() {
+    return defaultLanguage;
+  }
+
+  public void switchFromWelcomeToMainWindow() {
+    welcomeWindow.setVisible(false);
+    mainWindow.setVisible(true);
   }
 
   // TODO: remove this main method
