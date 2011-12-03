@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2011 Kevin.
+ * Copyright 2011 Austin.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,14 @@ package PCC;
 
 /**
  *
- * @author Kevin
+ * @author Austin
  */
 import java.awt.Color;
+import PCS.PCSDatabase;
+import PCS.Problem;
+import java.util.ArrayList;
+
+
 
 public class MainWindow extends javax.swing.JFrame {
   private PCCMain main;
@@ -48,21 +53,125 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jFrame1 = new javax.swing.JFrame();
+        jFrame2 = new javax.swing.JFrame();
         MainTabbedPane = new javax.swing.JTabbedPane();
         SubmissionsPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        problemDescription = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        pointValue = new javax.swing.JTextField();
+        problemList = new javax.swing.JComboBox();
         LeaderboardPanel = new javax.swing.JPanel();
 
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
+        jFrame2.getContentPane().setLayout(jFrame2Layout);
+        jFrame2Layout.setHorizontalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame2Layout.setVerticalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Problem List");
+
+        problemDescription.setColumns(20);
+        problemDescription.setEditable(false);
+        problemDescription.setRows(5);
+        problemDescription.setText("     Please select a problem from the\nproblem list to see it's description.");
+        jScrollPane2.setViewportView(problemDescription);
+
+        jLabel2.setText("Problem Description");
+
+        jLabel3.setText("Point Value");
+
+        pointValue.setEditable(false);
+        pointValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pointValueActionPerformed(evt);
+            }
+        });
+
+        problemList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Please Select a Problem...", "Problem 1", "Problem 2" }));
+        problemList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                problemListItemStateChanged(evt);
+            }
+        });
+        problemList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                problemListActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout SubmissionsPanelLayout = new javax.swing.GroupLayout(SubmissionsPanel);
         SubmissionsPanel.setLayout(SubmissionsPanelLayout);
         SubmissionsPanelLayout.setHorizontalGroup(
             SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+            .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                        .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(77, 77, 77)))
+                .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel3))
+                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         SubmissionsPanelLayout.setVerticalGroup(
             SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         MainTabbedPane.addTab("Submissions", SubmissionsPanel);
@@ -71,11 +180,11 @@ public class MainWindow extends javax.swing.JFrame {
         LeaderboardPanel.setLayout(LeaderboardPanelLayout);
         LeaderboardPanelLayout.setHorizontalGroup(
             LeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
         LeaderboardPanelLayout.setVerticalGroup(
             LeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
 
         MainTabbedPane.addTab("Leaderboard", LeaderboardPanel);
@@ -88,17 +197,49 @@ public class MainWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainTabbedPane)
+            .addComponent(MainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-  /**
-   * @param args the command line arguments
-   */
+
+    private void pointValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pointValueActionPerformed
+      // TODO add your handling code here:
+    }//GEN-LAST:event_pointValueActionPerformed
+
+    private void problemListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemListActionPerformed
+      // TODO add your handling code here:
+    }//GEN-LAST:event_problemListActionPerformed
+
+    private void problemListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_problemListItemStateChanged
+      // TODO add your handling code here:
+      if(problemList.getSelectedIndex() == 1){
+        problemDescription.setText("This is a description of Problem 1");
+        pointValue.setText("5");
+      }
+      else if (problemList.getSelectedIndex() == 2){
+        problemDescription.setText("This is a description of Problem 2");
+        pointValue.setText("10");
+        }
+      else{
+        problemDescription.setText("Please select a problem from the \nproblem list to see it's description.");
+        pointValue.setText("");
+      }
+    }//GEN-LAST:event_problemListItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LeaderboardPanel;
     private javax.swing.JTabbedPane MainTabbedPane;
     private javax.swing.JPanel SubmissionsPanel;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JFrame jFrame1;
+    private javax.swing.JFrame jFrame2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField pointValue;
+    private javax.swing.JTextArea problemDescription;
+    private javax.swing.JComboBox problemList;
     // End of variables declaration//GEN-END:variables
 }
