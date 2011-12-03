@@ -183,7 +183,7 @@ public class PCSDatabase {
     // TODO: get all problems
     ArrayList<Problem> problems = new ArrayList<Problem>();
     try {
-      PreparedStatement stmt = db.prepareStatement("");
+      Statement stmt = db.createStatement();
       ResultSet results = stmt.executeQuery("SELECT * FROM PROBLEM");
       while(results.next()) {
         problems.add(new Problem(

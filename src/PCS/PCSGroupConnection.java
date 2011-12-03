@@ -83,11 +83,12 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     this.pcs = pcs;
     this.team = team;
     this.client = cb;
-    // Now that this connection is known to be a valid group, send the list
-    // of problems
     System.out.println("PCSGroupConnection created, adding to network "+
         "listeners");
     this.client.addNetworkListener(this);
+    // Now that this connection is known to be a valid group, send the list
+    // of problems
+    sendProblemsList();
   }
 
   public void processInput(Message m, Socket sok) {
@@ -128,6 +129,16 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     submissions.add(submission);
     if(checker == null) {
       runSubmission();
+    }
+  }
+
+  private void sendProblemsList() {
+    try {
+      client.send(new ProblemsList(pcs.getAllProblems()));
+    } catch(IOException ex) {
+      System.out.println("There was an IOException while attempting to send "+
+          "the list of problems to the client");
+      ex.printStackTrace();
     }
   }
 
