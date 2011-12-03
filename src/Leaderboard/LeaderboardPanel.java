@@ -29,7 +29,8 @@ package Leaderboard;
  *
  * Created on Nov 30, 2011, 4:24:21 PM
  */
-
+import javax.swing.*;
+import javax.swing.plaf.LayerUI;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -53,12 +54,13 @@ public class LeaderboardPanel extends javax.swing.JPanel
     initComponents();
     this.addMouseMotionListener(this);
   }
-
+  
+  
   @Override
   public void repaint() {
     Graphics2D g = (Graphics2D)this.getGraphics();
     if(g == null) {
-      //System.out.println("g is null yo!!!");
+      System.out.println("g is null yo!!!");
       return;
     }
     //(float x1, float y1, Color color1, float x2, float y2, Color color2) 
@@ -75,7 +77,6 @@ public class LeaderboardPanel extends javax.swing.JPanel
     my = e.getY();
     this.repaint();
   }
-
   public void mouseDragged(MouseEvent e) {
     // do nothing
   }
@@ -94,10 +95,14 @@ public class LeaderboardPanel extends javax.swing.JPanel
 
         setPreferredSize(new java.awt.Dimension(1000, 600));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Programming Teams");
         jLabel1.setToolTipText("");
+        jLabel1.setName("jLabel1"); // NOI18N
+        jLabel1.setOpaque(true);
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,7 +110,7 @@ public class LeaderboardPanel extends javax.swing.JPanel
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -113,7 +118,7 @@ public class LeaderboardPanel extends javax.swing.JPanel
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 42, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -123,17 +128,17 @@ public class LeaderboardPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(635, Short.MAX_VALUE))
+                .addContainerGap(557, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(346, Short.MAX_VALUE))
+                .addContainerGap(304, Short.MAX_VALUE))
         );
 
-        getAccessibleContext().setAccessibleName("LeaderboardPanel");
+        getAccessibleContext().setAccessibleName("JLeaderboardPanel");
         getAccessibleContext().setAccessibleDescription("");
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
