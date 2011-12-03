@@ -55,6 +55,7 @@ public class PCCMain implements NetworkListener {
   public void attemptServerConnection(String ipAddress) {
     try {
       client = new ClientBase(ipAddress, PCS.serverPort);
+      client.addNetworkListener(this);
       System.out.println("sending login attempt");
       client.send(loginWindow.getLoginAttempt());
     } catch(IOException ex) {

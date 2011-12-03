@@ -96,6 +96,7 @@ public class PCSLoginListener implements NetworkListener {
                 response.getResponse().toString());
           }
           try {
+            System.out.println("Sending LoginResponse.");
             client.send(response);
           } catch(IOException ex) {
             System.out.println("There was an IOException while attempting to "+

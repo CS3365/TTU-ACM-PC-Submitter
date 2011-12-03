@@ -52,7 +52,8 @@ public class LoginWindow extends javax.swing.JFrame {
         new String(TeamPassField.getPassword()));
     return new LoginAttempt(
         TeamNameField.getText(),
-        new String(TeamPassField.getPassword()));
+        new String(TeamPassField.getPassword()),
+        "mac");
   }
 
   /** This method is called from within the constructor to
