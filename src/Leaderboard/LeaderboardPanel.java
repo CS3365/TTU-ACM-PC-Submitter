@@ -29,11 +29,10 @@ package Leaderboard;
  *
  * Created on Nov 30, 2011, 4:24:21 PM
  */
-import javax.swing.*;
-import javax.swing.plaf.LayerUI;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -57,10 +56,10 @@ public class LeaderboardPanel extends javax.swing.JPanel
   
   
   @Override
-  public void repaint() {
-    Graphics2D g = (Graphics2D)this.getGraphics();
+  public void paint(Graphics g1) {
+    Graphics2D g = (Graphics2D)g1;
     if(g == null) {
-      System.out.println("g is null yo!!!");
+      //System.out.println("g is null yo!!!");
       return;
     }
     //(float x1, float y1, Color color1, float x2, float y2, Color color2) 
@@ -70,6 +69,7 @@ public class LeaderboardPanel extends javax.swing.JPanel
     g.setPaint(new GradientPaint(0, 0, new Color(255, 255, 255),
         0, 600, new Color(0, 0, 0)));
     g.fillRect(0, 0, 1000, 600);
+    jPanel1.repaint();
   }
 
   public void mouseMoved(MouseEvent e) {
