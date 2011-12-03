@@ -59,11 +59,11 @@ public class MainWindow extends javax.swing.JFrame {
         SubmissionsPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        problemDescription = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
+        pointValue = new javax.swing.JTextField();
+        problemList = new javax.swing.JComboBox();
         LeaderboardPanel = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
@@ -103,23 +103,33 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel1.setText("Problem List");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setEditable(false);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        problemDescription.setColumns(20);
+        problemDescription.setEditable(false);
+        problemDescription.setRows(5);
+        jScrollPane2.setViewportView(problemDescription);
 
         jLabel2.setText("Problem Description");
 
         jLabel3.setText("Point Value");
 
-        jTextField1.setEditable(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        pointValue.setEditable(false);
+        pointValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                pointValueActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Problem 1", "Problem 2" }));
+        problemList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Problem 1", "Problem 2" }));
+        problemList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                problemListItemStateChanged(evt);
+            }
+        });
+        problemList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                problemListActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout SubmissionsPanelLayout = new javax.swing.GroupLayout(SubmissionsPanel);
         SubmissionsPanel.setLayout(SubmissionsPanelLayout);
@@ -133,7 +143,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(109, 109, 109)
                         .addComponent(jLabel2))
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,7 +152,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jLabel3))
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(80, 80, 80))
         );
         SubmissionsPanelLayout.setVerticalGroup(
@@ -156,8 +166,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane2)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(277, Short.MAX_VALUE))
         );
 
@@ -189,11 +199,29 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-<<<<<<< HEAD
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void pointValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pointValueActionPerformed
       // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_pointValueActionPerformed
+
+    private void problemListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemListActionPerformed
+      // TODO add your handling code here:
+    }//GEN-LAST:event_problemListActionPerformed
+
+    private void problemListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_problemListItemStateChanged
+      // TODO add your handling code here:
+      if(problemList.getSelectedIndex() == 1){
+        problemDescription.setText("This is a description of Problem 1");
+        pointValue.setText("5");
+      }
+      else if (problemList.getSelectedIndex() == 2){
+        problemDescription.setText("This is a description of Problem 2");
+        pointValue.setText("10");
+        }
+      else{
+        problemDescription.setText("Please select a problem from the Problem list");
+      }
+    }//GEN-LAST:event_problemListItemStateChanged
 
 
 
@@ -201,16 +229,15 @@ public class MainWindow extends javax.swing.JFrame {
     * @param args the command line arguments
     */
 
-=======
+
   /**
    * @param args the command line arguments
    */
->>>>>>> f4c410bcdf019f42bf61c47bdbef9d4016f7837b
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LeaderboardPanel;
     private javax.swing.JTabbedPane MainTabbedPane;
     private javax.swing.JPanel SubmissionsPanel;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
@@ -218,7 +245,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField pointValue;
+    private javax.swing.JTextArea problemDescription;
+    private javax.swing.JComboBox problemList;
     // End of variables declaration//GEN-END:variables
 }
