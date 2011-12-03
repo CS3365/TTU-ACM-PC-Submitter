@@ -189,6 +189,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+<<<<<<< HEAD
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
       // TODO add your handling code here:
@@ -200,6 +201,11 @@ public class MainWindow extends javax.swing.JFrame {
     * @param args the command line arguments
     */
 
+=======
+  /**
+   * @param args the command line arguments
+   */
+>>>>>>> f4c410bcdf019f42bf61c47bdbef9d4016f7837b
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LeaderboardPanel;
     private javax.swing.JTabbedPane MainTabbedPane;
