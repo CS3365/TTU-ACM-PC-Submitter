@@ -72,8 +72,9 @@ public class PCSGrader extends Thread {
 
   private void compile() throws CompilationFailureException {
     try {
-      String compile =
-          pcs.langs.get(submission.getLanguage()).getCompileString(submission);
+      String[] compile =
+          pcs.langs.get(submission.getLanguage()).getArguments(submission);
+      System.out.println("Compiling in directory: "+submission.getDirectory());
       Process compilation = Runtime.getRuntime().exec(
           compile,
           new String[0],

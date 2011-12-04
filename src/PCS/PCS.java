@@ -176,6 +176,7 @@ public class PCS implements ConnectionListener {
           if(matcher.matches()) {
             if(matcher.group(1).equals("compile")) {
               impl.setCompile(matcher.group(2));
+              System.out.println("setting compile string: "+matcher.group(2));
             } else if(matcher.group(1).equals("run")) {
               impl.setRun(matcher.group(2));
             }

@@ -33,10 +33,11 @@ import java.util.regex.Pattern;
  */
 public class LanguageImplementation {
   public String compile, run;
-  Pattern problem, problemDir;
+  Pattern problem, problemDir, arguments;
 
   public LanguageImplementation() {
     problem = Pattern.compile("\\<problem\\>");
+    arguments = Pattern.compile("(?<!\\\\) ");
   }
 
   public void setCompile(String compile) {
@@ -48,8 +49,21 @@ public class LanguageImplementation {
   }
 
   public String getCompileString(ProblemSubmission submission) {
+    System.out.println("matching to compile string: "+compile);
     Matcher m = problem.matcher(compile);
-    return m.replaceAll(submission.getProblem().getProblemTitle());
+    return m.replaceAll(
+        submission.getProblem().getProblemTitle().replace(" ", "\\\\ "));
+  }
+
+  public String[] getArguments(ProblemSubmission submission) {
+    String[] args = arguments.split(compile);
+    Matcher m;
+    for(int i=0; i<args.length; i++) {
+      m = problem.matcher(args[i]);
+      args[i] = m.replaceAll(
+        submission.getProblem().getProblemTitle().replace(" ", "\\\\ "));
+    }
+    return args;
   }
 
   public String getRunString(ProblemSubmission submission) {

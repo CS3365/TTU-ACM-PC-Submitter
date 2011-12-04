@@ -73,7 +73,6 @@ public class FolderSaver implements NetworkListener {
 	 */
 	public void processInput(Message message, Socket sok) {
 		if(message instanceof FilePart) {
-      System.out.println("Saving file part");
 			FilePart part = (FilePart)message;
 			FileInfo info = part.getInfo();
       // only process FileParts that match the transmissionID

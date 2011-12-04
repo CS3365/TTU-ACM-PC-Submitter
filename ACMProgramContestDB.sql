@@ -40,7 +40,7 @@ INSERT INTO USER(uID, name, passwd, isAdmin) VALUES
 -- insert the two basic problems
 INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
   (0,
-    "Test",
+    "Simple Problem 1",
     "This problem is very simple, therefore worth few points.",
     5, 0, 1);
 INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
