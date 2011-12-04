@@ -204,10 +204,30 @@ public class PCSDatabase {
 	public boolean canLogIn(LoginAttempt attempt) {
     System.out.println("login attempt: " + attempt.getName() + " - "+
         attempt.getPassword());
-    if(attempt.getName().equals("user") && attempt.getPassword().equals("user")) {
-      return true;
+    //ArrayList<String> users = getUsers();
+    //for (int i=0; i < users.size(); i++){}
+    try {
+      Statement statement = db.createStatement();
+
+      ResultSet results = statement.executeQuery("SELECT  * FROM USER WHERE " +
+            "name =\""+attempt.getName()+"\" AND passwd = \""+attempt.getPassword()+"\"");
+
+    //System.out.println(results.next());
+    return results.next();
     }
+    catch(SQLException ex) {
+      System.out.println("There was an SQLException while attempting to check for " +
+              attempt.getName()+" in the database.");
+      ex.printStackTrace();
+      return false;
+    }
+    //if(attempt.getName().equals("user") && attempt.getPassword().equals("user")) {
+    //  return true;
+    //}
     // otherwise return false
-    return false;
+    //return false;
+
 	}
+
+
 }

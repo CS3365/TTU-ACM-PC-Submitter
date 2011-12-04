@@ -46,6 +46,7 @@ public class PCCMain implements NetworkListener {
   private SubmissionWindow submissionWindow;
   private WelcomeWindow welcomeWindow;
   private String defaultLanguage;
+  protected String problemlist = "";
 
   public PCCMain() {
     loginWindow = new LoginWindow(this);
@@ -74,9 +75,9 @@ public class PCCMain implements NetworkListener {
   public void processInput(Message m, Socket sok) {
     System.out.println("got message response!");
     if (m instanceof LoginStatus) {
-      processLoginStatus((LoginStatus)m);
-    } else if(m instanceof ProblemsList) {
-      processProblemsList((ProblemsList)m);
+      processLoginStatus((LoginStatus) m);
+    } else if (m instanceof ProblemsList) {
+      processProblemsList((ProblemsList) m);
     }
   }
 
