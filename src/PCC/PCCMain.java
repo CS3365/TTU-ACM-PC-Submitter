@@ -100,11 +100,7 @@ public class PCCMain implements NetworkListener {
   }
 
   private void processProblemsList(ProblemsList problems) {
-    // TODO: remove the following code and replace it with code to send the
-    // list of problems to MainWindow.
-    for(Problem p : problems.getProblems()) {
-      System.out.println("\tProblem: "+p.getProblemTitle());
-    }
+    mainWindow.setProblemsList(problems.getProblems());
   }
 
   public void setDefaultLanguage(String lang) {

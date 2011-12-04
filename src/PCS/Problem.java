@@ -90,4 +90,13 @@ public class Problem implements Comparable<Problem>, Message {
 	public int compareTo(Problem p) {
 		return getProblemOrder() - p.getProblemOrder();
 	}
+
+  /**
+   * Print the title of this problem.
+   * @return The title of the problem.
+   */
+  @Override
+  public String toString() {
+    return problemTitle;
+  }
 }

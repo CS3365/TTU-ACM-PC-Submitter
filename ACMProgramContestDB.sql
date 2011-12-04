@@ -48,6 +48,56 @@ INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
     "Simple Problem 2",
     "This problem is similar to the first one, but just a bit harder.",
     7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (2,
+    "Filler Problem 1",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (3,
+    "Filler Problem 2",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (4,
+    "Filler Problem 3",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (5,
+    "Filler Problem 4",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (6,
+    "Filler Problem 5",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (7,
+    "Filler Problem 6",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (8,
+    "Filler Problem 7",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (9,
+    "Filler Problem 8",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (10,
+    "Filler Problem 9",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
+INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
+  (11,
+    "Filler Problem 10",
+    "This problem is similar to the first one, but just a bit harder.",
+    7, 0, 2);
 
 -- now time for some fake data!!!
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES

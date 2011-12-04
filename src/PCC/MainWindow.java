@@ -27,21 +27,49 @@ package PCC;
  *
  * @author Austin
  */
-import java.awt.Color;
-import PCS.PCSDatabase;
 import PCS.Problem;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.ArrayList;
-
-
+import javax.swing.DefaultComboBoxModel;
 
 public class MainWindow extends javax.swing.JFrame {
+
   private PCCMain main;
+  private ArrayList<Problem> problems;
 
   /** Creates new form MainWindow */
   public MainWindow(PCCMain main) {
     this.main = main;
     initComponents();
     this.setLocationRelativeTo(null);
+  }
+
+  public void setProblemsList(ArrayList<Problem> problems) {
+    this.problems = problems;
+
+    // update the list of problems in problemList
+    problemList.setModel(new DefaultComboBoxModel(problems.toArray()));
+    problemDescription.setText(problems.get(0).getDescription());
+    pointValue.setText("" + problems.get(0).getPointValue());
+
+    // create the ProblemPanels`
+    int y = 0, height = 40;
+    panelWithProblemPanels.setPreferredSize(new Dimension(
+        panelWithProblemPanels.getSize().width,
+        height * problems.size()));
+    Rectangle bounds = new Rectangle(0, 0,
+        problemScrollPane.getWidth(),
+        height);
+    ProblemPanel pPanel;
+    for (Problem problem : problems) {
+      bounds.y = y;
+      pPanel = new ProblemPanel(problem);
+      pPanel.setBounds(bounds);
+      y += height;
+      System.out.println("Adding ProblemPanel for: " + problem.getProblemTitle());
+      panelWithProblemPanels.add(pPanel);
+    }
   }
 
   /** This method is called from within the constructor to
@@ -65,6 +93,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         pointValue = new javax.swing.JTextField();
         problemList = new javax.swing.JComboBox();
+        problemScrollPane = new javax.swing.JScrollPane();
+        panelWithProblemPanels = new javax.swing.JPanel();
         LeaderboardPanel = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
@@ -104,10 +134,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel1.setText("Problem List");
 
-        problemDescription.setColumns(20);
-        problemDescription.setEditable(false);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        problemDescription.setColumns(10);
+        problemDescription.setLineWrap(true);
         problemDescription.setRows(5);
-        problemDescription.setText("     Please select a problem from the\nproblem list to see it's description.");
+        problemDescription.setText("     Please select a problem from the problem list to see it's description.");
+        problemDescription.setWrapStyleWord(true);
         jScrollPane2.setViewportView(problemDescription);
 
         jLabel2.setText("Problem Description");
@@ -127,11 +160,21 @@ public class MainWindow extends javax.swing.JFrame {
                 problemListItemStateChanged(evt);
             }
         });
-        problemList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                problemListActionPerformed(evt);
-            }
-        });
+
+        problemScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        javax.swing.GroupLayout panelWithProblemPanelsLayout = new javax.swing.GroupLayout(panelWithProblemPanels);
+        panelWithProblemPanels.setLayout(panelWithProblemPanelsLayout);
+        panelWithProblemPanelsLayout.setHorizontalGroup(
+            panelWithProblemPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 613, Short.MAX_VALUE)
+        );
+        panelWithProblemPanelsLayout.setVerticalGroup(
+            panelWithProblemPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 321, Short.MAX_VALUE)
+        );
+
+        problemScrollPane.setViewportView(panelWithProblemPanels);
 
         javax.swing.GroupLayout SubmissionsPanelLayout = new javax.swing.GroupLayout(SubmissionsPanel);
         SubmissionsPanel.setLayout(SubmissionsPanelLayout);
@@ -140,16 +183,16 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
-                        .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addGap(77, 77, 77)))
+                        .addGap(77, 77, 77))
+                    .addGroup(SubmissionsPanelLayout.createSequentialGroup()
+                        .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -157,7 +200,8 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(SubmissionsPanelLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(problemScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
         );
         SubmissionsPanelLayout.setVerticalGroup(
             SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,8 +214,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(SubmissionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pointValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(problemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(207, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(problemScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
         );
 
         MainTabbedPane.addTab("Submissions", SubmissionsPanel);
@@ -207,26 +252,13 @@ public class MainWindow extends javax.swing.JFrame {
       // TODO add your handling code here:
     }//GEN-LAST:event_pointValueActionPerformed
 
-    private void problemListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemListActionPerformed
-      // TODO add your handling code here:
-    }//GEN-LAST:event_problemListActionPerformed
-
     private void problemListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_problemListItemStateChanged
       // TODO add your handling code here:
-      if(problemList.getSelectedIndex() == 1){
-        problemDescription.setText("This is a description of Problem 1");
-        pointValue.setText("5");
-      }
-      else if (problemList.getSelectedIndex() == 2){
-        problemDescription.setText("This is a description of Problem 2");
-        pointValue.setText("10");
-        }
-      else{
-        problemDescription.setText("Please select a problem from the \nproblem list to see it's description.");
-        pointValue.setText("");
-      }
+      Problem selectedProblem =
+          problems.get(problemList.getSelectedIndex());
+      problemDescription.setText(selectedProblem.getDescription());
+      pointValue.setText("" + selectedProblem.getPointValue());
     }//GEN-LAST:event_problemListItemStateChanged
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LeaderboardPanel;
     private javax.swing.JTabbedPane MainTabbedPane;
@@ -238,8 +270,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel panelWithProblemPanels;
     private javax.swing.JTextField pointValue;
     private javax.swing.JTextArea problemDescription;
     private javax.swing.JComboBox problemList;
+    private javax.swing.JScrollPane problemScrollPane;
     // End of variables declaration//GEN-END:variables
 }

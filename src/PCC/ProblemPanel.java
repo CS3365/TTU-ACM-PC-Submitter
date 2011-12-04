@@ -29,6 +29,7 @@
  */
 package PCC;
 
+import PCS.Problem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
@@ -41,40 +42,47 @@ import javax.swing.Timer;
  * @author Kevin
  */
 public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
+
   Timer timer;
-    long startTime;
-    // GRADING state has been removed for demo simplicity
+  long startTime;
+  // GRADING state has been removed for demo simplicity
 
-    protected enum SubmissionState {READY, PENDING};
-    protected SubmissionState state;
-    private SubmissionWindow submissionWindow;
+  protected enum SubmissionState {
 
-    /** Creates new form ProblemPanel */
-    public ProblemPanel() {
-        submissionWindow = new SubmissionWindow(this);
-        this.state = SubmissionState.READY;
-        timer = new Timer(100, this);
-        initComponents();
-    }
-    
-    public void startPending() {
-        ProbSubmitButton.setText("Withdraw");
-        state = SubmissionState.PENDING;
-        timer.start();
-        startTime = System.currentTimeMillis();
-        ProbProgressBar.setString("Pending...");
-        ProbProgressBar.setForeground(Color.blue);
-        //start progress bar
-    }
-    
-    public void cancel() {
-        ProbSubmitButton.setText("Submit");
-        state = SubmissionState.READY;
-        ProbProgressBar.setString("Ready");
-        ProbProgressBar.setForeground(null);
-        ProbProgressBar.setValue(0);
-        timer.stop();
-    }
+    READY, PENDING
+  };
+  protected SubmissionState state;
+  private SubmissionWindow submissionWindow;
+  private Problem problem;
+
+  /** Creates new form ProblemPanel */
+  public ProblemPanel(Problem problem) {
+    this.problem = problem;
+    submissionWindow = new SubmissionWindow(this);
+    this.state = SubmissionState.READY;
+    timer = new Timer(100, this);
+    initComponents();
+    ProbLabel.setText(problem.getProblemTitle());
+  }
+
+  public void startPending() {
+    ProbSubmitButton.setText("Withdraw");
+    state = SubmissionState.PENDING;
+    timer.start();
+    startTime = System.currentTimeMillis();
+    ProbProgressBar.setString("Pending...");
+    ProbProgressBar.setForeground(Color.blue);
+    //start progress bar
+  }
+
+  public void cancel() {
+    ProbSubmitButton.setText("Submit");
+    state = SubmissionState.READY;
+    ProbProgressBar.setString("Ready");
+    ProbProgressBar.setForeground(null);
+    ProbProgressBar.setValue(0);
+    timer.stop();
+  }
 
   /** This method is called from within the constructor to
    * initialize the form.
@@ -105,31 +113,30 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ProbLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ProbProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ProbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ProbProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ProbSubmitButton)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ProbProgressBar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(ProbLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ProbSubmitButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ProbProgressBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(ProbLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(ProbSubmitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
   @Override
   public void actionPerformed(ActionEvent evt) {
-    int diff = (int)(System.currentTimeMillis() - startTime);
+    int diff = (int) (System.currentTimeMillis() - startTime);
     //System.out.println("diff: "+diff);
     ProbProgressBar.setValue(diff);
     if (diff > 30000) {
@@ -140,9 +147,9 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
     // force a repaint to reduce jerkeyness
     ProbProgressBar.repaint();
   }
-  
+
   private void ProbSubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProbSubmitButtonActionPerformed
-    switch(state) {
+    switch (state) {
       case READY:
         submissionWindow.setVisible(true);
         break;
@@ -151,7 +158,6 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
         break;
     }
   }//GEN-LAST:event_ProbSubmitButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ProbLabel;
     private javax.swing.JProgressBar ProbProgressBar;
