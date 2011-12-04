@@ -29,10 +29,16 @@
  */
 package PCC;
 
+import Messages.SubmissionCompilationFailure;
+import Messages.SubmissionOvertimeFailure;
+import Messages.SubmissionResult;
+import Messages.SubmissionRuntimeFailure;
 import PCS.Problem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.io.File;
+import java.util.Collection;
 import javax.swing.Timer;
 //<editor-fold defaultstate="collapsed" desc="comment">
 //</editor-fold>
@@ -48,17 +54,24 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
   // GRADING state has been removed for demo simplicity
 
   protected enum SubmissionState {
-
     READY, PENDING
   };
   protected SubmissionState state;
   private SubmissionWindow submissionWindow;
-  private Problem problem;
+  protected Problem problem;
+  private SubmissionResult lastResult;
+  private Object defaultLanguage;
+  private PCCMain main;
 
   /** Creates new form ProblemPanel */
-  public ProblemPanel(Problem problem) {
+  public ProblemPanel(PCCMain main, Problem problem,
+      Collection<String> languages, Object defaultLanguage)
+  {
+    this.main = main;
     this.problem = problem;
-    submissionWindow = new SubmissionWindow(this);
+    this.defaultLanguage = defaultLanguage;
+    System.out.println("Default lang from ProblemPanel: "+defaultLanguage);
+    submissionWindow = new SubmissionWindow(this, languages, defaultLanguage);
     this.state = SubmissionState.READY;
     timer = new Timer(100, this);
     initComponents();
@@ -66,6 +79,7 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
   }
 
   public void startPending() {
+    submissionWindow.setVisible(false);
     ProbSubmitButton.setText("Withdraw");
     state = SubmissionState.PENDING;
     timer.start();
@@ -75,13 +89,53 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
     //start progress bar
   }
 
+  public void sendFolder(File folder, String language) {
+    main.sendSubmission(problem, folder, language);
+    startPending();
+  }
+
   public void cancel() {
     ProbSubmitButton.setText("Submit");
     state = SubmissionState.READY;
-    ProbProgressBar.setString("Ready");
+    if(lastResult == null) {
+      // only need to change text because there has never been any other change
+      ProbProgressBar.setString("Ready");
+    } else if(!lastResult.getSuccess()) {
+      setFailure();
+    }
     ProbProgressBar.setForeground(null);
     ProbProgressBar.setValue(0);
     timer.stop();
+  }
+
+  public void registerSubmissionResult(SubmissionResult result) {
+    lastResult = result;
+    if(result.getSuccess()) {
+      setSuccess();
+    } else {
+      setFailure();
+    }
+  }
+
+  private void setFailure() {
+    if(lastResult instanceof SubmissionCompilationFailure) {
+      ProbProgressBar.setString("Compilation Failure");
+    } else if(lastResult instanceof SubmissionRuntimeFailure) {
+      ProbProgressBar.setString("Runtime Failure");
+    } else if(lastResult instanceof SubmissionOvertimeFailure) {
+      ProbProgressBar.setString("Overtime Failure");
+    } else {
+      ProbProgressBar.setString("Incorrect");
+    }
+    ProbProgressBar.setValue(0);
+    timer.stop();
+    ProbSubmitButton.setText("Submit");
+  }
+
+  private void setSuccess() {
+    ProbProgressBar.setString("Success!");
+    ProbSubmitButton.setEnabled(false);
+    ProbProgressBar.setValue(ProbProgressBar.getMaximum());
   }
 
   /** This method is called from within the constructor to
@@ -97,6 +151,7 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
         ProbSubmitButton = new javax.swing.JButton();
         ProbLabel = new javax.swing.JLabel();
 
+        ProbProgressBar.setMaximum(30000);
         ProbProgressBar.setString("Ready");
         ProbProgressBar.setStringPainted(true);
 
@@ -151,7 +206,7 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
   private void ProbSubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProbSubmitButtonActionPerformed
     switch (state) {
       case READY:
-        submissionWindow.setVisible(true);
+        submissionWindow.startNewSubmission();
         break;
       case PENDING:
         cancel();

@@ -27,22 +27,35 @@ package PCC;
  *
  * @author Austin
  */
+import Messages.SubmissionCompilationFailure;
+import Messages.SubmissionOvertimeFailure;
+import Messages.SubmissionResult;
+import Messages.SubmissionRuntimeFailure;
 import PCS.Problem;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 
 public class MainWindow extends javax.swing.JFrame {
 
   private PCCMain main;
   private ArrayList<Problem> problems;
+  private HashMap<Problem, ProblemPanel> problemPanels;
+  private Collection<String> languages;
 
   /** Creates new form MainWindow */
   public MainWindow(PCCMain main) {
     this.main = main;
+    problemPanels = new HashMap<Problem, ProblemPanel>();
     initComponents();
     this.setLocationRelativeTo(null);
+  }
+
+  public void setLanguages(Collection<String> langs) {
+    languages = langs;
   }
 
   public void setProblemsList(ArrayList<Problem> problems) {
@@ -59,17 +72,25 @@ public class MainWindow extends javax.swing.JFrame {
         panelWithProblemPanels.getSize().width,
         height * problems.size()));
     Rectangle bounds = new Rectangle(0, 0,
-        problemScrollPane.getWidth(),
+        problemScrollPane.getWidth() - 20,
         height);
     ProblemPanel pPanel;
     for (Problem problem : problems) {
       bounds.y = y;
-      pPanel = new ProblemPanel(problem);
+      pPanel = new ProblemPanel(main, problem, languages,
+          main.getDefaultLanguage());
+      problemPanels.put(problem, pPanel);
       pPanel.setBounds(bounds);
       y += height;
-      System.out.println("Adding ProblemPanel for: " + problem.getProblemTitle());
       panelWithProblemPanels.add(pPanel);
     }
+  }
+
+  protected void processSubmissionResult(SubmissionResult result, Problem prob) {
+    System.out.println("1: "+problemPanels.get(prob));
+    System.out.println("2: "+prob);
+    System.out.println("3: "+problemPanels.containsKey(prob));
+    problemPanels.get(prob).registerSubmissionResult(result);
   }
 
   /** This method is called from within the constructor to

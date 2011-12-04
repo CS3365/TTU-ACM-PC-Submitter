@@ -81,6 +81,18 @@ public class Problem implements Comparable<Problem>, Message {
     return phase;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if(o instanceof Problem) {
+      Problem p = (Problem)o;
+      return p.description.equals(this.description) &&
+          p.order == this.order &&
+          p.pointValue == this.pointValue &&
+          p.problemTitle == this.problemTitle;
+    }
+    return false;
+  }
+
   /**
    * Compares the order of two problems to each other.
    *

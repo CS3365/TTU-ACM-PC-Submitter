@@ -94,7 +94,7 @@ public class LoginStatus implements Message {
    * Get the languages allowed by the server.
    * @return The list of allowed languages.
    */
-  public Collection<String> getLangauges() {
+  public Collection<String> getLanguages() {
     return languages;
   }
 }

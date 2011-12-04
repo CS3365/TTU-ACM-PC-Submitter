@@ -23,22 +23,22 @@
  */
 package Messages;
 
-import NetworkIO.Message;
+import PCS.Problem;
 import java.util.ArrayList;
 
 /**
  *
  * @author Mike Kent
  */
-public class SubmissionRuntimeFailure implements Message {
+public class SubmissionRuntimeFailure extends SubmissionResult {
   private ArrayList<String> message;
-  private int errorCode, transmissionID;
+  private int errorCode;
   
   public SubmissionRuntimeFailure(ArrayList<String> message,
       int errorCode, int transmissionID) {
+    super(transmissionID, false);
     this.message = message;
     this.errorCode = errorCode;
-    this.transmissionID = transmissionID;
   }
 
   /**
@@ -55,13 +55,5 @@ public class SubmissionRuntimeFailure implements Message {
    */
   public int getErrorCode() {
     return errorCode;
-  }
-
-  /**
-   * Gets the transmission ID that the submission was originally sent with.
-   * @return The transmission ID.
-   */
-  public int getTrasnsmissionID() {
-    return transmissionID;
   }
 }

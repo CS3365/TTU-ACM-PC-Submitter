@@ -120,7 +120,7 @@ public class WelcomeWindow extends javax.swing.JFrame {
 
   private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
     // TODO add your handling code here:
-    main.setDefaultLanguage(DefaultLangComboBox.getSelectedItem().toString());
+    main.setDefaultLanguage(DefaultLangComboBox.getSelectedItem());
     main.switchFromWelcomeToMainWindow();
   }//GEN-LAST:event_OKButtonActionPerformed
 

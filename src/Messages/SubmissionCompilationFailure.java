@@ -24,21 +24,22 @@
 package Messages;
 
 import NetworkIO.Message;
+import PCS.Problem;
 import java.util.ArrayList;
 
 /**
  *
  * @author Mike Kent
  */
-public class SubmissionCompilationFailure implements Message {
+public class SubmissionCompilationFailure extends SubmissionResult {
   private ArrayList<String> message;
-  private int errorCode, transmissionID;
+  private int errorCode;
   
   public SubmissionCompilationFailure(ArrayList<String> message,
       int errorCode, int transmissionID) {
+    super(transmissionID, false);
     this.message = message;
     this.errorCode = errorCode;
-    this.transmissionID = transmissionID;
   }
 
   /**
@@ -55,13 +56,5 @@ public class SubmissionCompilationFailure implements Message {
    */
   public int getErrorCode() {
     return errorCode;
-  }
-
-  /**
-   * Gets the transmission ID that the solution was submitted with.
-   * @return The transmission ID.
-   */
-  public int getTransmissionID() {
-    return transmissionID;
   }
 }

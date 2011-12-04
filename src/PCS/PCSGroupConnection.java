@@ -21,7 +21,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package PCS;
 
 import Messages.ProblemsList;
@@ -50,14 +49,20 @@ import java.util.Queue;
  * @author Mike Kent
  */
 public class PCSGroupConnection implements NetworkListener, SaverHandler {
+
   protected ClientBase client;
   private Team team;
   private PCS pcs;
   private Queue<ProblemSubmission> submissions;
   private PCSGrader checker;
 
-  public enum SubmissionStatus{IN_PROGRESS, SUCCESS, FAILED};
+  public enum SubmissionStatus {
+
+    IN_PROGRESS, SUCCESS, FAILED
+  };
+
   private class SubmissionStats {
+
     public SubmissionStatus status;
     public FolderSaver saver;
     public Problem problem;
@@ -75,16 +80,16 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
       this.language = language;
     }
   }
-  private HashMap<Integer,SubmissionStats> transfers;
+  private HashMap<Integer, SubmissionStats> transfers;
 
   public PCSGroupConnection(PCS pcs, ClientBase cb, Team team) {
     submissions = new LinkedList<ProblemSubmission>();
-    transfers = new HashMap<Integer,SubmissionStats>();
+    transfers = new HashMap<Integer, SubmissionStats>();
     this.pcs = pcs;
     this.team = team;
     this.client = cb;
-    System.out.println("PCSGroupConnection created, adding to network "+
-        "listeners");
+    System.out.println("PCSGroupConnection created, adding to network "
+        + "listeners");
     this.client.addNetworkListener(this);
     // Now that this connection is known to be a valid group, send the list
     // of problems
@@ -92,12 +97,11 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
   }
 
   public void processInput(Message m, Socket sok) {
-    if(m instanceof ProblemSubmission) {
-      ProblemSubmission submission = (ProblemSubmission)m;
-    }
-    else if(m instanceof SubmissionInit) {
+    if (m instanceof ProblemSubmission) {
+      ProblemSubmission submission = (ProblemSubmission) m;
+    } else if (m instanceof SubmissionInit) {
       System.out.println("Got SubmissionInit");
-      processSubmissionInit((SubmissionInit)m, sok);
+      processSubmissionInit((SubmissionInit) m, sok);
     }
   }
 
@@ -105,29 +109,29 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     File saveDirectory =
         pcs.getProblemAttemptSaveDirectory(init.getProblem(), team);
     FolderSaver saver =
-        new FolderSaver(saveDirectory,init.getTransmissionID(),this);
+        new FolderSaver(saveDirectory, init.getTransmissionID(), this);
     transfers.put(init.getTransmissionID(),
         new SubmissionStats(
-          SubmissionStatus.IN_PROGRESS,
-          saver,
-          init.getProblem(),
-          sok,
-          init.getLanguage()));
+        SubmissionStatus.IN_PROGRESS,
+        saver,
+        init.getProblem(),
+        sok,
+        init.getLanguage()));
     client.addNetworkListener(saver);
     // send the acknoledgement and rediness to recieve the submission
     try {
       pcs.send(new SubmissionAck(init.getTransmissionID()), sok);
-    } catch(IOException ex) {
-      System.out.println("An IOException occurred while attempting to send "+
-          "an acknoledgement of a submission for team "+team.getTeamName()+
-          " and problem "+init.getProblem().getProblemTitle()+".");
+    } catch (IOException ex) {
+      System.out.println("An IOException occurred while attempting to send "
+          + "an acknoledgement of a submission for team " + team.getTeamName()
+          + " and problem " + init.getProblem().getProblemTitle() + ".");
       ex.printStackTrace();
     }
   }
 
   private void enqueueSubmission(ProblemSubmission submission) {
     submissions.add(submission);
-    if(checker == null) {
+    if (checker == null) {
       runSubmission();
     }
   }
@@ -135,29 +139,29 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
   private void sendProblemsList() {
     try {
       client.send(new ProblemsList(pcs.getAllProblems()));
-    } catch(IOException ex) {
-      System.out.println("There was an IOException while attempting to send "+
-          "the list of problems to the client");
+    } catch (IOException ex) {
+      System.out.println("There was an IOException while attempting to send "
+          + "the list of problems to the client");
       ex.printStackTrace();
     }
   }
 
   private void runSubmission() {
-    if(!submissions.isEmpty() && checker == null) {
-      checker = new PCSGrader(pcs,this,submissions.remove());
+    if (!submissions.isEmpty() && checker == null) {
+      checker = new PCSGrader(pcs, this, submissions.remove());
     }
   }
 
   public void sendCompilationFailure(ProblemSubmission submission,
       ArrayList<String> message, int errorCode) {
     try {
-      client.send(new SubmissionCompilationFailure(message,errorCode,
+      client.send(new SubmissionCompilationFailure(message, errorCode,
           submission.getTransmissionID()));
       pcs.registerGradeResult(team, submission.getProblem(), false);
-    } catch(IOException ex) {
-      System.out.println("There was an error while sending a compilation "+
-          "failure message to "+team.getTeamName()+ " for problem: "+
-          submission.getProblem().getProblemTitle());
+    } catch (IOException ex) {
+      System.out.println("There was an error while sending a compilation "
+          + "failure message to " + team.getTeamName() + " for problem: "
+          + submission.getProblem().getProblemTitle());
       ex.printStackTrace();
     }
   }
@@ -165,13 +169,13 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
   public void sendRuntimeFailure(ProblemSubmission submission,
       ArrayList<String> message, int errorCode) {
     try {
-      client.send(new SubmissionRuntimeFailure(message,errorCode,
+      client.send(new SubmissionRuntimeFailure(message, errorCode,
           submission.getTransmissionID()));
       pcs.registerGradeResult(team, submission.getProblem(), false);
-    } catch(IOException ex) {
-      System.out.println("There was an error while sending a runtime "+
-          "failure message to "+team.getTeamName()+ " for problem: "+
-          submission.getProblem().getProblemTitle());
+    } catch (IOException ex) {
+      System.out.println("There was an error while sending a runtime "
+          + "failure message to " + team.getTeamName() + " for problem: "
+          + submission.getProblem().getProblemTitle());
       ex.printStackTrace();
     }
   }
@@ -180,10 +184,10 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     try {
       client.send(new SubmissionOvertimeFailure(submission.getTransmissionID()));
       pcs.registerGradeResult(team, submission.getProblem(), false);
-    } catch(IOException ex) {
-      System.out.println("There was an error while sending a overtime "+
-          "failure message to "+team.getTeamName()+ " for problem: "+
-          submission.getProblem().getProblemTitle());
+    } catch (IOException ex) {
+      System.out.println("There was an error while sending a overtime "
+          + "failure message to " + team.getTeamName() + " for problem: "
+          + submission.getProblem().getProblemTitle());
       ex.printStackTrace();
     }
   }
@@ -191,21 +195,22 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
   private void sendProblems() {
     try {
       client.send(new ProblemsList(pcs.getAllProblems()));
-    } catch(IOException ex) {
-      System.out.println("There was an IOException while atttempting to send "+
-          "the list of problems to the group");
+    } catch (IOException ex) {
+      System.out.println("There was an IOException while atttempting to send "
+          + "the list of problems to the group");
       ex.printStackTrace();
     }
   }
 
   public void gradingCompleted(ProblemSubmission submission, boolean success) {
     try {
-      client.send(new SubmissionResult(submission.getTransmissionID(),success));
+      client.send(new SubmissionResult(submission.getTransmissionID(),
+          success));
       pcs.registerGradeResult(team, submission.getProblem(), true);
-    } catch(IOException ex) {
-      System.out.println("There was an error while sending a submission "+
-          "result message to "+team.getTeamName()+ " for problem: "+
-          submission.getProblem().getProblemTitle());
+    } catch (IOException ex) {
+      System.out.println("There was an error while sending a submission "
+          + "result message to " + team.getTeamName() + " for problem: "
+          + submission.getProblem().getProblemTitle());
       ex.printStackTrace();
     }
   }
@@ -218,26 +223,28 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     File dir = saver.getSaveDirectory();
     enqueueSubmission(
         new ProblemSubmission(transmissionID,
-          stats.problem,
-          dir,
-          stats.language));
+        stats.problem,
+        dir,
+        stats.language));
     client.removeNetworkListener(saver);
   }
 
   public void transmissionFailed(int transmissionID) {
     // increment the attempt count for this tranmission, then try again if
     // number of attempts is less than 3.
-    System.out.println("transmission failed in PCSGroupConnection");
     SubmissionStats stats = transfers.get(transmissionID);
-    if(stats.transferAttempts++ < 3) {
+    System.out.println("transmission failed in PCSGroupConnection, used "+
+        stats.transferAttempts+" thus far");
+    if (stats.transferAttempts++ < 3) {
       stats.saver.resetSaver();
       // ask for a resubmission
       try {
+        System.out.println("Sending another request for submission files.");
         pcs.send(new SubmissionAck(transmissionID), stats.socket);
-      } catch(IOException ex) {
-        System.out.println("An IOException occurred while attempting to "+
-            " request a re-submission from team "+team.getTeamName()+
-            " and problem "+stats.problem.getProblemTitle()+".");
+      } catch (IOException ex) {
+        System.out.println("An IOException occurred while attempting to "
+            + " request a re-submission from team " + team.getTeamName()
+            + " and problem " + stats.problem.getProblemTitle() + ".");
         ex.printStackTrace();
       }
     }

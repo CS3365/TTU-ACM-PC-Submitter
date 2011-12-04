@@ -23,24 +23,14 @@
  */
 package Messages;
 
-import NetworkIO.Message;
+import PCS.Problem;
 
 /**
  *
  * @author Mike Kent
  */
-public class SubmissionOvertimeFailure implements Message {
-  private int transmissionID;
-  
+public class SubmissionOvertimeFailure extends SubmissionResult {
   public SubmissionOvertimeFailure(int transmissionID) {
-    this.transmissionID = transmissionID;
-  }
-
-  /**
-   * Gets the transmission ID that was used during solution submission.
-   * @return The transmission ID.
-   */
-  public int getTransmissionID() {
-    return transmissionID;
+    super(transmissionID, false);
   }
 }

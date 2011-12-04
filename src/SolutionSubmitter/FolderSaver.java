@@ -58,6 +58,7 @@ public class FolderSaver implements NetworkListener {
 	 * @param folder
 	 */
 	public FolderSaver(File folder, int transmissionID, SaverHandler callback) {
+    System.out.println("With id: "+transmissionID+"; Saving to folder: "+folder);
 		this.folder = folder;
     this.transmissionID = transmissionID;
     this.callback = callback;
@@ -72,6 +73,7 @@ public class FolderSaver implements NetworkListener {
 	 */
 	public void processInput(Message message, Socket sok) {
 		if(message instanceof FilePart) {
+      System.out.println("Saving file part");
 			FilePart part = (FilePart)message;
 			FileInfo info = part.getInfo();
       // only process FileParts that match the transmissionID
@@ -99,6 +101,7 @@ public class FolderSaver implements NetworkListener {
 			}
 		}
     else if(message instanceof FolderDigest) {
+      System.out.println("Saver: got FolderDigest");
       digest = (FolderDigest)message;
     }
 

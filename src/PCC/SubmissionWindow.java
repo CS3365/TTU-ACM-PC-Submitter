@@ -23,19 +23,48 @@
  */
 package PCC;
 
+import java.io.File;
+import java.util.Collection;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Kevin
  */
 public class SubmissionWindow extends javax.swing.JFrame {
-  ProblemPanel probPanel;
 
-    /** Creates new form SubmissionWindow */
-    public SubmissionWindow(ProblemPanel problemPanel) {
-        this.probPanel = problemPanel;
-        initComponents();
-    }
+  ProblemPanel probPanel;
+  private int version;
+  private Object defaultLanguage;
+  private JFileChooser fileChooser;
+
+  /** Creates new form SubmissionWindow */
+  public SubmissionWindow(ProblemPanel problemPanel, Collection<String> langs,
+      Object defaultLanguage)
+  {
+    this.probPanel = problemPanel;
+    this.defaultLanguage = defaultLanguage;
+    initComponents();
+    System.out.println("Default Lang to SubmissionWindow = "+defaultLanguage);
+    LanguageComboBox.setModel(
+        new javax.swing.DefaultComboBoxModel(langs.toArray()));
+    version = 1;
+    fileChooser = new JFileChooser(new File("."));
+
+    // For Directory
+    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    fileChooser.setAcceptAllFileFilterUsed(false);
+  }
+
+  public void startNewSubmission() {
+    SubmitProblemLabel.setText(probPanel.problem.getProblemTitle()
+        + " Version " + (version++));
+    // reset to default language
+    System.out.println("Setting submission language to: "+defaultLanguage);
+    LanguageComboBox.setSelectedItem(defaultLanguage);
+    setVisible(true);
+  }
 
   /** This method is called from within the constructor to
    * initialize the form.
@@ -136,29 +165,30 @@ public class SubmissionWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
   private void BrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseButtonActionPerformed
-    JFileChooser fileChooser = new JFileChooser();
+    // For File
+    // fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-        // For Directory
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        // For File
-       // fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-        fileChooser.setAcceptAllFileFilterUsed(false);
-
-        int rVal = fileChooser.showOpenDialog(null);
-        if (rVal == JFileChooser.APPROVE_OPTION) {
-          FolderLocationTextField.setText(fileChooser.getSelectedFile().toString());
-        }
+    int rVal = fileChooser.showOpenDialog(null);
+    if (rVal == JFileChooser.APPROVE_OPTION) {
+      FolderLocationTextField.setText(fileChooser.getSelectedFile().toString());
+    }
   }//GEN-LAST:event_BrowseButtonActionPerformed
 
   private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
-    probPanel.startPending();
-    setVisible(false);
+    if (FolderLocationTextField.getText().trim().equals("")) {
+      JOptionPane.showMessageDialog(this,
+          "You have not chosen any folder to send.",
+          "Cannot Submit",
+          JOptionPane.ERROR_MESSAGE);
+    } else {
+      probPanel.sendFolder(fileChooser.getSelectedFile(),
+          LanguageComboBox.getSelectedItem().toString());
+    }
   }//GEN-LAST:event_OKButtonActionPerformed
 
   private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
     probPanel.cancel();
+    version--;
     setVisible(false);
   }//GEN-LAST:event_CancelButtonActionPerformed
   /**

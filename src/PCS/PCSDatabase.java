@@ -21,7 +21,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package PCS;
 
 import Leaderboard.Leaderboard;
@@ -40,34 +39,34 @@ import java.util.ArrayList;
  * @author Mike Kent
  */
 public class PCSDatabase {
-	private String dbFileName = "database.db";
+
+  private String dbFileName = "database.db";
   // TODO: remove problemAcc for actual implementation, also in getProblemAttemptNumber
   private int problemAcc;
   Connection db;
   private PCS pcs;
 
-	public PCSDatabase(PCS pcs, String fileName) {
-		dbFileName = fileName;
+  public PCSDatabase(PCS pcs, String fileName) {
+    dbFileName = fileName;
     this.pcs = pcs;
-		initDatabase();
-	}
+    initDatabase();
+  }
 
-
-	private void initDatabase() {
+  private void initDatabase() {
     try {
       Class.forName("org.sqlite.JDBC");
-      db = DriverManager.getConnection("jdbc:sqlite:"+
-          pcs.serverDirectory + "/" + dbFileName);
-    } catch(SQLException ex) {
-      System.out.println("There was an SQLException while attempt to connect "+
-          "to the database.");
+      db = DriverManager.getConnection("jdbc:sqlite:"
+          + pcs.serverDirectory + "/" + dbFileName);
+    } catch (SQLException ex) {
+      System.out.println("There was an SQLException while attempt to connect "
+          + "to the database.");
       ex.printStackTrace();
-    } catch(ClassNotFoundException ex) {
-      System.out.println("There was a ClassNotFoundException while attempting "+
-          "to create the database connection.");
+    } catch (ClassNotFoundException ex) {
+      System.out.println("There was a ClassNotFoundException while attempting "
+          + "to create the database connection.");
       ex.printStackTrace();
     }
-	}
+  }
 
   protected int getProblemAttemptNumber(Team team, Problem problem) {
     // TODO: use the database and remove this the problemAcc variable.
@@ -101,35 +100,34 @@ public class PCSDatabase {
        * ORDER BY score DESC, implTime DESC;
        */
       ResultSet result = stmt.executeQuery(
-          "SELECT name, SUM(score) AS score, SUM(implTime) AS implTime "+
-          "FROM "+
-            "("+
-              "SELECT name, pointVal AS score, "+
-                "(COUNT(probID) - 1) * 60 * " + pcs.incorrectPenality + " + " +
-                  "MAX(time) AS implTime "+
-              "FROM "+
-                "("+
-                  "SELECT uID, probID, name "+
-                  "FROM SUBMISSION JOIN USER USING(uID) "+
-                  "WHERE status = \"success\""+
-                ")"+
-                "JOIN SUBMISSION USING(uID, probID) JOIN PROBLEM USING(probID) "+
-              "GROUP BY uID, probID"+
-            ") "+
-          "GROUP BY uID "+
-          "ORDER BY score DESC, implTime DESC"
-          );
+          "SELECT name, SUM(score) AS score, SUM(implTime) AS implTime "
+          + "FROM "
+          + "("
+          + "SELECT name, pointVal AS score, "
+          + "(COUNT(probID) - 1) * 60 * " + pcs.incorrectPenality + " + "
+          + "MAX(time) AS implTime "
+          + "FROM "
+          + "("
+          + "SELECT uID, probID, name "
+          + "FROM SUBMISSION JOIN USER USING(uID) "
+          + "WHERE status = \"success\""
+          + ")"
+          + "JOIN SUBMISSION USING(uID, probID) JOIN PROBLEM USING(probID) "
+          + "GROUP BY uID, probID"
+          + ") "
+          + "GROUP BY uID "
+          + "ORDER BY score DESC, implTime DESC");
       ArrayList<LeaderboardEntry> scores = new ArrayList<LeaderboardEntry>();
-      while(result.next()) {
+      while (result.next()) {
         scores.add(new LeaderboardEntry(
             result.getString("name"),
             result.getInt("score"),
             result.getInt("implTime")));
       }
-      leaderboard = new Leaderboard(scores,pcs.getPhaseStartTime());
-    } catch(SQLException ex) {
-      System.out.println("There was an SQLException while attempting to "+
-          "create a leaderboard.");
+      leaderboard = new Leaderboard(scores, pcs.getPhaseStartTime());
+    } catch (SQLException ex) {
+      System.out.println("There was an SQLException while attempting to "
+          + "create a leaderboard.");
       ex.printStackTrace();
     }
     return leaderboard;
@@ -145,12 +143,12 @@ public class PCSDatabase {
     try {
       Statement stmt = db.createStatement();
       ResultSet qUsers = stmt.executeQuery("SELECT name FROM USER;");
-      while(qUsers.next()) {
+      while (qUsers.next()) {
         users.add(qUsers.getString("name"));
       }
-    } catch(SQLException ex) {
-      System.out.println("There was an SQLException while attempting to "+
-          "retrieve the list of users.");
+    } catch (SQLException ex) {
+      System.out.println("There was an SQLException while attempting to "
+          + "retrieve the list of users.");
       ex.printStackTrace();
     }
     return users;
@@ -163,8 +161,8 @@ public class PCSDatabase {
       PreparedStatement stmt = db.prepareStatement(
           "INSERT INTO USER(name, passwd, isAdmin) VALUES(?, ?, 0)");
       db.setAutoCommit(false);
-      for(String newUser : users) {
-        if(!currentUsers.contains(newUser)) {
+      for (String newUser : users) {
+        if (!currentUsers.contains(newUser)) {
           stmt.setString(1, newUser);
           stmt.setString(2, newUser);
           stmt.addBatch();
@@ -172,9 +170,9 @@ public class PCSDatabase {
       }
       stmt.executeBatch();
       db.setAutoCommit(true);
-    } catch(SQLException ex) {
-      System.out.println("There was an SQLException while attempting to set "+
-          "the users");
+    } catch (SQLException ex) {
+      System.out.println("There was an SQLException while attempting to set "
+          + "the users");
       ex.printStackTrace();
     }
   }
@@ -185,7 +183,7 @@ public class PCSDatabase {
     try {
       Statement stmt = db.createStatement();
       ResultSet results = stmt.executeQuery("SELECT * FROM PROBLEM");
-      while(results.next()) {
+      while (results.next()) {
         problems.add(new Problem(
             results.getString("title"),
             results.getString("description"),
@@ -193,31 +191,30 @@ public class PCSDatabase {
             results.getInt("pointVal"),
             results.getInt("phase")));
       }
-    } catch(SQLException ex) {
-      System.out.println("There was an SQLException while attempt to get "+
-          "a list of all the problems in the competition");
+    } catch (SQLException ex) {
+      System.out.println("There was an SQLException while attempt to get "
+          + "a list of all the problems in the competition");
       ex.printStackTrace();
     }
     return problems;
   }
 
-	public boolean canLogIn(LoginAttempt attempt) {
-    System.out.println("login attempt: " + attempt.getName() + " - "+
-        attempt.getPassword());
+  public boolean canLogIn(LoginAttempt attempt) {
+    System.out.println("login attempt: " + attempt.getName() + " - "
+        + attempt.getPassword());
     //ArrayList<String> users = getUsers();
     //for (int i=0; i < users.size(); i++){}
     try {
       Statement statement = db.createStatement();
 
-      ResultSet results = statement.executeQuery("SELECT  * FROM USER WHERE " +
-            "name =\""+attempt.getName()+"\" AND passwd = \""+attempt.getPassword()+"\"");
+      ResultSet results = statement.executeQuery("SELECT  * FROM USER WHERE "
+          + "name =\"" + attempt.getName() + "\" AND passwd = \"" + attempt.getPassword() + "\"");
 
-    //System.out.println(results.next());
-    return results.next();
-    }
-    catch(SQLException ex) {
-      System.out.println("There was an SQLException while attempting to check for " +
-              attempt.getName()+" in the database.");
+      // if there is any result, then the login is valid
+      return results.next();
+    } catch (SQLException ex) {
+      System.out.println("There was an SQLException while attempting to check for "
+          + attempt.getName() + " in the database.");
       ex.printStackTrace();
       return false;
     }
@@ -227,7 +224,5 @@ public class PCSDatabase {
     // otherwise return false
     //return false;
 
-	}
-
-
+  }
 }

@@ -78,6 +78,19 @@ public class PCSLoginListener implements NetworkListener {
           System.out.println("not already logged in");
           // Not already logged in, attempt to do so
           LoginStatus response = pcs.attemptLogin(attempt);
+          
+          // client requires LoginResponse before Problems, therefore send
+          // response before finalizing connection.
+          try {
+            System.out.println("Sending LoginResponse.");
+            client.send(response);
+          } catch(IOException ex) {
+            System.out.println("There was an IOException while attempting to "+
+                "send the LoginResponse to the client.");
+            ex.printStackTrace();
+          }
+
+          // finalize connection
           if(response.getResponse() ==
               LoginStatus.LoginResponse.LOGIN_SUCCESS) {
             System.out.println("successful login; mac: "+attempt.getMACAddress());
@@ -95,14 +108,6 @@ public class PCSLoginListener implements NetworkListener {
           else {
             System.out.println("Login was not a success, it was: "+
                 response.getResponse().toString());
-          }
-          try {
-            System.out.println("Sending LoginResponse.");
-            client.send(response);
-          } catch(IOException ex) {
-            System.out.println("There was an IOException while attempting to "+
-                "send the LoginResponse to the client.");
-            ex.printStackTrace();
           }
         }
 			}

@@ -24,6 +24,7 @@
 package Messages;
 
 import NetworkIO.Message;
+import PCS.Problem;
 
 /**
  *

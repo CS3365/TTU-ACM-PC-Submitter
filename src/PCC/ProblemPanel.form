@@ -44,6 +44,7 @@
   <SubComponents>
     <Component class="javax.swing.JProgressBar" name="ProbProgressBar">
       <Properties>
+        <Property name="maximum" type="int" value="30000"/>
         <Property name="string" type="java.lang.String" value="Ready"/>
         <Property name="stringPainted" type="boolean" value="true"/>
       </Properties>

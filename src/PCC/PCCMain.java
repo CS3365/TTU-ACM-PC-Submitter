@@ -25,13 +25,20 @@ package PCC;
 
 import Messages.LoginStatus;
 import Messages.ProblemsList;
+import Messages.SubmissionAck;
+import Messages.SubmissionInit;
+import Messages.SubmissionResult;
 import NetworkIO.ClientBase;
 import NetworkIO.Message;
 import NetworkIO.NetworkListener;
 import PCS.PCS;
 import PCS.Problem;
+import SolutionSubmitter.FolderSender;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 /**
@@ -45,10 +52,16 @@ public class PCCMain implements NetworkListener {
   private MainWindow mainWindow;
   private SubmissionWindow submissionWindow;
   private WelcomeWindow welcomeWindow;
-  private String defaultLanguage;
+  private Object defaultLanguage;
   protected String problemlist = "";
+  private int nextTransmissionID = 0;
+  private HashMap<Integer, File> submissions;
+  private HashMap<Integer, Problem> submissionProblems;
+  private ArrayList<Problem> problems;
 
   public PCCMain() {
+    submissions = new HashMap<Integer, File>();
+    submissionProblems = new HashMap<Integer, Problem>();
     loginWindow = new LoginWindow(this);
     mainWindow = new MainWindow(this);
     //submissionWindow = new SubmissionWindow(this);
@@ -72,12 +85,47 @@ public class PCCMain implements NetworkListener {
     }
   }
 
+  protected void sendSubmission(Problem prob, File folder, String lang) {
+    System.out.println("Sending SubmissionInit("+prob+", "+folder+", "+lang+")");
+    int transmissionID = nextTransmissionID++;
+    submissions.put(transmissionID, folder);
+    submissionProblems.put(transmissionID, prob);
+    
+    // send the request to transfer a submission
+    try {
+      System.out.println("Sending SubmissionInit");
+      client.send(new SubmissionInit(prob, transmissionID, lang));
+    } catch(IOException ex) {
+      System.out.println("There was an IOException while attempt to send a "+
+          "SubmissionInit for problem: "+prob.getProblemTitle());
+      ex.printStackTrace();
+    }
+  }
+
+  private void startSubmission(int transmissionID) {
+    System.out.println("Starting the FolderSender with id: "+
+        transmissionID);
+    new FolderSender(client, submissions.get(transmissionID),
+        transmissionID).start();
+  }
+
   public void processInput(Message m, Socket sok) {
     System.out.println("got message response!");
     if (m instanceof LoginStatus) {
+      System.out.println("Got LoginStatus");
       processLoginStatus((LoginStatus) m);
     } else if (m instanceof ProblemsList) {
+      System.out.println("Got ProblemsList");
       processProblemsList((ProblemsList) m);
+    } else if(m instanceof SubmissionAck) {
+      System.out.println("got SubmissionAck");
+      startSubmission(((SubmissionAck)m).getTransmissionID());
+    } else if(m instanceof SubmissionResult) {
+      SubmissionResult result = (SubmissionResult)m;
+      System.out.println("got SubmissionResult\n\t"+
+          "result: "+result.getSuccess());
+      mainWindow.processSubmissionResult(result,
+          submissionProblems.get(result.getTransmissionID()));
     }
   }
 
@@ -88,7 +136,10 @@ public class PCCMain implements NetworkListener {
       case ALREADY_LOGGED_IN:
       case LOGIN_SUCCESS:
         loginWindow.setVisible(false);
-        welcomeWindow.setLanguages(status.getLangauges());
+
+        // register languages
+        welcomeWindow.setLanguages(status.getLanguages());
+        mainWindow.setLanguages(status.getLanguages());
         welcomeWindow.setVisible(true);
         break;
       case LOGIN_FAILURE:
@@ -101,15 +152,23 @@ public class PCCMain implements NetworkListener {
   }
 
   private void processProblemsList(ProblemsList problems) {
-    mainWindow.setProblemsList(problems.getProblems());
+    // ProblemsList is typically received before the default language is set
+    this.problems = problems.getProblems();
+    if(defaultLanguage != null) {
+      mainWindow.setProblemsList(problems.getProblems());
+    }
   }
 
-  public void setDefaultLanguage(String lang) {
+  public void setDefaultLanguage(Object lang) {
+    // ProblemsList is typically received before the default language is set
     System.out.println("Default Language set to: " + lang);
     defaultLanguage = lang;
+    if(problems != null) {
+      mainWindow.setProblemsList(problems);
+    }
   }
 
-  public String getDefaultLanguage() {
+  public Object getDefaultLanguage() {
     return defaultLanguage;
   }
 
