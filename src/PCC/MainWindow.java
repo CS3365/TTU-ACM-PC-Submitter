@@ -27,17 +27,11 @@ package PCC;
  *
  * @author Austin
  */
-<<<<<<< HEAD
 import PCS.Problem;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-=======
-
-
-
->>>>>>> 45ba941869faeca6d9bb6d45b6d4e42f999f6154
 
 public class MainWindow extends javax.swing.JFrame {
 
