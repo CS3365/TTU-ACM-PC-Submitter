@@ -48,26 +48,38 @@ public class LanguageImplementation {
     this.run = run;
   }
 
-  public String getCompileString(ProblemSubmission submission) {
+  /*public String getCompileString(ProblemSubmission submission) {
     System.out.println("matching to compile string: "+compile);
     Matcher m = problem.matcher(compile);
     return m.replaceAll(
         submission.getProblem().getProblemTitle().replace(" ", "\\\\ "));
-  }
+  }*/
 
-  public String[] getArguments(ProblemSubmission submission) {
+  public String[] getCompileArguments(ProblemSubmission submission) {
     String[] args = arguments.split(compile);
     Matcher m;
     for(int i=0; i<args.length; i++) {
       m = problem.matcher(args[i]);
       args[i] = m.replaceAll(
-        submission.getProblem().getProblemTitle().replace(" ", "\\\\ "));
+        submission.getProblem().getProblemTitle());//.replace(" ", "\\\\ "));
     }
     return args;
   }
 
-  public String getRunString(ProblemSubmission submission) {
+  /*public String getRunString(ProblemSubmission submission) {
     Matcher m = problem.matcher(run);
-    return m.replaceAll(submission.getProblem().getProblemTitle());
+    return m.replaceAll(
+        submission.getProblem().getProblemTitle().replace(" ", "\\\\ "));
+  }*/
+
+  public String[] getRunArguments(ProblemSubmission submission) {
+    String[] args = arguments.split(run);
+    Matcher m;
+    for(int i=0; i<args.length; i++) {
+      m = problem.matcher(args[i]);
+      args[i] = m.replaceAll(
+        submission.getProblem().getProblemTitle());//.replace(" ", "\\\\ "));
+    }
+    return args;
   }
 }

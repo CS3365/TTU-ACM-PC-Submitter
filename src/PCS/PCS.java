@@ -213,7 +213,7 @@ public class PCS implements ConnectionListener {
     return new File(
         saveDirectory+"/"+
         team.getTeamName()+
-        "/Problem"+problem.getProblemOrder()+
+        "/Problem"+problem.getProbID()+
         "/"+db.getProblemAttemptNumber(team, problem));
   }
 

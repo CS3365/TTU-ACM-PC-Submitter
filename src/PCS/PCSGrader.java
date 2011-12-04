@@ -73,7 +73,9 @@ public class PCSGrader extends Thread {
   private void compile() throws CompilationFailureException {
     try {
       String[] compile =
-          pcs.langs.get(submission.getLanguage()).getArguments(submission);
+          pcs.langs.get(submission.getLanguage()).
+          getCompileArguments(submission);
+      //compile = new String[1]; compile[0] = "ls";
       System.out.println("Compiling in directory: "+submission.getDirectory());
       Process compilation = Runtime.getRuntime().exec(
           compile,
@@ -81,9 +83,11 @@ public class PCSGrader extends Thread {
           submission.getDirectory());
       ArrayList<String> output = new ArrayList<String>();
       BufferedReader in = new BufferedReader(
-          new InputStreamReader(compilation.getErrorStream()));
+         new InputStreamReader(compilation.getErrorStream()));
+          //new InputStreamReader(compilation.getInputStream()));
       String line;
       while((line = in.readLine()) != null) {
+        System.out.println("\t"+line);
         output.add(line);
       }
       int resultCode = compilation.waitFor();
@@ -106,8 +110,12 @@ public class PCSGrader extends Thread {
 
   public void run() {
     try {
-      String runCommand =
-          pcs.langs.get(submission.getLanguage()).getRunString(submission);
+      String[] runCommand =
+          pcs.langs.get(submission.getLanguage()).getRunArguments(submission);
+      System.out.println("running");
+      for(String s : runCommand) {
+        System.out.println("\t"+s);
+      }
       run = Runtime.getRuntime().exec(
           runCommand,
           new String[0],
@@ -132,7 +140,7 @@ public class PCSGrader extends Thread {
 
   private void copyInputFile() {
     File origPath = new File(pcs.serverDirectory+"/Problems/"+
-        submission.getProblem().getProblemOrder()+"/input.txt");
+        submission.getProblem().getProbID()+"/input.txt");
     File subPath = new File(submission.getDirectory()+"/"+
         submission.getProblem().getProblemTitle()+"Input.txt");
     try {
@@ -148,7 +156,8 @@ public class PCSGrader extends Thread {
     } catch(FileNotFoundException ex) {
       System.out.println("FileNotFileException while trying to copy the "+
           "input file for problem: "+submission.getProblem().getProblemTitle()+
-          " to directory "+submission.getDirectory());
+          " to directory "+submission.getDirectory()+"\n\t"+
+          origPath.getPath()+"\n\t"+subPath.getPath());
       ex.printStackTrace();
     } catch(IOException ex) {
       System.out.println("IOException while trying to copy the "+
@@ -160,9 +169,8 @@ public class PCSGrader extends Thread {
 
   private boolean diffOutputFiles() {
     File origPath = new File(pcs.serverDirectory+"/Problems/"+
-        submission.getProblem().getProblemOrder()+"/output.txt");
-    File subPath = new File(submission.getDirectory()+"/"+
-        submission.getProblem().getProblemTitle()+"Output.txt");
+        submission.getProblem().getProbID()+"/output.txt");
+    File subPath = new File(submission.getDirectory()+"/Output.txt");
     try {
       BufferedReader known = new BufferedReader(new FileReader(origPath));
       BufferedReader trial = new BufferedReader(new FileReader(subPath));
@@ -187,14 +195,15 @@ public class PCSGrader extends Thread {
       return true;
     } catch(FileNotFoundException ex) {
       System.out.println("FileNotFileException while trying to copy the "+
-          "input file for problem: "+submission.getProblem().getProblemTitle()+
-          " to directory "+submission.getDirectory());
-      ex.printStackTrace();
+          "output file for problem: "+submission.getProblem().getProblemTitle()+
+          " to directory "+submission.getDirectory()+"\n\t"+
+          origPath.getPath()+"\n\t"+subPath.getPath());
+      //ex.printStackTrace();
     } catch(IOException ex) {
       System.out.println("IOException while trying to copy the "+
           "input file for problem: "+submission.getProblem().getProblemTitle()+
           " to directory "+submission.getDirectory());
-      ex.printStackTrace();
+      //ex.printStackTrace();
     }
     // return false if there was an exception
     return false;

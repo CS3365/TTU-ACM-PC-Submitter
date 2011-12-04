@@ -55,6 +55,7 @@ public class SubmissionWindow extends javax.swing.JFrame {
     // For Directory
     fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     fileChooser.setAcceptAllFileFilterUsed(false);
+    this.setLocationRelativeTo(null);
   }
 
   public void startNewSubmission() {

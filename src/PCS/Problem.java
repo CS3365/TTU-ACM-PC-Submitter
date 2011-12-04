@@ -36,19 +36,21 @@ public class Problem implements Comparable<Problem>, Message {
   private int order;
   private int pointValue;
   private int phase;
+  private int id;
 
   public Problem(String name) {
-    this(name, "", 0, 0, 0);
+    this(name, "", 0, 0, 0, 0);
   }
 
 	public Problem(String name, String description, int order, int value,
-      int phase) 
+      int phase, int probID) 
   {
 		problemTitle = name;
     this.description = description;
     this.order = order;
     pointValue = value;
     this.phase = phase;
+    id = probID;
 	}
 
   /**
@@ -79,6 +81,10 @@ public class Problem implements Comparable<Problem>, Message {
 
   public int getPhase() {
     return phase;
+  }
+
+  public int getProbID() {
+    return id;
   }
 
   @Override

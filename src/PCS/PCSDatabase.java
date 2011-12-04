@@ -189,7 +189,8 @@ public class PCSDatabase {
             results.getString("description"),
             results.getInt("order"),
             results.getInt("pointVal"),
-            results.getInt("phase")));
+            results.getInt("phase"),
+            results.getInt("probID")));
       }
     } catch (SQLException ex) {
       System.out.println("There was an SQLException while attempt to get "

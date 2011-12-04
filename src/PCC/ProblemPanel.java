@@ -134,6 +134,9 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
 
   private void setSuccess() {
     ProbProgressBar.setString("Success!");
+    ProbProgressBar.setValue(0);
+    timer.stop();
+    ProbSubmitButton.setText("Congratulations");
     ProbSubmitButton.setEnabled(false);
     ProbProgressBar.setValue(ProbProgressBar.getMaximum());
   }
