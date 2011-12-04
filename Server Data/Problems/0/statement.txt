@@ -1,1 +1,0 @@
-Write a program to read in a single integer value and print 1 to that value each on a new line. There may not be any blank lines and the total number of lines must also be equal to said value.
