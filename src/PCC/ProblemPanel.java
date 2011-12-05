@@ -134,6 +134,7 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
     timer.stop();
     ProbSubmitButton.setText("Submit");
     ProbSubmitButton.setEnabled(true);
+    state = SubmissionState.READY;
   }
 
   private void setSuccess() {
@@ -210,6 +211,7 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
   }
 
   private void ProbSubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProbSubmitButtonActionPerformed
+    System.out.println("Submit clicked with state: "+state);
     switch (state) {
       case READY:
         submissionWindow.startNewSubmission();
