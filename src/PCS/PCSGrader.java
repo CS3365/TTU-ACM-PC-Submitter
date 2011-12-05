@@ -25,6 +25,8 @@
 package PCS;
 
 import PCS.Exceptions.CompilationFailureException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,23 +36,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 /**
  *
  * @author Mike Kent
  */
-public class PCSGrader extends Thread {
+public class PCSGrader extends Thread implements ActionListener {
   private PCS pcs;
   private PCSGroupConnection groupConnection;
   private ProblemSubmission submission;
   private String solutionDir, submissionDir;
   private Process run;
+  private Timer timer;
+  private boolean overtime;
 
   public PCSGrader(PCS pcs, PCSGroupConnection groupConnection,
       ProblemSubmission submission) {
     this.pcs = pcs;
     this.groupConnection = groupConnection;
     this.submission = submission;
+    // TODO make timeout dynamic rather than simply 3 seconds
+    overtime = false;
+    timer = new Timer(3000, this);
     grade();
   }
 
@@ -116,16 +124,27 @@ public class PCSGrader extends Thread {
       for(String s : runCommand) {
         System.out.println("\t"+s);
       }
+      copyInputFile();
+      System.out.println("running...");
+      // start the timeout
+      timer.start();
       run = Runtime.getRuntime().exec(
           runCommand,
           new String[0],
           submission.getDirectory());
-      // TODO: make timeout code (5 mins or whatever the server is set to)
-      copyInputFile();
+      // wait for the input
       int resultCode = run.waitFor();
-      boolean passed = diffOutputFiles();
-      System.out.println("Graded code: "+passed);
-      groupConnection.gradingCompleted(submission, passed);
+      // stop the timer if input is received
+      timer.stop();
+      System.out.println("ran...");
+      // check to see if the program ran overtime
+      if(!overtime) {
+        boolean passed = diffOutputFiles();
+        System.out.println("Graded code: "+passed);
+        groupConnection.gradingCompleted(submission, passed);
+      } else {
+        groupConnection.sendOvertimeFailure(submission);
+      }
     } catch(IOException ex) {
       System.out.println("There was an IOException while running the "+
           "submission at: "+submission.getDirectory().getAbsolutePath());
@@ -194,9 +213,9 @@ public class PCSGrader extends Thread {
       }
       return true;
     } catch(FileNotFoundException ex) {
-      System.out.println("FileNotFileException while trying to copy the "+
+      System.out.println("FileNotFileException while trying to read the "+
           "output file for problem: "+submission.getProblem().getProblemTitle()+
-          " to directory "+submission.getDirectory()+"\n\t"+
+          " or the file "+submission.getDirectory()+"\n\t"+
           origPath.getPath()+"\n\t"+subPath.getPath());
       //ex.printStackTrace();
     } catch(IOException ex) {
@@ -207,5 +226,11 @@ public class PCSGrader extends Thread {
     }
     // return false if there was an exception
     return false;
+  }
+
+  public void actionPerformed(ActionEvent evt) {
+    System.out.println("\tkilling overtime run");
+    overtime = true;
+    run.destroy();
   }
 }
