@@ -82,7 +82,6 @@ public class PCSDatabase {
       String query = "INSERT INTO SUBMISSION(uID, probID, time, status, relPathServer) "
           + "VALUES(" + team.getUID() + ", " + problem.getProbID() + ","
           + time + ", '" + status + "', "+ "'/');";
-      System.out.println("query: " + query);
       stmt.executeUpdate(query);
     } catch (SQLException ex) {
       System.out.println("There was an SQLException while attempting to "
@@ -133,7 +132,6 @@ public class PCSDatabase {
           + ") USING(uID) "
           + "GROUP BY USER.uID "
           + "ORDER BY score DESC, implTime ASC;";
-      System.out.println(query);
       ResultSet result = stmt.executeQuery(query);
       ArrayList<LeaderboardEntry> scores = new ArrayList<LeaderboardEntry>();
       while (result.next()) {

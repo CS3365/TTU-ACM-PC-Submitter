@@ -87,10 +87,11 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
   protected void processSubmissionResult(SubmissionResult result, Problem prob) {
-    System.out.println("1: "+problemPanels.get(prob));
-    System.out.println("2: "+prob);
-    System.out.println("3: "+problemPanels.containsKey(prob));
     problemPanels.get(prob).registerSubmissionResult(result);
+  }
+
+  protected void processSubmissionGradingStarted(Problem prob) {
+    problemPanels.get(prob).startGrading();
   }
 
   /** This method is called from within the constructor to

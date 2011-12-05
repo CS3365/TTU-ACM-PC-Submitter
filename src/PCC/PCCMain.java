@@ -26,6 +26,7 @@ package PCC;
 import Messages.LoginStatus;
 import Messages.ProblemsList;
 import Messages.SubmissionAck;
+import Messages.SubmissionGradingStarted;
 import Messages.SubmissionInit;
 import Messages.SubmissionResult;
 import NetworkIO.ClientBase;
@@ -110,7 +111,6 @@ public class PCCMain implements NetworkListener {
   }
 
   public void processInput(Message m, Socket sok) {
-    System.out.println("got message response!");
     if (m instanceof LoginStatus) {
       System.out.println("Got LoginStatus");
       processLoginStatus((LoginStatus) m);
@@ -126,6 +126,10 @@ public class PCCMain implements NetworkListener {
           "result: "+result.getSuccess());
       mainWindow.processSubmissionResult(result,
           submissionProblems.get(result.getTransmissionID()));
+    } else if(m instanceof SubmissionGradingStarted) {
+      SubmissionGradingStarted msg = (SubmissionGradingStarted)m;
+      mainWindow.processSubmissionGradingStarted(
+          submissionProblems.get(msg.getTransmissionID()));
     }
   }
 

@@ -80,13 +80,16 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
 
   public void startPending() {
     submissionWindow.setVisible(false);
-    ProbSubmitButton.setText("Withdraw");
+    ProbSubmitButton.setEnabled(false);
     state = SubmissionState.PENDING;
-    timer.start();
-    startTime = System.currentTimeMillis();
     ProbProgressBar.setString("Pending...");
     ProbProgressBar.setForeground(Color.blue);
-    //start progress bar
+  }
+
+  public void startGrading() {
+    timer.start();
+    ProbProgressBar.setString("Grading...");
+    startTime = System.currentTimeMillis();
   }
 
   public void sendFolder(File folder, String language) {
@@ -130,6 +133,7 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
     ProbProgressBar.setValue(0);
     timer.stop();
     ProbSubmitButton.setText("Submit");
+    ProbSubmitButton.setEnabled(true);
   }
 
   private void setSuccess() {

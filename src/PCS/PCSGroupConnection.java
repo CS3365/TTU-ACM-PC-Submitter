@@ -31,6 +31,7 @@ import SolutionSubmitter.FolderSaver;
 import SolutionSubmitter.SaverHandler;
 import Messages.SubmissionAck;
 import Messages.SubmissionCompilationFailure;
+import Messages.SubmissionGradingStarted;
 import Messages.SubmissionInit;
 import Messages.SubmissionOvertimeFailure;
 import Messages.SubmissionResult;
@@ -148,7 +149,15 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
 
   private void runSubmission() {
     if (!submissions.isEmpty() && checker == null) {
-      checker = new PCSGrader(pcs, this, submissions.remove());
+      ProblemSubmission sub = submissions.remove();
+      checker = new PCSGrader(pcs, this, sub);
+      try {
+        client.send(new SubmissionGradingStarted(sub.getTransmissionID()));
+      } catch(IOException ex) {
+        System.out.println("IOException while attempting to send a grading "+
+            "started message.");
+        ex.printStackTrace();
+      }
     }
   }
 
@@ -158,6 +167,8 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
       client.send(new SubmissionCompilationFailure(message, errorCode,
           submission.getTransmissionID()));
       pcs.registerGradeResult(team, submission.getProblem(), false);
+      checker = null;
+      runSubmission();
     } catch (IOException ex) {
       System.out.println("There was an error while sending a compilation "
           + "failure message to " + team.getTeamName() + " for problem: "
@@ -172,6 +183,8 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
       client.send(new SubmissionRuntimeFailure(message, errorCode,
           submission.getTransmissionID()));
       pcs.registerGradeResult(team, submission.getProblem(), false);
+      checker = null;
+      runSubmission();
     } catch (IOException ex) {
       System.out.println("There was an error while sending a runtime "
           + "failure message to " + team.getTeamName() + " for problem: "
@@ -184,6 +197,8 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
     try {
       client.send(new SubmissionOvertimeFailure(submission.getTransmissionID()));
       pcs.registerGradeResult(team, submission.getProblem(), false);
+      checker = null;
+      runSubmission();
     } catch (IOException ex) {
       System.out.println("There was an error while sending a overtime "
           + "failure message to " + team.getTeamName() + " for problem: "
@@ -207,6 +222,8 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
       client.send(new SubmissionResult(submission.getTransmissionID(),
           success));
       pcs.registerGradeResult(team, submission.getProblem(), true);
+      checker = null;
+      runSubmission();
     } catch (IOException ex) {
       System.out.println("There was an error while sending a submission "
           + "result message to " + team.getTeamName() + " for problem: "

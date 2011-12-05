@@ -24,11 +24,13 @@
 
 package Messages;
 
+import NetworkIO.Message;
+
 /**
  *
  * @author Mike Kent
  */
-public class SubmissionGradingStarted {
+public class SubmissionGradingStarted implements Message {
   private int transmissionID;
 
   public SubmissionGradingStarted(int transmissionID) {

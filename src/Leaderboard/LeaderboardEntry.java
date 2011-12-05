@@ -61,7 +61,6 @@ public class LeaderboardEntry {
    */
   public String getImplementationTime() {
     int tmpTime = implTime;
-    System.out.println("implTime: "+implTime);
     String strImplTime = "" + (tmpTime/(60*60));
     tmpTime %= 60*60;
     strImplTime += ":" + (tmpTime/(60));
