@@ -198,9 +198,8 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
     //System.out.println("diff: "+diff);
     ProbProgressBar.setValue(diff);
     if (diff > 30000) {
-      ProbProgressBar.setString("Done!");
+      ProbProgressBar.setString("Timeout: contact an Admin!");
       ProbProgressBar.setForeground(Color.green);
-      ProbSubmitButton.setEnabled(false);
     }
     // force a repaint to reduce jerkeyness
     ProbProgressBar.repaint();

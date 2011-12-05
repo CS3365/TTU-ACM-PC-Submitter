@@ -45,7 +45,7 @@ INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
     5, 0, 1);
 INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
   (1,
-    "Simple Problem 2",
+    "Problem1",
     "This problem is similar to the first one, but just a bit harder.",
     7, 0, 2);
 INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
