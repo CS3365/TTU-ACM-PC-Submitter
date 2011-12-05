@@ -23,6 +23,8 @@
  */
 package PCC;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import javax.swing.JOptionPane;
 
@@ -30,7 +32,7 @@ import javax.swing.JOptionPane;
  *
  * @author Kevin
  */
-public class WelcomeWindow extends javax.swing.JFrame {
+public class WelcomeWindow extends javax.swing.JFrame implements ActionListener {
   private PCCMain main;
 
   /** Creates new form WelcomeWindow */
@@ -38,11 +40,22 @@ public class WelcomeWindow extends javax.swing.JFrame {
     this.main = main;
     initComponents();
     this.setLocationRelativeTo(null);
+    DefaultLangComboBox.addActionListener(this);
   }
 
   public void setLanguages(Collection<String> langs) {
     DefaultLangComboBox.setModel(
         new javax.swing.DefaultComboBoxModel(langs.toArray()));
+  }
+
+  /**
+   * Should only occur when the enter key is pressed while the combo box is
+   * focused.
+   * @param evt 
+   */
+  public void actionPerformed(ActionEvent evt) {
+    main.setDefaultLanguage(DefaultLangComboBox.getSelectedItem());
+    main.switchFromWelcomeToMainWindow();
   }
 
   /** This method is called from within the constructor to

@@ -75,7 +75,20 @@ public class PCSDatabase {
 
   protected void registerGradeResult(Team team, Problem problem,
       boolean success) {
-    // TODO: fill in database code
+    try {
+      long time = (System.currentTimeMillis() - pcs.getPhaseStartTime()) / 1000;
+      String status = success ? "success" : "failure";
+      Statement stmt = db.createStatement();
+      String query = "INSERT INTO SUBMISSION(uID, probID, time, status, relPathServer) "
+          + "VALUES(" + team.getUID() + ", " + problem.getProbID() + ","
+          + time + ", '" + status + "', "+ "'/');";
+      System.out.println("query: " + query);
+      stmt.executeUpdate(query);
+    } catch (SQLException ex) {
+      System.out.println("There was an SQLException while attempting to "
+          + "register a grade.");
+      ex.printStackTrace();
+    }
   }
 
   protected Leaderboard getLeaderboard() {
@@ -101,8 +114,8 @@ public class PCSDatabase {
        */
       // had to modify to get rid of erronous Java SQL errors.
       String query =
-          "SELECT name, SUM(score) AS score, SUM(implTime) AS implTime "
-          + "FROM "
+          "SELECT USER.name, SUM(score) AS score, SUM(implTime) AS implTime "
+          + "FROM USER LEFT JOIN "
           + "("
           + "SELECT successes.uID, name, pointVal AS score, "
           + "(COUNT(successes.probID) - 1) * 60 * " + pcs.incorrectPenality + " + "
@@ -117,9 +130,9 @@ public class PCSDatabase {
           + "WHERE successes.probID = PROBLEM.probID "
           + "AND successes.uID = SUBMISSION.uID "
           + "GROUP BY successes.uID, successes.probID"
-          + ") "
-          + "GROUP BY uID "
-          + "ORDER BY score DESC, implTime DESC;";
+          + ") USING(uID) "
+          + "GROUP BY USER.uID "
+          + "ORDER BY score DESC, implTime ASC;";
       System.out.println(query);
       ResultSet result = stmt.executeQuery(query);
       ArrayList<LeaderboardEntry> scores = new ArrayList<LeaderboardEntry>();
@@ -205,7 +218,7 @@ public class PCSDatabase {
     return problems;
   }
 
-  public boolean canLogIn(LoginAttempt attempt) {
+  public Team canLogIn(LoginAttempt attempt) {
     System.out.println("login attempt: " + attempt.getName() + " - "
         + attempt.getPassword());
     //ArrayList<String> users = getUsers();
@@ -217,18 +230,18 @@ public class PCSDatabase {
           + "name =\"" + attempt.getName() + "\" AND passwd = \"" + attempt.getPassword() + "\"");
 
       // if there is any result, then the login is valid
-      return results.next();
+      if(results.next()) {
+        return new Team(
+            results.getString("name"),
+            results.getInt("uID"));
+      }
+      // return null if there is no team
+      return null;
     } catch (SQLException ex) {
       System.out.println("There was an SQLException while attempting to check for "
           + attempt.getName() + " in the database.");
       ex.printStackTrace();
-      return false;
     }
-    //if(attempt.getName().equals("user") && attempt.getPassword().equals("user")) {
-    //  return true;
-    //}
-    // otherwise return false
-    //return false;
-
+    return null;
   }
 }

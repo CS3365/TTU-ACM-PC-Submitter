@@ -24,17 +24,15 @@
 
 package PCS;
 
+import NetworkIO.Message;
+
 /**
  *
  * @author Mike Kent
  */
-public class Team {
+public class Team implements Message {
   private String teamName;
   private int uid;
-
-  public Team(String teamName) {
-    this(teamName, 0);
-  }
 
   public Team(String teamName, int uid) {
     this.teamName = teamName;
@@ -48,5 +46,9 @@ public class Team {
    */
   public String getTeamName() {
     return teamName;
+  }
+
+  protected int getUID() {
+    return uid;
   }
 }

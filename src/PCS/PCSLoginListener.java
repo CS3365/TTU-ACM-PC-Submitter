@@ -65,7 +65,7 @@ public class PCSLoginListener implements NetworkListener {
             try {
 					    pcs.send(
 									new LoginStatus(LoginStatus.LoginResponse.ALREADY_LOGGED_IN,
-                      pcs.langs.keySet()),
+                      pcs.langs.keySet(), null),
 									s);
             } catch(IOException e) {
               System.out.println("IOException while attempting to send "+
@@ -102,7 +102,7 @@ public class PCSLoginListener implements NetworkListener {
             } else {
               type = ConnectionType.GROUP;
               System.out.println("\tadding as group");
-              new PCSGroupConnection(pcs, client, new Team(attempt.getName()));
+              new PCSGroupConnection(pcs, client, response.getTeam());
             }
           }
           else {

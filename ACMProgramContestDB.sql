@@ -101,12 +101,12 @@ INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
 
 -- now time for some fake data!!!
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "failure", 60*60*5);
+  ("", 1, 0, "failure", 60*5);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "failure", 60*60*12);
+  ("", 1, 0, "failure", 60*12);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "success", 60*60*20);
+  ("", 1, 0, "success", 60*20);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 2, 0, "failure", 60*60*2);
+  ("", 2, 0, "failure", 60*2);
 INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 2, 1, "success", 60*60*11);
+  ("", 2, 1, "success", 60*11);

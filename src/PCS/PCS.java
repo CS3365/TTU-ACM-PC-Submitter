@@ -80,6 +80,7 @@ public class PCS implements ConnectionListener {
     server.addConnectionListener(this);
     settingsWindow.setVisible(false);
     leaderboardGUI.setVisible(true);
+    phaseStartTime = System.currentTimeMillis();
   }
 
   public ArrayList<String> getUsers() {
@@ -199,12 +200,13 @@ public class PCS implements ConnectionListener {
    * @return The result of attempting to login.
    */
   protected LoginStatus attemptLogin(LoginAttempt attempt) {
-    if(db.canLogIn(attempt)) {
+    Team team = db.canLogIn(attempt);
+    if(team != null) {
       return new LoginStatus(LoginStatus.LoginResponse.LOGIN_SUCCESS,
-          langs.keySet());
+          langs.keySet(), team);
     } else {
       return new LoginStatus(LoginStatus.LoginResponse.LOGIN_FAILURE,
-          langs.keySet(),
+          langs.keySet(),team,
           "You are not authorized to log in.");
     }
   }
@@ -220,6 +222,7 @@ public class PCS implements ConnectionListener {
   protected void registerGradeResult(Team team, Problem problem,
       boolean success) {
     db.registerGradeResult(team, problem, success);
+    System.out.println("registering grade: "+success);
     leaderboardGUI.updateLeaderboard(db.getLeaderboard());
   }
 

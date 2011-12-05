@@ -25,6 +25,7 @@
 package Messages;
 
 import NetworkIO.Message;
+import PCS.Team;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -47,14 +48,17 @@ public class LoginStatus implements Message {
 	private String message;
 	private LoginResponse response;
   private Collection<String> languages;
+  private Team team;
 
 	/**
 	 * Create a new LoginStatus message.
 	 *
 	 * @param status The status of the login attempt.
 	 */
-	public LoginStatus(LoginResponse response, Collection<String> languages) {
-		this(response,languages,"");
+	public LoginStatus(LoginResponse response, Collection<String> languages,
+      Team team)
+  {
+		this(response,languages,team,"");
 	}
 
 	/**
@@ -64,12 +68,13 @@ public class LoginStatus implements Message {
 	 * @param message The message to send to clients.
 	 */
 	public LoginStatus(LoginResponse response, Collection<String> languages,
-      String message)
+      Team team,String message)
   {
 		this.message = message;
     // ArrayList is serializable
     this.languages = new ArrayList(languages);
 		this.response = response;
+    this.team = team;
 	}
 
 	/**
@@ -96,5 +101,15 @@ public class LoginStatus implements Message {
    */
   public Collection<String> getLanguages() {
     return languages;
+  }
+
+
+  /**
+   * Get the Team that this login is associated with (or user in the case of an
+   * admin)
+   * @return The team this login allows.
+   */
+  public Team getTeam() {
+    return team;
   }
 }
