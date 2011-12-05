@@ -87,6 +87,7 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
   protected void processSubmissionResult(SubmissionResult result, Problem prob) {
+    System.out.println("Processing submission result");
     problemPanels.get(prob).registerSubmissionResult(result);
   }
 

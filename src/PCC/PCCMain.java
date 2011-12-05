@@ -26,6 +26,7 @@ package PCC;
 import Messages.LoginStatus;
 import Messages.ProblemsList;
 import Messages.SubmissionAck;
+import Messages.SubmissionCompilationFailure;
 import Messages.SubmissionGradingStarted;
 import Messages.SubmissionInit;
 import Messages.SubmissionResult;
@@ -123,7 +124,12 @@ public class PCCMain implements NetworkListener {
     } else if(m instanceof SubmissionResult) {
       SubmissionResult result = (SubmissionResult)m;
       System.out.println("got SubmissionResult\n\t"+
+          "problem: "+submissionProblems.get(result.getTransmissionID()).getProblemTitle()+"\n\t"+
+          "transmission: "+result.getTransmissionID()+"\n\t"+
           "result: "+result.getSuccess());
+      if(result instanceof SubmissionCompilationFailure) {
+        System.out.println("also got compilation failure");
+      }
       mainWindow.processSubmissionResult(result,
           submissionProblems.get(result.getTransmissionID()));
     } else if(m instanceof SubmissionGradingStarted) {

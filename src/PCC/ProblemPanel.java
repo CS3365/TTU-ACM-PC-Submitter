@@ -121,13 +121,17 @@ public class ProblemPanel extends javax.swing.JPanel implements ActionListener {
   }
 
   private void setFailure() {
+    System.out.println("setting failure");
     if(lastResult instanceof SubmissionCompilationFailure) {
+      System.out.println("got compilation failure and setting prog bar");
+      System.out.println(problem.getProblemTitle());
       ProbProgressBar.setString("Compilation Failure");
     } else if(lastResult instanceof SubmissionRuntimeFailure) {
       ProbProgressBar.setString("Runtime Failure");
     } else if(lastResult instanceof SubmissionOvertimeFailure) {
       ProbProgressBar.setString("Overtime Failure");
     } else {
+      System.out.println("general failure");
       ProbProgressBar.setString("Incorrect");
     }
     ProbProgressBar.setValue(0);

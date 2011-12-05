@@ -153,6 +153,7 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
       checker = new PCSGrader(pcs, this, sub);
       try {
         client.send(new SubmissionGradingStarted(sub.getTransmissionID()));
+        checker.grade();
       } catch(IOException ex) {
         System.out.println("IOException while attempting to send a grading "+
             "started message.");
@@ -164,6 +165,7 @@ public class PCSGroupConnection implements NetworkListener, SaverHandler {
   public void sendCompilationFailure(ProblemSubmission submission,
       ArrayList<String> message, int errorCode) {
     try {
+      System.out.println("sending compilation failure from group connection");
       client.send(new SubmissionCompilationFailure(message, errorCode,
           submission.getTransmissionID()));
       pcs.registerGradeResult(team, submission.getProblem(), false);

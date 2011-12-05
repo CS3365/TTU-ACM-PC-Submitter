@@ -59,7 +59,6 @@ public class PCSGrader extends Thread implements ActionListener {
     // TODO make timeout dynamic rather than simply 3 seconds
     overtime = false;
     timer = new Timer(3000, this);
-    grade();
   }
 
   public void grade() {
