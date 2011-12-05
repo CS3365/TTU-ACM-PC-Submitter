@@ -85,8 +85,6 @@ public class SubmissionWindow extends javax.swing.JFrame {
         OKButton = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         SubmitProblemLabel.setText("Submit Problem");
 
         LanguageLabel.setText("Language:");
