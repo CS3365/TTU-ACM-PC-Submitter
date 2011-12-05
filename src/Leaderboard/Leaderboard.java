@@ -34,7 +34,6 @@ import java.util.ArrayList;
 public class Leaderboard implements Message {
   private ArrayList<LeaderboardEntry> scores;
   private long runningSince;
-  // TODO: find the other things to add
 
   public Leaderboard(ArrayList<LeaderboardEntry> scores, long runningSince) {
     this.scores = scores;

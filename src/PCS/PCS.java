@@ -140,28 +140,6 @@ public class PCS implements ConnectionListener {
     }
 	}
 
-  /**
-   * TODO: Will be replaced with Database implementation wherein there will be
-   * a new UI created to manage the problems/administrators/etc that will
-   * populate the database rather than everything be directory based.
-   */
-  private void parseProblems() {
-    File problemsDir = new File(serverDirectory+"/Problems");
-    // TODO: parse the problemsDir. Make sure that the order does not matter
-    // also make sure that even if numbers are skipped that all are still parsed
-    for(File problem : problemsDir.listFiles()) {
-      try {
-        int problemOrder = Integer.parseInt(problem.getName());
-        // TODO: check with team how exactly to implement problem settings.
-        // Should we use XML???
-      } catch(NumberFormatException ex) {
-        System.out.println("There was a NumberFormatException that occurred "+
-            "while attempting to parse the problems in "+problem.getPath());
-        ex.printStackTrace();
-      }
-    }
-  }
-
   private void parseLanguages() {
     langs = new HashMap<String, LanguageImplementation>();
     File langFiles = new File(serverDirectory+"/Languages");

@@ -132,13 +132,11 @@ public class WelcomeWindow extends javax.swing.JFrame implements ActionListener 
     }// </editor-fold>//GEN-END:initComponents
 
   private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
-    // TODO add your handling code here:
     main.setDefaultLanguage(DefaultLangComboBox.getSelectedItem());
     main.switchFromWelcomeToMainWindow();
   }//GEN-LAST:event_OKButtonActionPerformed
 
   private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
-    // TODO add your handling code here:
     int choice = JOptionPane.showConfirmDialog(this,
         "Are you sure you wish to cancel and quit this program?",
         "Quit Program?",

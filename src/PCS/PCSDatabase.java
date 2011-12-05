@@ -173,7 +173,6 @@ public class PCSDatabase {
   }
 
   protected void setUsers(ArrayList<String> users) {
-    // TODO: set users in the database
     ArrayList<String> currentUsers = getUsers();
     try {
       PreparedStatement stmt = db.prepareStatement(
@@ -196,7 +195,6 @@ public class PCSDatabase {
   }
 
   protected ArrayList<Problem> getAllProblems() {
-    // TODO: get all problems
     ArrayList<Problem> problems = new ArrayList<Problem>();
     try {
       Statement stmt = db.createStatement();
