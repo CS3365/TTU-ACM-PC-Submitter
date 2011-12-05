@@ -28,9 +28,9 @@ package Leaderboard;
  * @author Mike Kent
  */
 public class LeaderboardEntry {
-  private String teamName;
-  private int score;
-  private int implTime;  // implementation time
+  public String teamName;
+  public int score;
+  public int implTime;  // implementation time
 
   public LeaderboardEntry(String name, int score, int time) {
     teamName = name;
