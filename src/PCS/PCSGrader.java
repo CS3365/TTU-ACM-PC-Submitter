@@ -67,14 +67,15 @@ public class PCSGrader extends Thread implements ActionListener {
       compile();
       this.start();
     } catch(CompilationFailureException ex) {
+      System.out.println("Sending CompilationFailure");
       groupConnection.sendCompilationFailure(submission, ex.getOutput(),
           ex.getErrorCode());
-      ArrayList<String> output = ex.getOutput();
+      /*ArrayList<String> output = ex.getOutput();
       System.out.println("\nCompile finished with: "+ex.getErrorCode());
       for(String s : output) {
         System.out.println(s);
       }
-      System.out.println("");
+      System.out.println("");*/
     }
   }
 
