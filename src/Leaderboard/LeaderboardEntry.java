@@ -60,7 +60,13 @@ public class LeaderboardEntry {
    * @return The implementation time with penalties.
    */
   public String getImplementationTime() {
-    return "" + (implTime/(60*60*60)) + ":" + (implTime%(60*60)) + ":" +
-        (implTime%60);
+    int tmpTime = implTime;
+    System.out.println("implTime: "+implTime);
+    String strImplTime = "" + (tmpTime/(60*60));
+    tmpTime %= 60*60;
+    strImplTime += ":" + (tmpTime/(60));
+    tmpTime %= 60;
+    strImplTime += ":" + tmpTime;
+    return strImplTime;
   }
 }

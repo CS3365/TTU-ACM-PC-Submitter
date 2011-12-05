@@ -81,7 +81,7 @@ public class PCSDatabase {
   protected Leaderboard getLeaderboard() {
     Leaderboard leaderboard = null;
     try {
-      PreparedStatement stmt = db.prepareStatement("");
+      Statement stmt = db.createStatement();
       /* query:
        * SELECT name, SUM(score) AS score, SUM(implTime) AS implTime
        * FROM
@@ -99,24 +99,29 @@ public class PCSDatabase {
        * GROUP BY uID
        * ORDER BY score DESC, implTime DESC;
        */
-      ResultSet result = stmt.executeQuery(
+      // had to modify to get rid of erronous Java SQL errors.
+      String query =
           "SELECT name, SUM(score) AS score, SUM(implTime) AS implTime "
           + "FROM "
           + "("
-          + "SELECT name, pointVal AS score, "
-          + "(COUNT(probID) - 1) * 60 * " + pcs.incorrectPenality + " + "
+          + "SELECT successes.uID, name, pointVal AS score, "
+          + "(COUNT(successes.probID) - 1) * 60 * " + pcs.incorrectPenality + " + "
           + "MAX(time) AS implTime "
           + "FROM "
           + "("
           + "SELECT uID, probID, name "
           + "FROM SUBMISSION JOIN USER USING(uID) "
           + "WHERE status = \"success\""
-          + ")"
-          + "JOIN SUBMISSION USING(uID, probID) JOIN PROBLEM USING(probID) "
-          + "GROUP BY uID, probID"
+          + ") AS successes "
+          + ", SUBMISSION JOIN PROBLEM USING(probID) "
+          + "WHERE successes.probID = PROBLEM.probID "
+          + "AND successes.uID = SUBMISSION.uID "
+          + "GROUP BY successes.uID, successes.probID"
           + ") "
           + "GROUP BY uID "
-          + "ORDER BY score DESC, implTime DESC");
+          + "ORDER BY score DESC, implTime DESC;";
+      System.out.println(query);
+      ResultSet result = stmt.executeQuery(query);
       ArrayList<LeaderboardEntry> scores = new ArrayList<LeaderboardEntry>();
       while (result.next()) {
         scores.add(new LeaderboardEntry(

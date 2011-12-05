@@ -219,6 +219,12 @@ public class PCS implements ConnectionListener {
 
   protected void registerGradeResult(Team team, Problem problem,
       boolean success) {
+    db.registerGradeResult(team, problem, success);
+    leaderboardGUI.updateLeaderboard(db.getLeaderboard());
+  }
+
+  public Leaderboard getLeaderboard() {
+    return db.getLeaderboard();
   }
 
   /**

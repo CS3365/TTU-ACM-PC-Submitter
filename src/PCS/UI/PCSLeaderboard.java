@@ -25,7 +25,7 @@
 /*
  * PCSLeaderboard.java
  *
- * Created on Dec 1, 2011, 6:43:31 PM
+ * Created on Dec 5, 2011, 8:32:08 AM
  */
 package PCS.UI;
 
@@ -40,8 +40,13 @@ public class PCSLeaderboard extends javax.swing.JFrame {
 
   /** Creates new form PCSLeaderboard */
   public PCSLeaderboard(PCS pcs) {
-    this.pcs = pcs;
     initComponents();
+    this.pcs = pcs;
+    updateLeaderboard(pcs.getLeaderboard());
+  }
+
+  public void updateLeaderboard(Leaderboard.Leaderboard lb) {
+    leaderboardGUI.updateLeaderboard(lb);
   }
 
   /** This method is called from within the constructor to
@@ -53,7 +58,7 @@ public class PCSLeaderboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        leaderboardPanel1 = new Leaderboard.LeaderboardPanel();
+        leaderboardGUI = new Leaderboard.MKLeaderboardPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,19 +66,17 @@ public class PCSLeaderboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(leaderboardPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(leaderboardGUI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(leaderboardPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(leaderboardGUI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Leaderboard.LeaderboardPanel leaderboardPanel1;
+    private Leaderboard.MKLeaderboardPanel leaderboardGUI;
     // End of variables declaration//GEN-END:variables
 }
