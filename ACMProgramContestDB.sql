@@ -31,8 +31,6 @@ CREATE TABLE SUBMISSION
 
 -- insert some users
 INSERT INTO USER(uID, name, passwd, isAdmin) VALUES
-  (0, "admin", "bluemonkey", 1);
-INSERT INTO USER(uID, name, passwd, isAdmin) VALUES
   (1, "user1", "user1", 0);
 INSERT INTO USER(uID, name, passwd, isAdmin) VALUES
   (2, "user2", "user2", 0);
@@ -98,15 +96,3 @@ INSERT INTO PROBLEM(probID,title,description,pointVal,phase,"order") VALUES
     "Filler Problem 10",
     "This problem is similar to the first one, but just a bit harder.",
     7, 0, 2);
-
--- now time for some fake data!!!
-INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "failure", 60*5);
-INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "failure", 60*12);
-INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 1, 0, "success", 60*20);
-INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 2, 0, "failure", 60*2);
-INSERT INTO SUBMISSION(relPathServer, uID, probID, status, time) VALUES
-  ("", 2, 1, "success", 60*11);

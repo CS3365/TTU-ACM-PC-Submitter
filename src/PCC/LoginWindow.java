@@ -102,10 +102,8 @@ public class LoginWindow extends javax.swing.JFrame implements ActionListener {
 
         TeamPassLabel.setText("Password");
 
-        TeamNameField.setText("user1");
         TeamNameField.setNextFocusableComponent(TeamPassField);
 
-        TeamPassField.setText("user1");
         TeamPassField.setNextFocusableComponent(LoginButton);
 
         ServerIPField.setText("localhost");
